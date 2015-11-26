@@ -9,24 +9,16 @@ public class RatNum {
 	private final int denominator;
 	
 	public RatNum(int numerator, int denominator) {
-		if (denominator == 0) {
-			throw new IllegalArgumentException();
-		}
-		int gcd = computeGCD(numerator, denominator);
+		if (denominator == 0) throw new IllegalArgumentException();
+		int gcd = gcd(numerator, denominator);
 		this.numerator = numerator/gcd;
 		this.denominator = denominator/gcd;
 	}
 	
-	private int computeGCD(int n, int m) {
-		if (n < 0 || m < 0) {
-			throw new IllegalArgumentException();
-		}
-		if (m == 0) {
-			return m;
-		}
-		else {
-			return computeGCD(m, n%m);
-		}
+	private int gcd(int p, int q) {
+		if (p < 0 || q < 0) throw new IllegalArgumentException();
+		if (q == 0) return p;
+		else return gcd(q, p%q);
 	}
 	
 	public int getNumerator() {
@@ -37,7 +29,7 @@ public class RatNum {
 		return denominator;
 	}
 	
-	public Double getDouble() {
+	public Double toDouble() {
 		double n = (double) numerator;
 		double d = (double) denominator;
 		return new Double(n/d);
