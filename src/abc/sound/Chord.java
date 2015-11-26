@@ -30,7 +30,7 @@ public class Chord implements Playable {
 		Map<Double, RatNum> durations = new HashMap<>();
 		for (Note note : notes) {
 			RatNum rn = note.getDuration();
-			Double d = rn.getDouble();
+			Double d = rn.toDouble();
 			durations.put(d, rn);
 		}
 		Double max = Collections.max(durations.keySet());
