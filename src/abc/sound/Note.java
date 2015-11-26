@@ -1,14 +1,21 @@
 package abc.sound;
 
-import java.util.List;
-
 public class Note implements Playable {
+	// Abstraction function:
+	// Safety from rep exposure:
+	
 	private final Pitch pitch;
 	private final RatNum duration;
 	
-	private Note(Pitch pitch, RatNum duration) {
+	// Rep invariant:
+	private void checkRep() {
+		assert duration.getNumerator() > 0;
+	}
+	
+	public Note(Pitch pitch, RatNum duration) {
 		this.pitch = pitch;
 		this.duration = duration;
+		checkRep();
 	}
 	
 	public Pitch getPitch() {
@@ -17,9 +24,5 @@ public class Note implements Playable {
 	
 	public RatNum getDuration() {
 		return duration;
-	}
-		
-	public List<SequencePlayer> play() {
-		
 	}
 }

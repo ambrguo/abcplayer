@@ -1,37 +1,39 @@
 package abc.sound;
 
-import java.util.List;
+import java.util.Set;
 import java.util.Map;
-import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Collections;
 import java.util.HashMap;
 
 public class Chord implements Playable {
-	private List<Note> notes;
-		
-	public Chord(List<Note> notes) {
-		this.notes = new ArrayList<Note>(notes);
+	// Abstraction function:
+	// Safety from rep exposure:
+	
+	private Set<Note> notes;
+	
+	// Rep invariant:
+	private void checkRep() {
+		assert notes.size() >= 2;
+	}
+	
+	public Chord(Set<Note> notes) {
+		this.notes = new HashSet<Note>(notes);
 		checkRep();
 	}
 	
-	public List<Note> getNotes() {
-		return new ArrayList<Note>(notes);
+	public Set<Note> getNotes() {
+		return new HashSet<Note>(notes);
 	}
 	
 	public RatNum getDuration() {
 		Map<Double, RatNum> durations = new HashMap<>();
 		for (Note note : notes) {
-			durations.put(note.getDuration().getDouble(), note.getDuration());
+			RatNum rn = note.getDuration();
+			Double d = rn.getDouble();
+			durations.put(d, rn);
 		}
 		Double max = Collections.max(durations.keySet());
 		return durations.get(max);
-	}
-	
-	public List<SequencePlayer> play() {
-		
-	}
-	
-	private void checkRep() {
-		assert notes.size() >= 2;
 	}
 }
