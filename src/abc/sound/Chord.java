@@ -7,14 +7,17 @@ import java.util.Collections;
 import java.util.HashMap;
 
 public class Chord implements Playable {
-	// Abstraction function:
+	// Abstraction function: Chord represents a chord consisting of the set notes.
 	// Safety from rep exposure:
 	
 	private Set<Note> notes;
 	
-	// Rep invariant:
+	// Rep invariant: notes contains at least 2 non-null notes
 	private void checkRep() {
 		assert notes.size() >= 2;
+		for (Note note : notes) {
+			assert note != null;
+		}
 	}
 	
 	public Chord(Set<Note> notes) {

@@ -1,14 +1,15 @@
 package abc.sound;
 
 public class Note implements Playable {
-	// Abstraction function:
-	// Safety from rep exposure:
+	// Abstraction function: Note represents a note with pitch pitch that lasts for duration beats.
+	// Safety from rep exposure: 
 	
 	private final Pitch pitch;
 	private final RatNum duration;
 	
-	// Rep invariant:
+	// Rep invariant: pitch is non-null, duration > 0
 	private void checkRep() {
+		assert pitch != null;
 		assert duration.getNumerator() > 0;
 	}
 	

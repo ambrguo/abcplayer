@@ -1,12 +1,12 @@
 package abc.sound;
 
 public class Rest implements Playable {
-	// Abstraction function:
+	// Abstraction function: Rest represents a rest that lasts for duration beats.  
 	// Safety from rep exposure:
 	
 	private final RatNum duration;
 	
-	// Rep invariant:
+	// Rep invariant: duration > 0
 	private void checkRep() {
 		assert duration.getNumerator() > 0;
 	}
