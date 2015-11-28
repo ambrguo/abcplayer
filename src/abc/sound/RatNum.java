@@ -6,7 +6,9 @@ package abc.sound;
 public class RatNum {
 	private final int numerator;
 	private final int denominator;
-	
+	/**
+	 * class constructor
+	 */
 	public RatNum(int numerator, int denominator) {
 		if (denominator == 0) throw new IllegalArgumentException();
 		int gcd = gcd(numerator, denominator);
@@ -14,7 +16,6 @@ public class RatNum {
 		this.denominator = denominator/gcd;
 		checkRep();
 	}
-	
 	// checks that the RatNum is non-negative
 	private void checkRep() {
 		assert numerator >= 0;
@@ -26,15 +27,21 @@ public class RatNum {
 		if (q == 0) return p;
 		else return gcd(q, p%q);
 	}
-	
+	/**
+	 * @return numerator of a fraction
+	 */
 	public int getNumerator() {
 		return numerator;
 	}
-	
+	/**
+	 * @return denominator of a fraction
+	 */
 	public int getDenominator() {
 		return denominator;
 	}
-	
+	/**
+	 * @return double version of int numerator/int denominator
+	 */
 	public Double toDouble() {
 		double n = (double) numerator;
 		double d = (double) denominator;
