@@ -1,8 +1,8 @@
 package abc.sound;
 
 public class Note implements Playable {
-	// Abstraction function: Note represents a note with pitch pitch that lasts for duration beats.
-	// Safety from rep exposure: 
+	// Abstraction function: Note represents a note with Pitch pitch that lasts for duration beats.
+	// Safety from rep exposure:  
 	
 	private final Pitch pitch;
 	private final RatNum duration;

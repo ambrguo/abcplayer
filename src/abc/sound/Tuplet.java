@@ -3,7 +3,7 @@ package abc.sound;
 import java.util.List;
 
 public class Tuplet implements Playable {
-	// Abstraction function:
+	// Abstraction function: Tuple represents a tuplet that consists of 
 	// Safety from rep exposure:
 	
 	private final TupletType type;
