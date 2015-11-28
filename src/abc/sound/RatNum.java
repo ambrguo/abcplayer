@@ -2,7 +2,6 @@ package abc.sound;
 
 /**
  * Represents a reduced fraction of positive integers.
- *
  */
 public class RatNum {
 	private final int numerator;
@@ -13,6 +12,13 @@ public class RatNum {
 		int gcd = gcd(numerator, denominator);
 		this.numerator = numerator/gcd;
 		this.denominator = denominator/gcd;
+		checkRep();
+	}
+	
+	// checks that the RatNum is non-negative
+	private void checkRep() {
+		assert numerator >= 0;
+		assert denominator > 0;
 	}
 	
 	private int gcd(int p, int q) {
