@@ -26,19 +26,19 @@ public class RatNum {
 	}
 	
 	/**
-	 * @return numerator of a fraction
+	 * @return the numerator of the RatNum
 	 */
 	public int getNumerator() {
 		return numerator;
 	}
 	/**
-	 * @return denominator of a fraction
+	 * @return the denominator of the RatNum
 	 */
 	public int getDenominator() {
 		return denominator;
 	}
 	/**
-	 * @return double version of int numerator/int denominator
+	 * @return the value of int numerator/int denominator as a Double
 	 */
 	public Double toDouble() {
 		double n = (double) numerator;
@@ -46,24 +46,48 @@ public class RatNum {
 		return new Double(n/d);
 	}
 	
+	/**
+	 * Adds two RatNum objects
+	 * 
+	 * @param rn the RatNum to add
+	 * @return the sum of this and rn
+	 */
 	public RatNum add(RatNum rn) {
 		int n = numerator*rn.denominator + denominator*rn.numerator;
 		int d = denominator*rn.denominator;
 		return new RatNum(n, d);
 	}
 	
+	/**
+	 * Subtracts two RatNum objects
+	 * 
+	 * @param rn the RatNum to subtract from this
+	 * @return the difference of this and rn
+	 */
 	public RatNum subtract(RatNum rn) {
 		int n = numerator*rn.denominator - denominator*rn.numerator;
 		int d = denominator*rn.denominator;
 		return new RatNum(n, d);
 	}
 	
+	/**
+	 * Multiplies two RatNum objects
+	 * 
+	 * @param rn the RatNum to multiply
+	 * @return the product of this and rn
+	 */
 	public RatNum multiply(RatNum rn) {
 		int n = numerator*rn.numerator;
 		int d = numerator*rn.denominator;
 		return new RatNum(n, d);
 	}
 	
+	/**
+	 * Divides two RatNum objects
+	 * 
+	 * @param rn the RatNum to divide this by
+	 * @return the quotient of this and rn
+	 */
 	public RatNum divide(RatNum rn) {
 		int n = numerator*rn.denominator;
 		int d = denominator*rn.numerator;
@@ -94,7 +118,7 @@ public class RatNum {
 	 * 
 	 * @param p integer
 	 * @param q integer
-	 * @return the greatest common denominator of two integers p,q
+	 * @return the greatest common denominator of p and q
 	 */
 	private int gcd(int p, int q) {
 		if (p < 0 || q < 0) throw new IllegalArgumentException();
@@ -102,6 +126,9 @@ public class RatNum {
 		else return gcd(q, p%q);
 	}
 	
+	/**
+	 * Checks the rep invariant
+	 */
 	private void checkRep() {
 		assert numerator >= 0;
 		assert denominator > 0;
