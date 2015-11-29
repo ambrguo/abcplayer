@@ -3,14 +3,14 @@ package abc.sound;
 import java.util.List;
 
 /**
- * Playable represents a piece of music being played.
+ * An immutable data type that represents a fundamental element of music that can appear in the body of a piece, as specified in the ABC subset for 6.005
  */
 public interface Playable {
     // Datatype definition: Playable = Note (p: Pitch, d: Duration) + Rest (d: Duration) 
 	//								 + Chord (n: Set<Note>) + Tuplet (t: List<Playable>)
         
     /**
-     * @return duration of the Playable object as a rational number RatNum
+     * @return the duration of the Playable object as a reduced fraction of positive integers
      */
 	public RatNum getDuration();
 	
@@ -30,5 +30,5 @@ public interface Playable {
 	 * @param defaultLength length of a default note
 	 * @return a list of PlaybackNote objects containing the data needed to play the Playable object
 	 */
-	public List<PlaybackNote> play(int start, int ticks, RatNum defaultLength);
+	public List<PlaybackNote> play(int startTick, int numTicks, RatNum defaultLength);
 }

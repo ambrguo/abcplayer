@@ -2,13 +2,13 @@ package abc.sound;
 
 public class PlaybackNote {
 	private Pitch pitch;
-	private int start;
-	private int ticks;
+	private int startTick;
+	private int numTicks;
 	
-	public PlaybackNote(Pitch pitch, int start, int ticks) {
+	public PlaybackNote(Pitch pitch, int startTick, int numTicks) {
 		this.pitch = pitch;
-		this.start = start;
-		this.ticks = ticks;
+		this.startTick = startTick;
+		this.numTicks = numTicks;
 	}
 	
 	public Pitch pitch() {
@@ -16,10 +16,10 @@ public class PlaybackNote {
 	}
 	
 	public int start() {
-		return start;
+		return startTick;
 	}
 	
 	public int ticks() {
-		return ticks;
+		return numTicks;
 	}
 }

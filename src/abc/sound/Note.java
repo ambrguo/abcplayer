@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Represents an immutable Note object.
+ * Represents a note in the music
  */
 public class Note implements Playable {
 	// Abstraction function: Note represents a note with Pitch pitch that lasts for duration beats
@@ -40,10 +40,10 @@ public class Note implements Playable {
     }
     
     @Override
-    public List<PlaybackNote> play(int start, int ticks, RatNum defaultLength) {
+    public List<PlaybackNote> play(int startTick, int numTicks, RatNum defaultLength) {
     	List<PlaybackNote> playbackNotes = new ArrayList<PlaybackNote>();
     	// TODO accidentals
-    	playbackNotes.add(new PlaybackNote(pitch, start, ticks));
+    	playbackNotes.add(new PlaybackNote(pitch, startTick, numTicks));
     	return playbackNotes;
     }
     

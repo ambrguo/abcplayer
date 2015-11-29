@@ -4,10 +4,18 @@ package abc.sound;
  * Represents a reduced fraction of positive integers.
  */
 public class RatNum {
+	// Abstraction function: RatNum represents a reduced fraction of positive integers, with numerator numerator and denominator denominator
+	// Rep invariant: numerator >= 0, denominator > 0
+	// Safety from rep exposure: All fields are private and final
+	
 	private final int numerator;
 	private final int denominator;
+	
 	/**
-	 * class constructor
+	 * Constructs a RatNum with numerator numerator and denominator denominator
+	 * 
+	 * @param numerator non-negative numerator
+	 * @param denominator positive denominator
 	 */
 	public RatNum(int numerator, int denominator) {
 		if (denominator == 0) throw new IllegalArgumentException();
@@ -16,17 +24,7 @@ public class RatNum {
 		this.denominator = denominator/gcd;
 		checkRep();
 	}
-	// checks that the RatNum is non-negative
-	private void checkRep() {
-		assert numerator >= 0;
-		assert denominator > 0;
-	}
 	
-	private int gcd(int p, int q) {
-		if (p < 0 || q < 0) throw new IllegalArgumentException();
-		if (q == 0) return p;
-		else return gcd(q, p%q);
-	}
 	/**
 	 * @return numerator of a fraction
 	 */
@@ -87,5 +85,25 @@ public class RatNum {
 	@Override
 	public int hashCode() {
 		return Integer.valueOf(numerator).hashCode()*Integer.valueOf(denominator).hashCode();
+	}
+	
+	// HELPER METHODS
+	
+	/**
+	 * Computes the gcd of two integers p,q using Euclid's algorithm
+	 * 
+	 * @param p integer
+	 * @param q integer
+	 * @return the greatest common denominator of two integers p,q
+	 */
+	private int gcd(int p, int q) {
+		if (p < 0 || q < 0) throw new IllegalArgumentException();
+		if (q == 0) return p;
+		else return gcd(q, p%q);
+	}
+	
+	private void checkRep() {
+		assert numerator >= 0;
+		assert denominator > 0;
 	}
 }
