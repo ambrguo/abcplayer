@@ -68,9 +68,8 @@ public class Tuplet implements Playable {
     
 	private void checkRep() {
 		assert playables.size() >= 2 && playables.size() <= 4;
-		
 	    for (Playable playable:playables){
-	        assert (playable.isChord()|playable.isNote());
+	        assert (playable.isChord() || playable.isNote());
 	    }
 	}
 }

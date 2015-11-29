@@ -21,7 +21,12 @@ public class Piece {
 		int bpm = 0; // TODO initialize
 		int tpb = 0; // TODO initialize
 		SequencePlayer sp = new SequencePlayer(bpm, tpb);
-		// TODO implement
+		for (Voice voice : voices) {
+			List<PlaybackNote> playbackNotes = voice.play();
+			for (PlaybackNote playbackNote: playbackNotes) {
+				sp.addNote(playbackNote.pitch().toMidiNote(), playbackNote.start(), playbackNote.ticks());
+			}
+		}
 		return sp;
 	}
 }
