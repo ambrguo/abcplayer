@@ -11,6 +11,13 @@ import org.junit.Test;
 
 import abc.player.Main;
 
+/**
+ * Testing music pieces -- warmup
+ * @author Amber
+ * @category no_didit
+ *
+ */
+
 public class SequencePlayerTest {
 
     @Test 
