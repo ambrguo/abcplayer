@@ -48,6 +48,30 @@ public class RatNum {
 		return new Double(n/d);
 	}
 	
+	public RatNum add(RatNum rn) {
+		int n = numerator*rn.denominator + denominator*rn.numerator;
+		int d = denominator*rn.denominator;
+		return new RatNum(n, d);
+	}
+	
+	public RatNum subtract(RatNum rn) {
+		int n = numerator*rn.denominator - denominator*rn.numerator;
+		int d = denominator*rn.denominator;
+		return new RatNum(n, d);
+	}
+	
+	public RatNum multiply(RatNum rn) {
+		int n = numerator*rn.numerator;
+		int d = numerator*rn.denominator;
+		return new RatNum(n, d);
+	}
+	
+	public RatNum divide(RatNum rn) {
+		int n = numerator*rn.denominator;
+		int d = denominator*rn.numerator;
+		return new RatNum(n, d);
+	}
+	
 	@Override
 	public String toString() {
 		return numerator + "/" + denominator;

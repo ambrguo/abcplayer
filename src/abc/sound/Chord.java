@@ -5,6 +5,8 @@ package abc.sound;
 import java.util.Set;
 import java.util.Map;
 import java.util.HashSet;
+import java.util.List;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 
@@ -14,15 +16,7 @@ public class Chord implements Playable {
 	// Safety from rep exposure: all fields are private and final
 	
 	private final Set<Note> notes;
-	private void checkRep() {
-		assert notes.size() >= 2;
-		for (Note note : notes) {
-			assert note != null;
-		}
-	}
-	/**
-	 * class constructor
-	 */
+	
 	public Chord(Set<Note> notes) {
 		this.notes = new HashSet<Note>(notes);
 		checkRep();
@@ -32,6 +26,7 @@ public class Chord implements Playable {
 		return new HashSet<Note>(notes);
 	}
 	
+	@Override
 	public RatNum getDuration() {
 		Map<Double, RatNum> durations = new HashMap<>();
 		for (Note note : notes) {
@@ -43,11 +38,29 @@ public class Chord implements Playable {
 		return durations.get(max);
 	}
 	
+	@Override
 	public boolean isChord(){
 	    return true;
 	}
-
+	
+	@Override
     public boolean isNote() {
         return false;
     }
+    
+	@Override
+    public List<PlaybackNote> play(int start, int ticks, RatNum defaultLength) {
+    	List<PlaybackNote> playbackNotes = new ArrayList<PlaybackNote>();
+    	for (Note note : notes) {
+    		playbackNotes.addAll(note.play(start, ticks, defaultLength));
+    	}
+    	return playbackNotes;
+    }
+    
+    private void checkRep() {
+		assert notes.size() >= 2;
+		for (Note note : notes) {
+			assert note != null;
+		}
+	}
 }
