@@ -24,14 +24,19 @@ public class Rest implements Playable {
 	}
 	
 	@Override
+    public boolean isNote() {
+        return false;
+    }
+	
+	@Override
     public boolean isChord() {
         return false;
     }
 
 	@Override
-    public boolean isNote() {
-        return false;
-    }
+	public boolean isRepeat() {
+		return false;
+	}
     
 	@Override
     public List<PlaybackNote> play(int start, int ticks, RatNum defaultLength) {

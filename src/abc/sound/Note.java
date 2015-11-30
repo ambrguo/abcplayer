@@ -13,10 +13,12 @@ public class Note implements Playable {
 	
 	private final Pitch pitch;
 	private final RatNum duration;
+	private final Accidental accidental;
 	
-	public Note(Pitch pitch, RatNum duration) {
+	public Note(Pitch pitch, RatNum duration, Accidental accidental) {
 		this.pitch = pitch;
 		this.duration = duration;
+		this.accidental = accidental;
 		checkRep();
 	}
 	
@@ -24,11 +26,15 @@ public class Note implements Playable {
 		return pitch;
 	}
 	
+	public Accidental getAccidental() {
+		return accidental;
+	}
+	
 	@Override 
 	public RatNum getDuration() {
 		return duration;
 	}
-	
+		
 	@Override 
 	public boolean isNote(){
 	    return true;
@@ -40,10 +46,27 @@ public class Note implements Playable {
     }
     
     @Override
+    public boolean isRepeat() {
+    	return false;
+    }
+    
+    @Override
     public List<PlaybackNote> play(int startTick, int numTicks, RatNum defaultLength) {
     	List<PlaybackNote> playbackNotes = new ArrayList<PlaybackNote>();
-    	// TODO accidentals
-    	playbackNotes.add(new PlaybackNote(pitch, startTick, numTicks));
+    	switch (accidental) {
+    		case NONE: playbackNotes.add(new PlaybackNote(pitch, startTick, numTicks));
+    			break;
+    		case DOUBLESHARP: playbackNotes.add(new PlaybackNote(pitch.transpose(2), startTick, numTicks));
+    			break;
+    		case SHARP: playbackNotes.add(new PlaybackNote(pitch.transpose(1), startTick, numTicks));
+    			break;
+    		case NATURAL: playbackNotes.add(new PlaybackNote(pitch, startTick, numTicks));
+    			break;
+    		case FLAT: playbackNotes.add(new PlaybackNote(pitch.transpose(-1), startTick, numTicks));
+    			break;
+    		case DOUBLEFLAT: playbackNotes.add(new PlaybackNote(pitch.transpose(-2), startTick, numTicks));
+    			break;
+    	}
     	return playbackNotes;
     }
     

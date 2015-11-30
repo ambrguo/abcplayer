@@ -15,14 +15,19 @@ public interface Playable {
 	public RatNum getDuration();
 	
 	/**
+	 * @return true if the Playable object is a Note
+	 */
+	public boolean isNote();
+	
+	/**
 	 * @return true if the Playable object is a Chord
 	 */
 	public boolean isChord();
 	
 	/**
-	 * @return true if the Playable object is a Note
+	 * @return true if the Playable object is a Repeat
 	 */
-	public boolean isNote();
+	public boolean isRepeat();
 	
 	/**
 	 * @param start tick at which the SequencePlayer will begin playing the Playable object
