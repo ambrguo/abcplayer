@@ -12,7 +12,7 @@ header : field_number field_title field_other* field_key;
 
 field_number : INDEX;
 field_title : TITLE;
-field_other : field_composer | field_length | field_meter | field_tempo
+field_other : field_composer | field_length | field_meter | field_tempo;
 field_composer : COMPOSER;
 field_length : LENGTH;
 field_meter : METER;
@@ -48,7 +48,7 @@ LETTER : [a-gA-G];
 NOTE :  ACCIDENTAL LETTER OCTAVE ([1-9]* '/' [1-9]+ | [1-9]+ '/'? | '/')?;
 REST : 'z' ([1-9]* '/' [1-9]+ | [1-9]+ '/'? | '/')?;
 OCTAVE : ('\'' | ',')*;
-ACCIDENTAL : ('^'|'^^'|'_'|'__' \ '=')?;
+ACCIDENTAL : ('^'|'^^'|'_'|'__' | '=')?;
 DUPLET : '(' '2';
 TRIPLET : '(' '3';
 QUADRUPLET : '(' '4';
