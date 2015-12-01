@@ -1,5 +1,9 @@
 package abc.player;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
+
 /**
  * Main entry point of your application.
  */
@@ -18,7 +22,15 @@ public class Main {
         // YOUR CODE HERE
     }
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
         // CALL play() HERE USING ARGS
+        //right now i'm assuming that each of the args is a file to play...
+        for (String file: args){
+            String currentLine;
+            BufferedReader r = new BufferedReader(new FileReader(file));
+            while ( (currentLine = r.readLine()) != null){
+                
+            }
+        }
     }
 }
