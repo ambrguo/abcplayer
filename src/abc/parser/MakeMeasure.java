@@ -27,15 +27,18 @@ import abc.parser.AbcParser.RestContext;
 import abc.parser.AbcParser.RootContext;
 import abc.parser.AbcParser.TripletContext;
 import abc.parser.AbcParser.TupletContext;
+import abc.sound.Measure;
 import abc.sound.Playable;
 import abc.sound.RatNum;
 import abc.sound.Rest;
-import expressivo.Expression;
-import expressivo.Number;
-import expressivo.Variable;
+
 
 public class MakeMeasure implements AbcListener {
     private Stack<Playable> stack = new Stack<>();
+    
+//    public Measure getMeasure() {
+//        return stack.get(0);
+//    }
 
     @Override
     public void exitMeasure(MeasureContext ctx) {
