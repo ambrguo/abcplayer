@@ -1,21 +1,32 @@
 package abc.sound;
 
+
+
 import java.util.ArrayList;
+
 import java.util.List;
+import java.util.Set;
 
 import javax.sound.midi.InvalidMidiDataException;
 import javax.sound.midi.MidiUnavailableException;
 
+
+
 public class Piece {
-	private final List<Voice> voices;
+	private final Set<Voice> voices;
 	
-	public Piece(List<Voice> voices) {
+	
+	public Piece(Set<Voice> voices) {
 		this.voices = voices;
+
 	}
 	
 	public List<Voice> getVoices() {
 		return new ArrayList<Voice>(voices);
 	}
+	
+	
+	
 	
 	public SequencePlayer play() throws MidiUnavailableException, InvalidMidiDataException {
 		int bpm = 0; // TODO initialize
@@ -29,4 +40,8 @@ public class Piece {
 		}
 		return sp;
 	}
+	
+	
+	
+	
 }
