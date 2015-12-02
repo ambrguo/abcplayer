@@ -61,6 +61,22 @@ public class Chord implements Playable {
     	}
     	return playbackNotes;
     }
+	
+	@Override
+	public boolean equals(Object that) {
+		if (!(that instanceof Chord)) return false;
+		Chord thatChord = (Chord) that;
+		return notes.equals(thatChord.notes);
+	}
+	
+	@Override
+	public int hashCode() {
+		int hc = 1;
+		for (Note note : notes) {
+			hc *= note.hashCode();
+		}
+		return hc;
+	}
     
     private void checkRep() {
 		assert notes.size() >= 2;

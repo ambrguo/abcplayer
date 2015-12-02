@@ -42,6 +42,18 @@ public class Rest implements Playable {
     public List<PlaybackNote> play(int start, int ticks, RatNum defaultLength) {
     	return new ArrayList<PlaybackNote>();
     }
+	
+	@Override
+	public boolean equals(Object that) {
+		if (!(that instanceof Rest)) return false;
+		Rest thatRest = (Rest) that;
+		return (this.duration).equals(thatRest.duration);
+	}
+	
+	@Override
+	public int hashCode() {
+		return duration.hashCode();
+	}
     
 	private void checkRep() {
 		assert duration.getNumerator() > 0;

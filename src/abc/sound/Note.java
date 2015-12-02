@@ -70,6 +70,19 @@ public class Note implements Playable {
     	return playbackNotes;
     }
     
+    @Override
+    public boolean equals(Object that) {
+    	if (!(that instanceof Note)) return false;
+    	Note thatNote = (Note) that;
+    	return (this.pitch).equals(thatNote.pitch) && (this.duration).equals(thatNote.duration)
+    			&& (this.accidental).equals(thatNote.accidental);
+    }
+    
+    @Override
+    public int hashCode() {
+    	return pitch.hashCode()*duration.hashCode();
+    }
+    
 	private void checkRep() {
 		assert pitch != null;
 		assert duration.getNumerator() > 0;
