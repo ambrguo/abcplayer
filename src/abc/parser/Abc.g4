@@ -18,10 +18,11 @@ field_length : LENGTH;
 field_meter : METER;
 field_tempo : TEMPO;
 field_key : KEY;
+field_voice: VOICE
 
 body : line+;
 line : NEWLINE* measure+ NEWLINE*;
-measure : (BEGIN_REPEAT | ONE_REPEAT | TWO_REPEAT | BARLINE)? element+ (BARLINE | END_NOTES | NEWLINE | END_REPEAT)?;
+measure : (BEGIN_REPEAT | ONE_REPEAT | TWO_REPEAT | BARLINE)? ' ' (element ' '?)+ (BARLINE | END_NOTES | NEWLINE | END_REPEAT)?;
 
 element : note | rest | chord | tuplet;
 tuplet : duplet | triplet | quadruplet;
@@ -32,6 +33,7 @@ duplet : DUPLET (note | chord) (note | chord);
 triplet : TRIPLET (note | chord) (note | chord) (note | chord);
 quadruplet : QUADRUPLET (note | chord) (note | chord) (note | chord) (note | chord);
 
+VOICE : ('V: '[.]+ NEWLINE)*;
 INDEX : 'X:' NUMBER ' '* NEWLINE;
 TITLE : 'T:' [a-zA-Z0-9'.'' '',''!''#''&''('')''?']+ NEWLINE;
 COMPOSER : 'C:' [a-zA-Z0-9'.'' ']+ NEWLINE;
@@ -44,8 +46,9 @@ NUMBER : [0-9]+;
 NEWLINE : [\n\r]+;
 LETTER : [a-gA-G];
 
-NOTE :  ACCIDENTAL LETTER OCTAVE ([1-9]* '/' [1-9]+ | [1-9]+ '/'? | '/')?;
-REST : 'z' ([1-9]* '/' [1-9]+ | [1-9]+ '/'? | '/')?;
+NOTE :  ACCIDENTAL LETTER OCTAVE DURATION;
+REST : 'z' DURATION;
+DURATION: ([1-9]* '/' [1-9]+ | [1-9]+ '/'? | '/')?;
 OCTAVE : ('\'' | ',')*;
 ACCIDENTAL : ('^'|'^^'|'_'|'__' | '=')?;
 DUPLET : '(' '2';
@@ -54,6 +57,7 @@ QUADRUPLET : '(' '4';
 BARLINE : '|' | '[|';
 BEGIN_REPEAT : '|:';
 END_REPEAT : ':|';
+
 ONE_REPEAT : '[1';
 TWO_REPEAT : '[2';
 
