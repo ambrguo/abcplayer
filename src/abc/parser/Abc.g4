@@ -27,21 +27,20 @@ element : note | rest | chord | tuplet;
 tuplet : duplet | triplet | quadruplet;
 note : NOTE;
 rest : REST;
-chord : BEGIN_BRACKET note+ END_BRACKET;
+chord : '[' note+ ']';
 duplet : DUPLET (note | chord) (note | chord);
 triplet : TRIPLET (note | chord) (note | chord) (note | chord);
 quadruplet : QUADRUPLET (note | chord) (note | chord) (note | chord) (note | chord);
 
-INDEX : 'X:' SPACE NUMBER ' '* NEWLINE;
-TITLE : 'T:' SPACE [a-zA-Z0-9'.'' '',''!''#''&''('')''?']+ SPACE NEWLINE;
-COMPOSER : 'C:' SPACE [a-zA-Z0-9'.'' ']+ SPACE NEWLINE;
-LENGTH : 'L:' SPACE NUMBER '/' NUMBER SPACE NEWLINE;
-METER : 'M:' SPACE ('C' | 'C|' | NUMBER '/' NUMBER) SPACE NEWLINE;
-TEMPO : 'Q:' SPACE (NUMBER '/' NUMBER SPACE '=')? SPACE NUMBER SPACE NEWLINE;
-KEY : 'K:' SPACE LETTER ['#''b']? 'm'? SPACENEWLINE;
+INDEX : 'X:' NUMBER ' '* NEWLINE;
+TITLE : 'T:' [a-zA-Z0-9'.'' '',''!''#''&''('')''?']+ NEWLINE;
+COMPOSER : 'C:' [a-zA-Z0-9'.'' ']+ NEWLINE;
+LENGTH : 'L:' NUMBER '/' NUMBER NEWLINE;
+METER : 'M:' ('C' | 'C|' | NUMBER '/' NUMBER) NEWLINE;
+TEMPO : 'Q:' (NUMBER '/' NUMBER '=')? NUMBER NEWLINE;
+KEY : 'K:' LETTER ['#''b']? 'm'? NEWLINE;
 
 NUMBER : [0-9]+;
-SPACE : ' '* ;
 NEWLINE : [\n\r]+;
 LETTER : [a-gA-G];
 
@@ -57,5 +56,6 @@ BEGIN_REPEAT : '|:';
 END_REPEAT : ':|';
 ONE_REPEAT : '[1';
 TWO_REPEAT : '[2';
-BEGIN_BRACKET : '[';
-END_BRACKET : ']';
+
+/* tell Antlr to ignore spaces around tokens. */
+SPACES : [ ]+ -> skip;
