@@ -11,6 +11,7 @@ import org.antlr.v4.runtime.tree.ParseTreeWalker;
 
 import abc.parser.AbcLexer;
 import abc.parser.AbcParser;
+import abc.parser.MakeMeasure;
 
 import java.util.ArrayList;
 
@@ -66,7 +67,7 @@ public class Measure {
 		}
 		return playbackNotes;
 	}
-	
+	/*
 	public static Measure parse(String input){
         try{
             CharStream stream = new ANTLRInputStream(input);
@@ -86,5 +87,5 @@ public class Measure {
         } catch (RuntimeException e){
             throw new IllegalArgumentException("not a valid Piece");
         }
-    }
+    }*/
 }
