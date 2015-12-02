@@ -1,4 +1,4 @@
-/*
+./*
  * Compile all your grammars using
  *       java -jar ../../../lib/antlr.jar *.g4
  * then Refresh in Eclipse.
@@ -6,7 +6,7 @@
 grammar Xyz;
 import Configuration;
 
-root: header EOF;
+root: header body EOF;
 
 header : field_number field_title field_other* field_key;
 
