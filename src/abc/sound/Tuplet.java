@@ -10,13 +10,19 @@ import java.util.List;
  * A tuplet may not contain rests, but it may contain chords. A tuplet may have notes and chords of different lengths.
  */
 public class Tuplet implements Playable {
-	// Abstraction function: Tuplet represents a tuplet that is mapped by a list of Playable objects
+	// Abstraction function: Tuplet represents a tuplet with TupletType type that maps to the type of the tuplet (duplet, triplet, quadruplet) 
+	//							and list playables that maps to the group of notes and/or chords in the tuplet
     // Rep invariant: playables consists of either 2, 3, or 4 Playables of type Chord or Note
 	// Safety from rep exposure: all fields are private and final
 
 	private final List<Playable> playables;
 	private final TupletType type;
-
+	
+	/**
+	 * Constructs a Tuplet of TupletType type and list playables
+	 * @param type type of the tuplet
+	 * @param playables the notes and/or chords in the tuplet
+	 */
 	public Tuplet(TupletType type, List<Playable> playables) {
 		this.type = type;
 		this.playables = playables;
@@ -70,6 +76,9 @@ public class Tuplet implements Playable {
 		return playbackNotes;
 	}
     
+	/**
+	 * Checks the rep invariant
+	 */
 	private void checkRep() {
 		assert playables.size() >= 2 && playables.size() <= 4;
 	    for (Playable playable:playables){

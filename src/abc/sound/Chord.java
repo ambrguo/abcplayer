@@ -1,7 +1,5 @@
 package abc.sound;
-/*
- * Implementation of Playable
- */
+
 import java.util.Set;
 import java.util.Map;
 import java.util.HashSet;
@@ -10,20 +8,31 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 
+/**
+ * Represents a chord in the music
+ */
 public class Chord implements Playable {
 	// Abstraction function: Chord represents a chord consisting of the set notes.
     // Rep invariant: notes contains at least 2 non-null notes
-	// Safety from rep exposure: all fields are private and final
+	// Safety from rep exposure: - all fields are private and final
+	//							 - getNotes() returns a defensively copied set with an unmodifiableSet wrapper 
 	
 	private final Set<Note> notes;
 	
+	/**
+	 * Constructs a Chord with set notes
+	 * @param notes set of notes to be played simultaneously in the chord
+	 */
 	public Chord(Set<Note> notes) {
 		this.notes = new HashSet<Note>(notes);
 		checkRep();
 	}
 	
+	/**
+	 * @return the set of notes in the chord
+	 */
 	public Set<Note> getNotes() {
-		return new HashSet<Note>(notes);
+		return Collections.unmodifiableSet(new HashSet<Note>(notes));
 	}
 	
 	@Override
@@ -78,6 +87,9 @@ public class Chord implements Playable {
 		return hc;
 	}
     
+	/**
+	 * Checks the rep invariant
+	 */
     private void checkRep() {
 		assert notes.size() >= 2;
 		for (Note note : notes) {

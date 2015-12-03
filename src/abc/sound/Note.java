@@ -7,14 +7,20 @@ import java.util.List;
  * Represents a note in the music
  */
 public class Note implements Playable {
-	// Abstraction function: Note represents a note with Pitch pitch that lasts for duration beats
-    // Rep invariant: pitch is non-null, duration > 0
+	// Abstraction function: Note represents a note with Pitch pitch and Accidental accidental that lasts for duration beats.
+    // Rep invariant: pitch is non-null, accidental is non-null duration > 0
 	// Safety from rep exposure: all fields are private and final 
 	
 	private final Pitch pitch;
 	private final RatNum duration;
 	private final Accidental accidental;
 	
+	/**
+	 * Constructs a Note with Pitch pitch, RatNum duration, and Accidental accidental
+	 * @param pitch the pitch of the note
+	 * @param duration the length of the note in beats
+	 * @param accidental the accidental of the note
+	 */
 	public Note(Pitch pitch, RatNum duration, Accidental accidental) {
 		this.pitch = pitch;
 		this.duration = duration;
@@ -22,10 +28,16 @@ public class Note implements Playable {
 		checkRep();
 	}
 	
+	/**
+	 * @return the pitch of the note
+	 */
 	public Pitch getPitch() {
 		return pitch;
 	}
 	
+	/**
+	 * @return the accidental of the note
+	 */
 	public Accidental getAccidental() {
 		return accidental;
 	}
@@ -83,8 +95,12 @@ public class Note implements Playable {
     	return pitch.hashCode()*duration.hashCode();
     }
     
+    /**
+     * Checks the rep invariant
+     */
 	private void checkRep() {
 		assert pitch != null;
+		assert accidental != null;
 		assert duration.getNumerator() > 0;
 	}
 }
