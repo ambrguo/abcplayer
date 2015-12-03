@@ -15,16 +15,19 @@ header : index title (composer | length | meter | tempo)* key;
 index : INDEX_PREFIX ' '* NUMBER ' '* NEWLINE;
 title : TITLE_PREFIX (VARIABLE |LETTER| NUMBER| ' '| '.')+ NEWLINE;
 composer : COMPOSER_PREFIX (.|' ')+ NEWLINE;
-length : LENGTH_PREFIX NUMBER '/' NUMBER NEWLINE;
-meter : METER_PREFIX ( LETTER |NUMBER '/' NUMBER) NEWLINE;
-tempo : TEMPO_PREFIX (NUMBER '/' NUMBER '=')? NUMBER NEWLINE;
+length : LENGTH_PREFIX NUMBER NEWLINE;
+meter : METER_PREFIX ( LETTER |NUMBER) NEWLINE;
+tempo : TEMPO_PREFIX (NUMBER'=')? NUMBER NEWLINE;
 key : KEY_PREFIX  LETTER ('#'|'b')? ('m')? NEWLINE;
 voice : VOICE_PREFIX (.|' ')+ NEWLINE;
 
-NUMBER : [0-9]+;
+NUMBER : [0-9]+'/'?[0-9]*;
 NEWLINE : [\n\r]+;
-LETTER : [a-gA-G]*;
+LETTER : [a-gA-G];
 VARIABLE: [H-Zh-z];
+
+
+
 INDEX_PREFIX : 'X:';
 TITLE_PREFIX : 'T:';
 COMPOSER_PREFIX: 'C:';
