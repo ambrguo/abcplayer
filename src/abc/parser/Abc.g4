@@ -33,13 +33,14 @@ duplet : DUPLET (note | chord) (note | chord);
 triplet : TRIPLET (note | chord) (note | chord) (note | chord);
 quadruplet : QUADRUPLET (note | chord) (note | chord) (note | chord) (note | chord);
 
-VOICE : ('V: '[.]+ NEWLINE)*;
+
 INDEX : 'X:' NUMBER ' '* NEWLINE;
 TITLE : 'T:' [a-zA-Z0-9'.'' '',''!''#''&''('')''?']+ NEWLINE;
 COMPOSER : 'C:' [a-zA-Z0-9'.'' ']+ NEWLINE;
 LENGTH : 'L:' NUMBER '/' NUMBER NEWLINE;
 METER : 'M:' ('C' | 'C|' | NUMBER '/' NUMBER) NEWLINE;
 TEMPO : 'Q:' (NUMBER '/' NUMBER '=')? NUMBER NEWLINE;
+VOICE : ('V: '[.]+ NEWLINE)*;
 KEY : 'K:' LETTER ['#''b']? 'm'? NEWLINE;
 
 NUMBER : [0-9]+;
