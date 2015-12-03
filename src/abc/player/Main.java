@@ -108,7 +108,7 @@ public class Main {
 //            play(file);
 //        }
         
-        String file = "sample_abc/piece1.abc";
+        String file = "sample_abc/little_night_music.abc";
         
         play(file);
     }

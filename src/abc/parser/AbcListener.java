@@ -21,96 +21,6 @@ public interface AbcListener extends ParseTreeListener {
    */
   void exitRoot(AbcParser.RootContext ctx);
   /**
-   * Enter a parse tree produced by {@link AbcParser#header}.
-   * @param ctx the parse tree
-   */
-  void enterHeader(AbcParser.HeaderContext ctx);
-  /**
-   * Exit a parse tree produced by {@link AbcParser#header}.
-   * @param ctx the parse tree
-   */
-  void exitHeader(AbcParser.HeaderContext ctx);
-  /**
-   * Enter a parse tree produced by {@link AbcParser#field_number}.
-   * @param ctx the parse tree
-   */
-  void enterField_number(AbcParser.Field_numberContext ctx);
-  /**
-   * Exit a parse tree produced by {@link AbcParser#field_number}.
-   * @param ctx the parse tree
-   */
-  void exitField_number(AbcParser.Field_numberContext ctx);
-  /**
-   * Enter a parse tree produced by {@link AbcParser#field_title}.
-   * @param ctx the parse tree
-   */
-  void enterField_title(AbcParser.Field_titleContext ctx);
-  /**
-   * Exit a parse tree produced by {@link AbcParser#field_title}.
-   * @param ctx the parse tree
-   */
-  void exitField_title(AbcParser.Field_titleContext ctx);
-  /**
-   * Enter a parse tree produced by {@link AbcParser#field_other}.
-   * @param ctx the parse tree
-   */
-  void enterField_other(AbcParser.Field_otherContext ctx);
-  /**
-   * Exit a parse tree produced by {@link AbcParser#field_other}.
-   * @param ctx the parse tree
-   */
-  void exitField_other(AbcParser.Field_otherContext ctx);
-  /**
-   * Enter a parse tree produced by {@link AbcParser#field_composer}.
-   * @param ctx the parse tree
-   */
-  void enterField_composer(AbcParser.Field_composerContext ctx);
-  /**
-   * Exit a parse tree produced by {@link AbcParser#field_composer}.
-   * @param ctx the parse tree
-   */
-  void exitField_composer(AbcParser.Field_composerContext ctx);
-  /**
-   * Enter a parse tree produced by {@link AbcParser#field_length}.
-   * @param ctx the parse tree
-   */
-  void enterField_length(AbcParser.Field_lengthContext ctx);
-  /**
-   * Exit a parse tree produced by {@link AbcParser#field_length}.
-   * @param ctx the parse tree
-   */
-  void exitField_length(AbcParser.Field_lengthContext ctx);
-  /**
-   * Enter a parse tree produced by {@link AbcParser#field_meter}.
-   * @param ctx the parse tree
-   */
-  void enterField_meter(AbcParser.Field_meterContext ctx);
-  /**
-   * Exit a parse tree produced by {@link AbcParser#field_meter}.
-   * @param ctx the parse tree
-   */
-  void exitField_meter(AbcParser.Field_meterContext ctx);
-  /**
-   * Enter a parse tree produced by {@link AbcParser#field_tempo}.
-   * @param ctx the parse tree
-   */
-  void enterField_tempo(AbcParser.Field_tempoContext ctx);
-  /**
-   * Exit a parse tree produced by {@link AbcParser#field_tempo}.
-   * @param ctx the parse tree
-   */
-  void exitField_tempo(AbcParser.Field_tempoContext ctx);
-  /**
-   * Enter a parse tree produced by {@link AbcParser#field_key}.
-   * @param ctx the parse tree
-   */
-  void enterField_key(AbcParser.Field_keyContext ctx);
-  /**
-   * Exit a parse tree produced by {@link AbcParser#field_key}.
-   * @param ctx the parse tree
-   */
-  void exitField_key(AbcParser.Field_keyContext ctx);
-  /**
    * Enter a parse tree produced by {@link AbcParser#body}.
    * @param ctx the parse tree
    */
@@ -140,6 +50,16 @@ public interface AbcListener extends ParseTreeListener {
    * @param ctx the parse tree
    */
   void exitMeasure(AbcParser.MeasureContext ctx);
+  /**
+   * Enter a parse tree produced by {@link AbcParser#voice}.
+   * @param ctx the parse tree
+   */
+  void enterVoice(AbcParser.VoiceContext ctx);
+  /**
+   * Exit a parse tree produced by {@link AbcParser#voice}.
+   * @param ctx the parse tree
+   */
+  void exitVoice(AbcParser.VoiceContext ctx);
   /**
    * Enter a parse tree produced by {@link AbcParser#element}.
    * @param ctx the parse tree
@@ -180,6 +100,36 @@ public interface AbcListener extends ParseTreeListener {
    * @param ctx the parse tree
    */
   void exitRest(AbcParser.RestContext ctx);
+  /**
+   * Enter a parse tree produced by {@link AbcParser#duration}.
+   * @param ctx the parse tree
+   */
+  void enterDuration(AbcParser.DurationContext ctx);
+  /**
+   * Exit a parse tree produced by {@link AbcParser#duration}.
+   * @param ctx the parse tree
+   */
+  void exitDuration(AbcParser.DurationContext ctx);
+  /**
+   * Enter a parse tree produced by {@link AbcParser#octave}.
+   * @param ctx the parse tree
+   */
+  void enterOctave(AbcParser.OctaveContext ctx);
+  /**
+   * Exit a parse tree produced by {@link AbcParser#octave}.
+   * @param ctx the parse tree
+   */
+  void exitOctave(AbcParser.OctaveContext ctx);
+  /**
+   * Enter a parse tree produced by {@link AbcParser#accidental}.
+   * @param ctx the parse tree
+   */
+  void enterAccidental(AbcParser.AccidentalContext ctx);
+  /**
+   * Exit a parse tree produced by {@link AbcParser#accidental}.
+   * @param ctx the parse tree
+   */
+  void exitAccidental(AbcParser.AccidentalContext ctx);
   /**
    * Enter a parse tree produced by {@link AbcParser#chord}.
    * @param ctx the parse tree

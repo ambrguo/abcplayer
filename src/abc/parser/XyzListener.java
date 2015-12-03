@@ -110,4 +110,14 @@ public interface XyzListener extends ParseTreeListener {
    * @param ctx the parse tree
    */
   void exitVoice(XyzParser.VoiceContext ctx);
+  /**
+   * Enter a parse tree produced by {@link XyzParser#name}.
+   * @param ctx the parse tree
+   */
+  void enterName(XyzParser.NameContext ctx);
+  /**
+   * Exit a parse tree produced by {@link XyzParser#name}.
+   * @param ctx the parse tree
+   */
+  void exitName(XyzParser.NameContext ctx);
 }

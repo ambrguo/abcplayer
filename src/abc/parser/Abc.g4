@@ -11,13 +11,16 @@ root : body EOF;
 
 
 body : line+;
-line : NEWLINE* measure+ NEWLINE* | VOICE;
-measure : (BEGIN_REPEAT | ONE_REPEAT | TWO_REPEAT | BARLINE)? ' ' (element ' '?)+ (BARLINE | END_NOTES | NEWLINE | END_REPEAT)?;
-VOICE : ('V: '[.]+ NEWLINE)*;
+line :  NEWLINE* (measure+ | voice) NEWLINE;
+measure : NEWLINE* (BEGIN_REPEAT | ONE_REPEAT | TWO_REPEAT | BARLINE)? ' '* (element ' '*)+ ' '* (BARLINE| END_REPEAT| NEWLINE) ' '*;
+voice : VOICE_PREFIX (.|' ')+ NEWLINE;
 element : note | rest | chord | tuplet;
 tuplet : duplet | triplet | quadruplet;
-note : NOTE;
-rest : REST;
+note : (accidental? LETTER octave? duration?);
+rest : 'z' duration?;
+duration: DURATION;
+octave: OCTAVE;
+accidental: ACCIDENTAL;
 chord : '[' note+ ']';
 duplet : DUPLET (note | chord) (note | chord);
 triplet : TRIPLET (note | chord) (note | chord) (note | chord);
@@ -25,25 +28,16 @@ quadruplet : QUADRUPLET (note | chord) (note | chord) (note | chord) (note | cho
 
 
 
-INDEX : 'X:' NUMBER ' '* NEWLINE;
-TITLE : 'T:' [a-zA-Z0-9'.'' '',''!''#''&''('')''?']+ NEWLINE;
-COMPOSER : 'C:' [a-zA-Z0-9'.'' ']+ NEWLINE;
-LENGTH : 'L:' NUMBER '/' NUMBER NEWLINE;
-METER : 'M:' ('C' | 'C|' | NUMBER '/' NUMBER) NEWLINE;
-TEMPO : 'Q:' (NUMBER '/' NUMBER '=')? NUMBER NEWLINE;
-VOICE : ('V: '[.]+ NEWLINE)*;
-KEY : 'K:' LETTER ['#''b']? 'm'? NEWLINE;
 
 
-NUMBER : [0-9]+;
+
 NEWLINE : [\n\r]+;
 LETTER : [a-gA-G];
 
-NOTE :  ACCIDENTAL LETTER OCTAVE DURATION;
-REST : 'z' DURATION;
-DURATION: ([1-9]* '/' [1-9]+ | [1-9]+ '/'? | '/')?;
-OCTAVE : ('\'' | ',')*;
-ACCIDENTAL : ('^'|'^^'|'_'|'__' | '=')?;
+
+DURATION: ([1-9]+| ' / ' | [1-9]* '/' [1-9]*);
+OCTAVE : ('\'' | ',')+;
+ACCIDENTAL : ('^'|'^^'|'_'|'__' | '=');
 DUPLET : '(' '2';
 TRIPLET : '(' '3';
 QUADRUPLET : '(' '4';
@@ -54,5 +48,8 @@ END_REPEAT : ':|';
 ONE_REPEAT : '[1';
 TWO_REPEAT : '[2';
 
+VOICE_PREFIX: 'V:';
+
 /* tell Antlr to ignore spaces around tokens. */
 SPACES : [ ]+ -> skip;
+PERCENT : [%]+ -> skip;

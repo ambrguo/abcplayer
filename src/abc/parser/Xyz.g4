@@ -8,23 +8,30 @@ import Configuration;
 
 root: header EOF;
 
-header : index title (composer | length | meter | tempo)* key;
+header : index title (composer | length | meter | tempo | voice)* key;
 
 
 
 index : INDEX_PREFIX ' '* NUMBER ' '* NEWLINE;
-title : TITLE_PREFIX (VARIABLE |LETTER| NUMBER| ' '| '.')+ NEWLINE;
-composer : COMPOSER_PREFIX (.|' ')+ NEWLINE;
+title : TITLE_PREFIX name NEWLINE;
+composer : COMPOSER_PREFIX name NEWLINE;
 length : LENGTH_PREFIX NUMBER NEWLINE;
-meter : METER_PREFIX ( LETTER |NUMBER) NEWLINE;
+meter : METER_PREFIX ( METER_LETTER |NUMBER) NEWLINE;
 tempo : TEMPO_PREFIX (NUMBER'=')? NUMBER NEWLINE;
-key : KEY_PREFIX  LETTER ('#'|'b')? ('m')? NEWLINE;
+key : KEY_PREFIX  MUSIC_LETTER (SHARP|FLAT)? (MINOR)? NEWLINE;
 voice : VOICE_PREFIX (.|' ')+ NEWLINE;
+
+name: (LETTERS| MUSIC_LETTER |NUMBER| ' '| '.')+;
 
 NUMBER : [0-9]+'/'?[0-9]*;
 NEWLINE : [\n\r]+;
-LETTER : [a-gA-G];
-VARIABLE: [H-Zh-z];
+LETTERS : [h-zH-Z];
+SHARP: '#';
+FLAT: 'b';
+MINOR: 'm';
+METER_LETTER: 'C' | 'C|';
+MUSIC_LETTER: [A-Ga-g];
+
 
 
 

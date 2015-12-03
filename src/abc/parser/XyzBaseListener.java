@@ -134,6 +134,18 @@ public class XyzBaseListener implements XyzListener {
    * <p>The default implementation does nothing.</p>
    */
   @Override public void exitVoice(XyzParser.VoiceContext ctx) { }
+  /**
+   * {@inheritDoc}
+   *
+   * <p>The default implementation does nothing.</p>
+   */
+  @Override public void enterName(XyzParser.NameContext ctx) { }
+  /**
+   * {@inheritDoc}
+   *
+   * <p>The default implementation does nothing.</p>
+   */
+  @Override public void exitName(XyzParser.NameContext ctx) { }
 
   /**
    * {@inheritDoc}

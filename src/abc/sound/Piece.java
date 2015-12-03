@@ -63,7 +63,9 @@ public class Piece {
 	    
 	    String[] headerBody = fileSplitter(inputFile);
 	    
-	    //processing the header  
+	    //processing the header 
+	    
+	    
 	    
 	    String header = headerBody[0];
 
@@ -124,17 +126,15 @@ public class Piece {
 	private static String[] fileSplitter(String file) throws IOException{
 	    String header = "";
 	    String body = "";
-	    boolean isHeader = true;
-	    
 	    String currentLine;
         BufferedReader r = new BufferedReader(new FileReader(file));
         
-        while ((currentLine = r.readLine()) != null && isHeader){
+        while ((currentLine = r.readLine()) != null){
             if (!currentLine.startsWith(KEY_PREFIX)){
                 header += currentLine + "\n";
             } else {
                 header += currentLine + "\n";
-                isHeader = false;
+                break;
             }
         }
         while ((currentLine = r.readLine()) != null){
