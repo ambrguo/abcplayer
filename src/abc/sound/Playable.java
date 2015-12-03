@@ -3,11 +3,13 @@ package abc.sound;
 import java.util.List;
 
 /**
- * An immutable data type that represents a fundamental element of music that can appear in the body of a piece, as specified in the ABC subset for 6.005
+ * An immutable data type that represents a fundamental element of music that can appear in the body of a piece, 
+ * as specified in the ABC subset for 6.005
  */
 public interface Playable {
     // Datatype definition: Playable = Note (p: Pitch, d: Duration, a: Accidental) + Rest (d: Duration) 
 	//								 + Chord (n: Set<Note>) + Tuplet (t: List<Playable>)
+	//								 + Repeat (br: boolean, er: boolean, ha: boolean, c: int)
         
     /**
      * @return the duration of the Playable object as a reduced fraction of positive integers
