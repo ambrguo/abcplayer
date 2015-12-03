@@ -55,6 +55,8 @@ public class RatNum {
 	public RatNum add(RatNum rn) {
 		int n = numerator*rn.denominator + denominator*rn.numerator;
 		int d = denominator*rn.denominator;
+		System.out.println(n);
+		System.out.println(d);
 		return new RatNum(n, d);
 	}
 	
@@ -78,7 +80,7 @@ public class RatNum {
 	 */
 	public RatNum multiply(RatNum rn) {
 		int n = numerator*rn.numerator;
-		int d = numerator*rn.denominator;
+		int d = denominator*rn.denominator;
 		return new RatNum(n, d);
 	}
 	
