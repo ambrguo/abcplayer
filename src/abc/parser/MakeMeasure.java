@@ -34,11 +34,12 @@ import abc.sound.Rest;
 
 
 public class MakeMeasure implements AbcListener {
-    private Stack<Playable> stack = new Stack<>();
+    private Stack<Playable> playables = new Stack<>();
+    private Stack<Measure> measures = new Stack<>(); 
     
-//    public Measure getMeasure() {
-//        return stack.get(0);
-//    }
+    public Measure getMeasure() {
+        return measures.get(0);
+    }
 
     @Override
     public void exitMeasure(MeasureContext ctx) {
@@ -65,8 +66,8 @@ public class MakeMeasure implements AbcListener {
         if (ctx.REST() != null) {
             // figure out what the duration is
             String duration = ctx.REST().getText().substring(1); //ignore 'z', just want number
-            int numerator;
-            int denominator;
+            int numerator = 0;
+            int denominator = 0;
             if (duration.contains("/")) {
                 if (duration.matches("[0-9]+/")){ //xx/
                     numerator = Integer.parseInt(duration.substring(0, duration.length()-1));
@@ -86,7 +87,7 @@ public class MakeMeasure implements AbcListener {
             }
             RatNum rational = new RatNum(numerator, denominator);
             Playable x = new Rest(rational);
-            stack.push(x);
+            playables.push(x);
         } else {}
     }
 

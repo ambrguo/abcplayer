@@ -36,4 +36,11 @@ public class RatNumTest {
 		RatNum rn2 = new RatNum(Integer.MAX_VALUE, Integer.MAX_VALUE);
 		assertEquals(rn1, rn2);
 	}
+	@Test
+    public void testMultiply() {
+        RatNum rn1 = new RatNum(3, 4);
+        RatNum rn2 = new RatNum(2,3);
+        RatNum product = rn1.multiply(rn2);
+        assertEquals(product, new RatNum(1,2));
+    }
 }

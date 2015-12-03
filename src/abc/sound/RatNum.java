@@ -78,7 +78,7 @@ public class RatNum {
 	 */
 	public RatNum multiply(RatNum rn) {
 		int n = numerator*rn.numerator;
-		int d = numerator*rn.denominator;
+		int d = denominator*rn.denominator;
 		return new RatNum(n, d);
 	}
 	

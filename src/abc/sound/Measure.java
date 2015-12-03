@@ -2,26 +2,23 @@ package abc.sound;
 
 import java.util.List;
 
-import org.antlr.v4.runtime.ANTLRInputStream;
-import org.antlr.v4.runtime.CharStream;
-import org.antlr.v4.runtime.CommonTokenStream;
-import org.antlr.v4.runtime.TokenStream;
-import org.antlr.v4.runtime.tree.ParseTree;
-import org.antlr.v4.runtime.tree.ParseTreeWalker;
 
-import abc.parser.AbcLexer;
-import abc.parser.AbcParser;
-import abc.parser.MakeMeasure;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 /**
  * Represents a bar of music
  */
 public class Measure {
-	// Abstraction function: TODO
-	// Rep invariant: TODO
-	// Safety from rep exposure: TODO
+	// Abstraction function: Represents a bar of music. List playables maps to the list of Playable objects associated with the measure. beginRepeat maps to 
+	//							whether or not a begin repeat bar is associated with the measure. endRepeat maps to whether or not an end repeat is associated 
+	//							with the measure. hasAlternateEnding maps to whether or not the repeated section has a different ending when it is played the 
+	//							second time.
+	// Rep invariant: - playables must be non-empty and non-null
+	//				  - hasAlternateEnding can be true iff endRepeat is true
+	// Safety from rep exposure: - all fields are private and final
+	//							 - getPlayables() returns a defensively copied list with an unmodifiableList wrapper
 	
 	private final List<Playable> playables;
 	private final boolean beginRepeat;
@@ -39,7 +36,7 @@ public class Measure {
 	}
 	
 	public List<Playable> getPlayables() {
-		return new ArrayList<Playable>(playables);
+		return Collections.unmodifiableList(new ArrayList<Playable>(playables));
 	}
 	
 	public boolean getBeginRepeat() {
@@ -67,6 +64,5 @@ public class Measure {
 		}
 		return playbackNotes;
 	}
-	
-	
+
 }

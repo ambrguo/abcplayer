@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Represents an immutable Rest object.
+ * Represents a rest in the music
  */
 public class Rest implements Playable {
 	// Abstraction function: Rest represents a rest that lasts for duration beats
@@ -12,7 +12,11 @@ public class Rest implements Playable {
 	// Safety from rep exposure: all fields are private and final
 	
 	private final RatNum duration;
-
+	
+	/**
+	 * Constructs a rest with RatNum duration
+	 * @param duration the length of the rest in beats
+	 */
 	public Rest(RatNum duration) {
 		this.duration = duration;
 		checkRep();
@@ -55,6 +59,9 @@ public class Rest implements Playable {
 		return duration.hashCode();
 	}
     
+	/**
+	 * Checks the rep invariant
+	 */
 	private void checkRep() {
 		assert duration.getNumerator() > 0;
 	}
