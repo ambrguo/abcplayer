@@ -24,8 +24,7 @@ public class TupletTest {
         playables.add(new Note(new Pitch('D'), new RatNum(1, 4), Accidental.NONE));
         Tuplet test = new Tuplet(playables);
         RatNum rational = test.getDuration();
-        System.out.println(rational.getNumerator());
-        System.out.println(rational.getDenominator());  
+        assertEquals(rational, new RatNum(3,4));
     }
     /**
      * isNote
