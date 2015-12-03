@@ -31,42 +31,21 @@ public class Tuplet implements Playable {
     public RatNum getDuration() {
         RatNum duration = new RatNum(0, 1);
         if (playables.size() == 2) {
-            System.out.println("true");
             for (Playable p : playables) {
-                duration.add(p.getDuration().multiply(new RatNum(3, 2)));
-                //System.out.println(duration.getNumerator());
-                //System.out.println(duration.getDenominator());
+                duration = duration.add(p.getDuration().multiply(new RatNum(3, 2)));
             }
         } else if (playables.size() == 3) {
             for (Playable p : playables) {
-                duration.add(p.getDuration().multiply(new RatNum(2, 3)));
+                duration = duration.add(p.getDuration().multiply(new RatNum(2, 3)));
             }
         } else if (playables.size() == 4) {
             for (Playable p : playables) {
-                duration.add(p.getDuration().multiply(new RatNum(3,4)));
+                duration = duration.add(p.getDuration().multiply(new RatNum(3,4)));
             }
         } 
         return duration;
     }
-    /*
-    switch (type) {
-    case DUPLET:
-        for (Playable p : playables) {
-            duration.add(p.getDuration().multiply(new RatNum(3, 2)));
-        }
-        break;
-    case TRIPLET:
-        for (Playable p : playables) {
-            duration.add(p.getDuration().multiply(new RatNum(2, 3)));
-        }
-        break;
-    case QUADRUPLET:
-        for (Playable p : playables) {
-            duration.add(p.getDuration().multiply(new RatNum(3, 4)));
-        }
-        break;
-    }*/
-
+    
     @Override
     public boolean isNote() {
         return false;
