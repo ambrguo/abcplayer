@@ -10,15 +10,7 @@ import abc.parser.AbcParser.BodyContext;
 import abc.parser.AbcParser.ChordContext;
 import abc.parser.AbcParser.DupletContext;
 import abc.parser.AbcParser.ElementContext;
-import abc.parser.AbcParser.Field_composerContext;
-import abc.parser.AbcParser.Field_keyContext;
-import abc.parser.AbcParser.Field_lengthContext;
-import abc.parser.AbcParser.Field_meterContext;
-import abc.parser.AbcParser.Field_numberContext;
-import abc.parser.AbcParser.Field_otherContext;
-import abc.parser.AbcParser.Field_tempoContext;
-import abc.parser.AbcParser.Field_titleContext;
-import abc.parser.AbcParser.HeaderContext;
+
 import abc.parser.AbcParser.LineContext;
 import abc.parser.AbcParser.MeasureContext;
 import abc.parser.AbcParser.NoteContext;
@@ -135,77 +127,7 @@ public class MakeMeasure implements AbcListener {
     public void visitTerminal(TerminalNode arg0) {
     }
 
-    @Override
-    public void enterHeader(HeaderContext ctx) {
-    }
-
-    @Override
-    public void exitHeader(HeaderContext ctx) {
-    }
-
-    @Override
-    public void enterField_number(Field_numberContext ctx) {
-    }
-
-    @Override
-    public void exitField_number(Field_numberContext ctx) {
-    }
-
-    @Override
-    public void enterField_title(Field_titleContext ctx) {
-    }
-
-    @Override
-    public void exitField_title(Field_titleContext ctx) {
-    }
-
-    @Override
-    public void enterField_other(Field_otherContext ctx) {
-    }
-
-    @Override
-    public void exitField_other(Field_otherContext ctx) {
-    }
-
-    @Override
-    public void enterField_composer(Field_composerContext ctx) {
-    }
-
-    @Override
-    public void exitField_composer(Field_composerContext ctx) {
-    }
-
-    @Override
-    public void enterField_length(Field_lengthContext ctx) {
-    }
-
-    @Override
-    public void exitField_length(Field_lengthContext ctx) {
-    }
-
-    @Override
-    public void enterField_meter(Field_meterContext ctx) {
-    }
-
-    @Override
-    public void exitField_meter(Field_meterContext ctx) {
-    }
-
-    @Override
-    public void enterField_tempo(Field_tempoContext ctx) {
-    }
-
-    @Override
-    public void exitField_tempo(Field_tempoContext ctx) {
-    }
-
-    @Override
-    public void enterField_key(Field_keyContext ctx) {
-    }
-
-    @Override
-    public void exitField_key(Field_keyContext ctx) {
-    }
+   
 
     @Override
     public void enterBody(BodyContext ctx) {
