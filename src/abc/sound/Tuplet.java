@@ -12,48 +12,6 @@ import java.util.List;
  * chords. A tuplet may have notes and chords of different lengths.
  */
 public class Tuplet implements Playable {
-<<<<<<< HEAD
-	// Abstraction function: Tuplet represents a tuplet with TupletType type that maps to the type of the tuplet (duplet, triplet, quadruplet) 
-	//							and list playables that maps to the group of notes and/or chords in the tuplet
-    // Rep invariant: playables consists of either 2, 3, or 4 Playables of type Chord or Note
-	// Safety from rep exposure: all fields are private and final
-
-	private final List<Playable> playables;
-	private final TupletType type;
-	
-	/**
-	 * Constructs a Tuplet of TupletType type and list playables
-	 * @param type type of the tuplet
-	 * @param playables the notes and/or chords in the tuplet
-	 */
-	public Tuplet(TupletType type, List<Playable> playables) {
-		this.type = type;
-		this.playables = playables;
-		checkRep();
-	}
-	
-	@Override
-	public RatNum getDuration() {
-		RatNum duration = new RatNum(0, 1);
-		switch (type) {
-			case DUPLET: for (Playable p : playables) {
-				duration.add(p.getDuration().multiply(new RatNum(3, 2))); 
-				}
-				break;
-			case TRIPLET: for (Playable p : playables) {
-				duration.add(p.getDuration().multiply(new RatNum(2, 3)));
-			 	}
-				break;
-			case QUADRUPLET: for (Playable p : playables) {
-				duration.add(p.getDuration().multiply(new RatNum(3, 4)));
-			 	}
-				break;
-		}
-		return duration;
-	}
-	
-	@Override
-=======
     // Abstraction function: Tuplet represents a tuplet that is mapped by a list
     // of Playable objects
     // Rep invariant: playables consists of either 2, 3, or 4 Playables of type
@@ -89,7 +47,6 @@ public class Tuplet implements Playable {
     }
     
     @Override
->>>>>>> b706740754ee3b53df00ec739fecd6e1774faba0
     public boolean isNote() {
         return false;
     }
@@ -98,35 +55,6 @@ public class Tuplet implements Playable {
     public boolean isChord() {
         return false;
     }
-<<<<<<< HEAD
-	
-	@Override
-	public boolean isRepeat() {
-		return false;
-	}
-	
-	@Override
-	public List<PlaybackNote> play(int start, int ticks, RatNum defaultLength) {
-		List<PlaybackNote> playbackNotes = new ArrayList<PlaybackNote>();
-		int now = start;
-		for (Playable playable : playables) {
-			playbackNotes.addAll(playable.play(now, ticks, defaultLength));
-			int increment = 0; // TODO calculate
-			now += increment;
-		}
-		return playbackNotes;
-	}
-    
-	/**
-	 * Checks the rep invariant
-	 */
-	private void checkRep() {
-		assert playables.size() >= 2 && playables.size() <= 4;
-	    for (Playable playable:playables){
-	        assert (playable.isChord() || playable.isNote());
-	    }
-	}
-=======
 
     @Override
     public boolean isRepeat() {
@@ -151,5 +79,4 @@ public class Tuplet implements Playable {
             assert(playable.isChord() || playable.isNote());
         }
     }
->>>>>>> b706740754ee3b53df00ec739fecd6e1774faba0
 }
