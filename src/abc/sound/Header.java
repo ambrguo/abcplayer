@@ -13,27 +13,31 @@ public class Header {
 	// Optional header fields
     private String composer;
     private RatNum defaultLength; 
-    private String meter;
+    private RatNum meter; 
     private int tempo;  
     
     // Default header field values 
-    public static final String DEFAULT_METER = "4/4"; 
+    public static final RatNum DEFAULT_METER = new RatNum(4, 4); 
     public static final RatNum DEFAULT_LENGTH = new RatNum(1, 8);
     public static final int DEFAULT_TEMPO = 100;
     public static final String DEFAULT_COMPOSER = "unknown";
     
     /**
      * Initializes a new Header 
+     * @param indexNumber index number of abc file
      * @param title non-null title
      * @param keySignature non-null key signature 
-     * @param indexNumber index number of abc file
      */
-    public Header(String title, String keySignature, int index)
+    public Header(int index, String title, String keySignature)
     {
         this.index = index; 
         this.title = title; 
         this.keySignature = keySignature; 
         
+        this.setMeter(DEFAULT_METER);
+        this.setDefaultLength(DEFAULT_LENGTH);
+        this.setTempo(DEFAULT_TEMPO);
+        this.setComposer(DEFAULT_COMPOSER);
     }
     
     public int getIndexNumber() {
@@ -49,5 +53,19 @@ public class Header {
 		return keySignature;
 	}
 	
-	// TODO set optional fields
+	public void setMeter(RatNum meter) {
+		this.meter = meter;
+	}
+	
+	public void setDefaultLength(RatNum defaultLength) {
+		this.defaultLength = defaultLength;
+	}
+	
+	public void setTempo(int tempo) {
+		this.tempo = tempo;
+	}
+	
+	public void setComposer(String composer) {
+		this.composer = composer;
+	}
 }
