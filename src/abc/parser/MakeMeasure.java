@@ -24,7 +24,11 @@ import abc.sound.Playable;
 import abc.sound.RatNum;
 import abc.sound.Rest;
 
-
+/**
+ * @category no_didit
+ * @author Amber
+ *
+ */
 public class MakeMeasure implements AbcListener {
     private Stack<Playable> playables = new Stack<>();
     private Stack<Measure> measures = new Stack<>(); 
