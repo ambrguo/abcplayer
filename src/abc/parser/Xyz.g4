@@ -1,4 +1,4 @@
-./*
+/*
  * Compile all your grammars using
  *       java -jar ../../../lib/antlr.jar *.g4
  * then Refresh in Eclipse.
@@ -6,27 +6,30 @@
 grammar Xyz;
 import Configuration;
 
-root: header body EOF;
+root: header EOF;
 
-header : field_number field_title field_other* field_key;
+header : index title (composer | length | meter | tempo)* key;
 
-field_number : INDEX;
-field_title : TITLE;
-field_other : field_composer | field_length | field_meter | field_tempo;
-field_composer : COMPOSER;
-field_length : LENGTH;
-field_meter : METER;
-field_tempo : TEMPO;
-field_key : KEY;
 
-INDEX : 'X:' NUMBER ' '* NEWLINE;
-TITLE : 'T:' [a-zA-Z0-9'.'' '',''!''#''&''('')''?']+ NEWLINE;
-COMPOSER : 'C:' [a-zA-Z0-9'.'' ']+ NEWLINE;
-LENGTH : 'L:' NUMBER '/' NUMBER NEWLINE;
-METER : 'M:' ('C' | 'C|' | NUMBER '/' NUMBER) NEWLINE;
-TEMPO : 'Q:' (NUMBER '/' NUMBER '=')? NUMBER NEWLINE;
-KEY : 'K:' LETTER ['#''b']? 'm'? NEWLINE;
+
+index : INDEX_PREFIX ' '* NUMBER ' '* NEWLINE;
+title : TITLE_PREFIX (VARIABLE |LETTER| NUMBER| ' '| '.')+ NEWLINE;
+composer : COMPOSER_PREFIX (.|' ')+ NEWLINE;
+length : LENGTH_PREFIX NUMBER '/' NUMBER NEWLINE;
+meter : METER_PREFIX ( LETTER |NUMBER '/' NUMBER) NEWLINE;
+tempo : TEMPO_PREFIX (NUMBER '/' NUMBER '=')? NUMBER NEWLINE;
+key : KEY_PREFIX  LETTER ('#'|'b')? ('m')? NEWLINE;
+voice : VOICE_PREFIX (.|' ')+ NEWLINE;
 
 NUMBER : [0-9]+;
 NEWLINE : [\n\r]+;
-LETTER : [a-gA-G];
+LETTER : [a-gA-G]*;
+VARIABLE: [H-Zh-z];
+INDEX_PREFIX : 'X:';
+TITLE_PREFIX : 'T:';
+COMPOSER_PREFIX: 'C:';
+LENGTH_PREFIX: 'L:';
+METER_PREFIX: 'M:';
+TEMPO_PREFIX: 'Q:';
+KEY_PREFIX: 'K:';
+VOICE_PREFIX: 'V:';

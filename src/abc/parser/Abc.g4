@@ -6,23 +6,14 @@
 grammar Abc;
 import Configuration;
 
-root : header body EOF;
+root : body EOF;
 
-header : field_number field_title field_other* field_key;
 
-field_number : INDEX;
-field_title : TITLE;
-field_other : field_composer | field_length | field_meter | field_tempo;
-field_composer : COMPOSER;
-field_length : LENGTH;
-field_meter : METER;
-field_tempo : TEMPO;
-field_key : KEY;
-field_voice: VOICE
 
 body : line+;
-line : NEWLINE* measure+ NEWLINE*;
+line : NEWLINE* measure+ NEWLINE* | VOICE;
 measure : (BEGIN_REPEAT | ONE_REPEAT | TWO_REPEAT | BARLINE)? ' ' (element ' '?)+ (BARLINE | END_NOTES | NEWLINE | END_REPEAT)?;
+VOICE : ('V: '[.]+ NEWLINE)*;
 
 element : note | rest | chord | tuplet;
 tuplet : duplet | triplet | quadruplet;
@@ -33,14 +24,6 @@ duplet : DUPLET (note | chord) (note | chord);
 triplet : TRIPLET (note | chord) (note | chord) (note | chord);
 quadruplet : QUADRUPLET (note | chord) (note | chord) (note | chord) (note | chord);
 
-VOICE : ('V: '[.]+ NEWLINE)*;
-INDEX : 'X:' NUMBER ' '* NEWLINE;
-TITLE : 'T:' [a-zA-Z0-9'.'' '',''!''#''&''('')''?']+ NEWLINE;
-COMPOSER : 'C:' [a-zA-Z0-9'.'' ']+ NEWLINE;
-LENGTH : 'L:' NUMBER '/' NUMBER NEWLINE;
-METER : 'M:' ('C' | 'C|' | NUMBER '/' NUMBER) NEWLINE;
-TEMPO : 'Q:' (NUMBER '/' NUMBER '=')? NUMBER NEWLINE;
-KEY : 'K:' LETTER ['#''b']? 'm'? NEWLINE;
 
 NUMBER : [0-9]+;
 NEWLINE : [\n\r]+;
