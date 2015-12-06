@@ -12,18 +12,23 @@ header : index title (composer | length | meter | tempo | voice)* key;
 
 
 
-index : INDEX_PREFIX ' '* NUMBER ' '* NEWLINE;
-title : TITLE_PREFIX name NEWLINE;
-composer : COMPOSER_PREFIX name NEWLINE;
-length : LENGTH_PREFIX NUMBER NEWLINE;
-meter : METER_PREFIX ( METER_LETTER |NUMBER) NEWLINE;
-tempo : TEMPO_PREFIX (NUMBER'=')? NUMBER NEWLINE;
+index : INDEX_PREFIX SPACE* number SPACE* NEWLINE;
+title : TITLE_PREFIX characters NEWLINE;
+composer : COMPOSER_PREFIX characters NEWLINE;
+length : LENGTH_PREFIX number NEWLINE;
+meter : METER_PREFIX ( METER_LETTER |number) NEWLINE;
+tempo : TEMPO_PREFIX (number '=')? temp_bpm NEWLINE;
 key : KEY_PREFIX  MUSIC_LETTER (SHARP|FLAT)? (MINOR)? NEWLINE;
-voice : VOICE_PREFIX (.|' ')+ NEWLINE;
+voice : VOICE_PREFIX characters NEWLINE;
 
-name: (LETTERS| MUSIC_LETTER |NUMBER| ' '| '.')+;
 
-NUMBER : [0-9]+'/'?[0-9]*;
+characters : (MUSIC_LETTER|LETTERS|SPECIAL|DIGIT|SPACE)+;
+temp_bpm: DIGIT+;
+number: DIGIT+ '/'? DIGIT*;
+
+SPECIAL: [$&+,:;=?@#|'<>.^*()%!-];
+DIGIT: [0-9];
+SPACE: ' ';
 NEWLINE : [\n\r]+;
 LETTERS : [h-zH-Z];
 SHARP: '#';
