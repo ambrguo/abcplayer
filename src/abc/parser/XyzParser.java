@@ -21,9 +21,9 @@ public class XyzParser extends Parser {
     new PredictionContextCache();
   public static final int
     T__0=1, T__1=2, SPECIAL=3, DIGIT=4, SPACE=5, NEWLINE=6, LETTERS=7, SHARP=8, 
-    FLAT=9, MINOR=10, METER_LETTER=11, MUSIC_LETTER=12, INDEX_PREFIX=13, 
-    TITLE_PREFIX=14, COMPOSER_PREFIX=15, LENGTH_PREFIX=16, METER_PREFIX=17, 
-    TEMPO_PREFIX=18, KEY_PREFIX=19, VOICE_PREFIX=20;
+    FLAT=9, MINOR=10, C_LETTER=11, CL_LETTER=12, MUSIC_LETTER=13, INDEX_PREFIX=14, 
+    TITLE_PREFIX=15, COMPOSER_PREFIX=16, LENGTH_PREFIX=17, METER_PREFIX=18, 
+    TEMPO_PREFIX=19, KEY_PREFIX=20, VOICE_PREFIX=21;
   public static final int
     RULE_root = 0, RULE_header = 1, RULE_index = 2, RULE_title = 3, RULE_composer = 4, 
     RULE_length = 5, RULE_meter = 6, RULE_tempo = 7, RULE_key = 8, RULE_voice = 9, 
@@ -35,12 +35,12 @@ public class XyzParser extends Parser {
 
   private static final String[] _LITERAL_NAMES = {
     null, "'='", "'/'", null, null, "' '", null, null, "'#'", "'b'", "'m'", 
-    null, null, "'X:'", "'T:'", "'C:'", "'L:'", "'M:'", "'Q:'", "'K:'", 
-    "'V:'"
+    "'C'", "'C|'", null, "'X:'", "'T:'", "'C:'", "'L:'", "'M:'", "'Q:'", 
+    "'K:'", "'V:'"
   };
   private static final String[] _SYMBOLIC_NAMES = {
     null, null, null, "SPECIAL", "DIGIT", "SPACE", "NEWLINE", "LETTERS", 
-    "SHARP", "FLAT", "MINOR", "METER_LETTER", "MUSIC_LETTER", "INDEX_PREFIX", 
+    "SHARP", "FLAT", "MINOR", "C_LETTER", "CL_LETTER", "MUSIC_LETTER", "INDEX_PREFIX", 
     "TITLE_PREFIX", "COMPOSER_PREFIX", "LENGTH_PREFIX", "METER_PREFIX", 
     "TEMPO_PREFIX", "KEY_PREFIX", "VOICE_PREFIX"
   };
@@ -493,7 +493,8 @@ public class XyzParser extends Parser {
   public static class MeterContext extends ParserRuleContext {
     public TerminalNode METER_PREFIX() { return getToken(XyzParser.METER_PREFIX, 0); }
     public TerminalNode NEWLINE() { return getToken(XyzParser.NEWLINE, 0); }
-    public TerminalNode METER_LETTER() { return getToken(XyzParser.METER_LETTER, 0); }
+    public TerminalNode C_LETTER() { return getToken(XyzParser.C_LETTER, 0); }
+    public TerminalNode CL_LETTER() { return getToken(XyzParser.CL_LETTER, 0); }
     public NumberContext number() {
       return getRuleContext(NumberContext.class,0);
     }
@@ -519,24 +520,30 @@ public class XyzParser extends Parser {
       {
       setState(71);
       match(METER_PREFIX);
-      setState(74);
+      setState(75);
       switch (_input.LA(1)) {
-      case METER_LETTER:
+      case C_LETTER:
         {
         setState(72);
-        match(METER_LETTER);
+        match(C_LETTER);
+        }
+        break;
+      case CL_LETTER:
+        {
+        setState(73);
+        match(CL_LETTER);
         }
         break;
       case DIGIT:
         {
-        setState(73);
+        setState(74);
         number();
         }
         break;
       default:
         throw new NoViableAltException(this);
       }
-      setState(76);
+      setState(77);
       match(NEWLINE);
       }
     }
@@ -580,22 +587,22 @@ public class XyzParser extends Parser {
     try {
       enterOuterAlt(_localctx, 1);
       {
-      setState(78);
+      setState(79);
       match(TEMPO_PREFIX);
-      setState(82);
+      setState(83);
       switch ( getInterpreter().adaptivePredict(_input,5,_ctx) ) {
       case 1:
         {
-        setState(79);
-        number();
         setState(80);
+        number();
+        setState(81);
         match(T__0);
         }
         break;
       }
-      setState(84);
-      temp_bpm();
       setState(85);
+      temp_bpm();
+      setState(86);
       match(NEWLINE);
       }
     }
@@ -612,11 +619,15 @@ public class XyzParser extends Parser {
 
   public static class KeyContext extends ParserRuleContext {
     public TerminalNode KEY_PREFIX() { return getToken(XyzParser.KEY_PREFIX, 0); }
-    public TerminalNode MUSIC_LETTER() { return getToken(XyzParser.MUSIC_LETTER, 0); }
     public TerminalNode NEWLINE() { return getToken(XyzParser.NEWLINE, 0); }
+    public TerminalNode MUSIC_LETTER() { return getToken(XyzParser.MUSIC_LETTER, 0); }
+    public List<TerminalNode> FLAT() { return getTokens(XyzParser.FLAT); }
+    public TerminalNode FLAT(int i) {
+      return getToken(XyzParser.FLAT, i);
+    }
+    public TerminalNode C_LETTER() { return getToken(XyzParser.C_LETTER, 0); }
     public TerminalNode MINOR() { return getToken(XyzParser.MINOR, 0); }
     public TerminalNode SHARP() { return getToken(XyzParser.SHARP, 0); }
-    public TerminalNode FLAT() { return getToken(XyzParser.FLAT, 0); }
     public KeyContext(ParserRuleContext parent, int invokingState) {
       super(parent, invokingState);
     }
@@ -638,15 +649,20 @@ public class XyzParser extends Parser {
     try {
       enterOuterAlt(_localctx, 1);
       {
-      setState(87);
-      match(KEY_PREFIX);
       setState(88);
-      match(MUSIC_LETTER);
-      setState(90);
+      match(KEY_PREFIX);
+      setState(89);
+      _la = _input.LA(1);
+      if ( !((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << FLAT) | (1L << C_LETTER) | (1L << MUSIC_LETTER))) != 0)) ) {
+      _errHandler.recoverInline(this);
+      } else {
+        consume();
+      }
+      setState(91);
       _la = _input.LA(1);
       if (_la==SHARP || _la==FLAT) {
         {
-        setState(89);
+        setState(90);
         _la = _input.LA(1);
         if ( !(_la==SHARP || _la==FLAT) ) {
         _errHandler.recoverInline(this);
@@ -656,16 +672,16 @@ public class XyzParser extends Parser {
         }
       }
 
-      setState(93);
+      setState(94);
       _la = _input.LA(1);
       if (_la==MINOR) {
         {
-        setState(92);
+        setState(93);
         match(MINOR);
         }
       }
 
-      setState(95);
+      setState(96);
       match(NEWLINE);
       }
     }
@@ -706,11 +722,11 @@ public class XyzParser extends Parser {
     try {
       enterOuterAlt(_localctx, 1);
       {
-      setState(97);
-      match(VOICE_PREFIX);
       setState(98);
-      characters();
+      match(VOICE_PREFIX);
       setState(99);
+      characters();
+      setState(100);
       match(NEWLINE);
       }
     }
@@ -746,6 +762,22 @@ public class XyzParser extends Parser {
     public TerminalNode SPACE(int i) {
       return getToken(XyzParser.SPACE, i);
     }
+    public List<TerminalNode> SHARP() { return getTokens(XyzParser.SHARP); }
+    public TerminalNode SHARP(int i) {
+      return getToken(XyzParser.SHARP, i);
+    }
+    public List<TerminalNode> MINOR() { return getTokens(XyzParser.MINOR); }
+    public TerminalNode MINOR(int i) {
+      return getToken(XyzParser.MINOR, i);
+    }
+    public List<TerminalNode> FLAT() { return getTokens(XyzParser.FLAT); }
+    public TerminalNode FLAT(int i) {
+      return getToken(XyzParser.FLAT, i);
+    }
+    public List<TerminalNode> C_LETTER() { return getTokens(XyzParser.C_LETTER); }
+    public TerminalNode C_LETTER(int i) {
+      return getToken(XyzParser.C_LETTER, i);
+    }
     public CharactersContext(ParserRuleContext parent, int invokingState) {
       super(parent, invokingState);
     }
@@ -767,25 +799,25 @@ public class XyzParser extends Parser {
     try {
       enterOuterAlt(_localctx, 1);
       {
-      setState(102); 
+      setState(103); 
       _errHandler.sync(this);
       _la = _input.LA(1);
       do {
         {
         {
-        setState(101);
+        setState(102);
         _la = _input.LA(1);
-        if ( !((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << SPECIAL) | (1L << DIGIT) | (1L << SPACE) | (1L << LETTERS) | (1L << MUSIC_LETTER))) != 0)) ) {
+        if ( !((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << SPECIAL) | (1L << DIGIT) | (1L << SPACE) | (1L << LETTERS) | (1L << SHARP) | (1L << FLAT) | (1L << MINOR) | (1L << C_LETTER) | (1L << MUSIC_LETTER))) != 0)) ) {
         _errHandler.recoverInline(this);
         } else {
           consume();
         }
         }
         }
-        setState(104); 
+        setState(105); 
         _errHandler.sync(this);
         _la = _input.LA(1);
-      } while ( (((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << SPECIAL) | (1L << DIGIT) | (1L << SPACE) | (1L << LETTERS) | (1L << MUSIC_LETTER))) != 0) );
+      } while ( (((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << SPECIAL) | (1L << DIGIT) | (1L << SPACE) | (1L << LETTERS) | (1L << SHARP) | (1L << FLAT) | (1L << MINOR) | (1L << C_LETTER) | (1L << MUSIC_LETTER))) != 0) );
       }
     }
     catch (RecognitionException re) {
@@ -825,17 +857,17 @@ public class XyzParser extends Parser {
     try {
       enterOuterAlt(_localctx, 1);
       {
-      setState(107); 
+      setState(108); 
       _errHandler.sync(this);
       _la = _input.LA(1);
       do {
         {
         {
-        setState(106);
+        setState(107);
         match(DIGIT);
         }
         }
-        setState(109); 
+        setState(110); 
         _errHandler.sync(this);
         _la = _input.LA(1);
       } while ( _la==DIGIT );
@@ -879,7 +911,7 @@ public class XyzParser extends Parser {
       int _alt;
       enterOuterAlt(_localctx, 1);
       {
-      setState(112); 
+      setState(113); 
       _errHandler.sync(this);
       _alt = 1;
       do {
@@ -887,7 +919,7 @@ public class XyzParser extends Parser {
         case 1:
           {
           {
-          setState(111);
+          setState(112);
           match(DIGIT);
           }
           }
@@ -895,30 +927,30 @@ public class XyzParser extends Parser {
         default:
           throw new NoViableAltException(this);
         }
-        setState(114); 
+        setState(115); 
         _errHandler.sync(this);
         _alt = getInterpreter().adaptivePredict(_input,10,_ctx);
       } while ( _alt!=2 && _alt!=org.antlr.v4.runtime.atn.ATN.INVALID_ALT_NUMBER );
-      setState(117);
+      setState(118);
       _la = _input.LA(1);
       if (_la==T__1) {
         {
-        setState(116);
+        setState(117);
         match(T__1);
         }
       }
 
-      setState(122);
+      setState(123);
       _errHandler.sync(this);
       _la = _input.LA(1);
       while (_la==DIGIT) {
         {
         {
-        setState(119);
+        setState(120);
         match(DIGIT);
         }
         }
-        setState(124);
+        setState(125);
         _errHandler.sync(this);
         _la = _input.LA(1);
       }
@@ -936,39 +968,40 @@ public class XyzParser extends Parser {
   }
 
   public static final String _serializedATN =
-    "\3\u0430\ud6d1\u8206\uad2d\u4417\uaef1\u8d80\uaadd\3\26\u0080\4\2\t"+
+    "\3\u0430\ud6d1\u8206\uad2d\u4417\uaef1\u8d80\uaadd\3\27\u0081\4\2\t"+
       "\2\4\3\t\3\4\4\t\4\4\5\t\5\4\6\t\6\4\7\t\7\4\b\t\b\4\t\t\t\4\n\t\n"+
       "\4\13\t\13\4\f\t\f\4\r\t\r\4\16\t\16\3\2\3\2\3\2\3\3\3\3\3\3\3\3\3"+
       "\3\3\3\3\3\7\3\'\n\3\f\3\16\3*\13\3\3\3\3\3\3\4\3\4\7\4\60\n\4\f\4"+
       "\16\4\63\13\4\3\4\3\4\7\4\67\n\4\f\4\16\4:\13\4\3\4\3\4\3\5\3\5\3"+
-      "\5\3\5\3\6\3\6\3\6\3\6\3\7\3\7\3\7\3\7\3\b\3\b\3\b\5\bM\n\b\3\b\3"+
-      "\b\3\t\3\t\3\t\3\t\5\tU\n\t\3\t\3\t\3\t\3\n\3\n\3\n\5\n]\n\n\3\n\5"+
-      "\n`\n\n\3\n\3\n\3\13\3\13\3\13\3\13\3\f\6\fi\n\f\r\f\16\fj\3\r\6\r"+
-      "n\n\r\r\r\16\ro\3\16\6\16s\n\16\r\16\16\16t\3\16\5\16x\n\16\3\16\7"+
-      "\16{\n\16\f\16\16\16~\13\16\3\16\2\2\17\2\4\6\b\n\f\16\20\22\24\26"+
-      "\30\32\2\4\3\2\n\13\5\2\5\7\t\t\16\16\u0082\2\34\3\2\2\2\4\37\3\2"+
-      "\2\2\6-\3\2\2\2\b=\3\2\2\2\nA\3\2\2\2\fE\3\2\2\2\16I\3\2\2\2\20P\3"+
-      "\2\2\2\22Y\3\2\2\2\24c\3\2\2\2\26h\3\2\2\2\30m\3\2\2\2\32r\3\2\2\2"+
-      "\34\35\5\4\3\2\35\36\7\2\2\3\36\3\3\2\2\2\37 \5\6\4\2 (\5\b\5\2!\'"+
-      "\5\n\6\2\"\'\5\f\7\2#\'\5\16\b\2$\'\5\20\t\2%\'\5\24\13\2&!\3\2\2"+
-      "\2&\"\3\2\2\2&#\3\2\2\2&$\3\2\2\2&%\3\2\2\2\'*\3\2\2\2(&\3\2\2\2("+
-      ")\3\2\2\2)+\3\2\2\2*(\3\2\2\2+,\5\22\n\2,\5\3\2\2\2-\61\7\17\2\2."+
-      "\60\7\7\2\2/.\3\2\2\2\60\63\3\2\2\2\61/\3\2\2\2\61\62\3\2\2\2\62\64"+
-      "\3\2\2\2\63\61\3\2\2\2\648\5\32\16\2\65\67\7\7\2\2\66\65\3\2\2\2\67"+
-      ":\3\2\2\28\66\3\2\2\289\3\2\2\29;\3\2\2\2:8\3\2\2\2;<\7\b\2\2<\7\3"+
-      "\2\2\2=>\7\20\2\2>?\5\26\f\2?@\7\b\2\2@\t\3\2\2\2AB\7\21\2\2BC\5\26"+
-      "\f\2CD\7\b\2\2D\13\3\2\2\2EF\7\22\2\2FG\5\32\16\2GH\7\b\2\2H\r\3\2"+
-      "\2\2IL\7\23\2\2JM\7\r\2\2KM\5\32\16\2LJ\3\2\2\2LK\3\2\2\2MN\3\2\2"+
-      "\2NO\7\b\2\2O\17\3\2\2\2PT\7\24\2\2QR\5\32\16\2RS\7\3\2\2SU\3\2\2"+
-      "\2TQ\3\2\2\2TU\3\2\2\2UV\3\2\2\2VW\5\30\r\2WX\7\b\2\2X\21\3\2\2\2"+
-      "YZ\7\25\2\2Z\\\7\16\2\2[]\t\2\2\2\\[\3\2\2\2\\]\3\2\2\2]_\3\2\2\2"+
-      "^`\7\f\2\2_^\3\2\2\2_`\3\2\2\2`a\3\2\2\2ab\7\b\2\2b\23\3\2\2\2cd\7"+
-      "\26\2\2de\5\26\f\2ef\7\b\2\2f\25\3\2\2\2gi\t\3\2\2hg\3\2\2\2ij\3\2"+
-      "\2\2jh\3\2\2\2jk\3\2\2\2k\27\3\2\2\2ln\7\6\2\2ml\3\2\2\2no\3\2\2\2"+
-      "om\3\2\2\2op\3\2\2\2p\31\3\2\2\2qs\7\6\2\2rq\3\2\2\2st\3\2\2\2tr\3"+
-      "\2\2\2tu\3\2\2\2uw\3\2\2\2vx\7\4\2\2wv\3\2\2\2wx\3\2\2\2x|\3\2\2\2"+
-      "y{\7\6\2\2zy\3\2\2\2{~\3\2\2\2|z\3\2\2\2|}\3\2\2\2}\33\3\2\2\2~|\3"+
-      "\2\2\2\17&(\618LT\\_jotw|";
+      "\5\3\5\3\6\3\6\3\6\3\6\3\7\3\7\3\7\3\7\3\b\3\b\3\b\3\b\5\bN\n\b\3"+
+      "\b\3\b\3\t\3\t\3\t\3\t\5\tV\n\t\3\t\3\t\3\t\3\n\3\n\3\n\5\n^\n\n\3"+
+      "\n\5\na\n\n\3\n\3\n\3\13\3\13\3\13\3\13\3\f\6\fj\n\f\r\f\16\fk\3\r"+
+      "\6\ro\n\r\r\r\16\rp\3\16\6\16t\n\16\r\16\16\16u\3\16\5\16y\n\16\3"+
+      "\16\7\16|\n\16\f\16\16\16\177\13\16\3\16\2\2\17\2\4\6\b\n\f\16\20"+
+      "\22\24\26\30\32\2\5\5\2\13\13\r\r\17\17\3\2\n\13\5\2\5\7\t\r\17\17"+
+      "\u0084\2\34\3\2\2\2\4\37\3\2\2\2\6-\3\2\2\2\b=\3\2\2\2\nA\3\2\2\2"+
+      "\fE\3\2\2\2\16I\3\2\2\2\20Q\3\2\2\2\22Z\3\2\2\2\24d\3\2\2\2\26i\3"+
+      "\2\2\2\30n\3\2\2\2\32s\3\2\2\2\34\35\5\4\3\2\35\36\7\2\2\3\36\3\3"+
+      "\2\2\2\37 \5\6\4\2 (\5\b\5\2!\'\5\n\6\2\"\'\5\f\7\2#\'\5\16\b\2$\'"+
+      "\5\20\t\2%\'\5\24\13\2&!\3\2\2\2&\"\3\2\2\2&#\3\2\2\2&$\3\2\2\2&%"+
+      "\3\2\2\2\'*\3\2\2\2(&\3\2\2\2()\3\2\2\2)+\3\2\2\2*(\3\2\2\2+,\5\22"+
+      "\n\2,\5\3\2\2\2-\61\7\20\2\2.\60\7\7\2\2/.\3\2\2\2\60\63\3\2\2\2\61"+
+      "/\3\2\2\2\61\62\3\2\2\2\62\64\3\2\2\2\63\61\3\2\2\2\648\5\32\16\2"+
+      "\65\67\7\7\2\2\66\65\3\2\2\2\67:\3\2\2\28\66\3\2\2\289\3\2\2\29;\3"+
+      "\2\2\2:8\3\2\2\2;<\7\b\2\2<\7\3\2\2\2=>\7\21\2\2>?\5\26\f\2?@\7\b"+
+      "\2\2@\t\3\2\2\2AB\7\22\2\2BC\5\26\f\2CD\7\b\2\2D\13\3\2\2\2EF\7\23"+
+      "\2\2FG\5\32\16\2GH\7\b\2\2H\r\3\2\2\2IM\7\24\2\2JN\7\r\2\2KN\7\16"+
+      "\2\2LN\5\32\16\2MJ\3\2\2\2MK\3\2\2\2ML\3\2\2\2NO\3\2\2\2OP\7\b\2\2"+
+      "P\17\3\2\2\2QU\7\25\2\2RS\5\32\16\2ST\7\3\2\2TV\3\2\2\2UR\3\2\2\2"+
+      "UV\3\2\2\2VW\3\2\2\2WX\5\30\r\2XY\7\b\2\2Y\21\3\2\2\2Z[\7\26\2\2["+
+      "]\t\2\2\2\\^\t\3\2\2]\\\3\2\2\2]^\3\2\2\2^`\3\2\2\2_a\7\f\2\2`_\3"+
+      "\2\2\2`a\3\2\2\2ab\3\2\2\2bc\7\b\2\2c\23\3\2\2\2de\7\27\2\2ef\5\26"+
+      "\f\2fg\7\b\2\2g\25\3\2\2\2hj\t\4\2\2ih\3\2\2\2jk\3\2\2\2ki\3\2\2\2"+
+      "kl\3\2\2\2l\27\3\2\2\2mo\7\6\2\2nm\3\2\2\2op\3\2\2\2pn\3\2\2\2pq\3"+
+      "\2\2\2q\31\3\2\2\2rt\7\6\2\2sr\3\2\2\2tu\3\2\2\2us\3\2\2\2uv\3\2\2"+
+      "\2vx\3\2\2\2wy\7\4\2\2xw\3\2\2\2xy\3\2\2\2y}\3\2\2\2z|\7\6\2\2{z\3"+
+      "\2\2\2|\177\3\2\2\2}{\3\2\2\2}~\3\2\2\2~\33\3\2\2\2\177}\3\2\2\2\17"+
+      "&(\618MU]`kpux}";
   public static final ATN _ATN =
     new ATNDeserializer().deserialize(_serializedATN.toCharArray());
   static {

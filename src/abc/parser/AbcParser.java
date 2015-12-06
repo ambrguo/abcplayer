@@ -20,7 +20,7 @@ public class AbcParser extends Parser {
   protected static final PredictionContextCache _sharedContextCache =
     new PredictionContextCache();
   public static final int
-    T__0=1, T__1=2, T__2=3, T__3=4, NEWLINE=5, LETTER=6, DURATION=7, OCTAVE=8, 
+    T__0=1, T__1=2, NEWLINE=3, LETTER=4, REST=5, SPACE=6, DURATION=7, OCTAVE=8, 
     ACCIDENTAL=9, DUPLET=10, TRIPLET=11, QUADRUPLET=12, BARLINE=13, BEGIN_REPEAT=14, 
     END_REPEAT=15, ONE_REPEAT=16, TWO_REPEAT=17, VOICE_PREFIX=18, SPACES=19, 
     PERCENT=20;
@@ -36,14 +36,14 @@ public class AbcParser extends Parser {
   };
 
   private static final String[] _LITERAL_NAMES = {
-    null, "' '", "'z'", "'['", "']'", null, null, null, null, null, null, 
+    null, "'['", "']'", null, null, "'z'", "' '", null, null, null, null, 
     null, null, null, "'|:'", "':|'", "'[1'", "'[2'", "'V:'"
   };
   private static final String[] _SYMBOLIC_NAMES = {
-    null, null, null, null, null, "NEWLINE", "LETTER", "DURATION", "OCTAVE", 
-    "ACCIDENTAL", "DUPLET", "TRIPLET", "QUADRUPLET", "BARLINE", "BEGIN_REPEAT", 
-    "END_REPEAT", "ONE_REPEAT", "TWO_REPEAT", "VOICE_PREFIX", "SPACES", 
-    "PERCENT"
+    null, null, null, "NEWLINE", "LETTER", "REST", "SPACE", "DURATION", 
+    "OCTAVE", "ACCIDENTAL", "DUPLET", "TRIPLET", "QUADRUPLET", "BARLINE", 
+    "BEGIN_REPEAT", "END_REPEAT", "ONE_REPEAT", "TWO_REPEAT", "VOICE_PREFIX", 
+    "SPACES", "PERCENT"
   };
   public static final Vocabulary VOCABULARY = new VocabularyImpl(_LITERAL_NAMES, _SYMBOLIC_NAMES);
 
@@ -194,7 +194,7 @@ public class AbcParser extends Parser {
         setState(38); 
         _errHandler.sync(this);
         _la = _input.LA(1);
-      } while ( (((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << T__0) | (1L << T__1) | (1L << T__2) | (1L << NEWLINE) | (1L << LETTER) | (1L << ACCIDENTAL) | (1L << DUPLET) | (1L << TRIPLET) | (1L << QUADRUPLET) | (1L << BARLINE) | (1L << BEGIN_REPEAT) | (1L << ONE_REPEAT) | (1L << TWO_REPEAT) | (1L << VOICE_PREFIX))) != 0) );
+      } while ( (((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << T__0) | (1L << NEWLINE) | (1L << LETTER) | (1L << REST) | (1L << SPACE) | (1L << ACCIDENTAL) | (1L << DUPLET) | (1L << TRIPLET) | (1L << QUADRUPLET) | (1L << BARLINE) | (1L << BEGIN_REPEAT) | (1L << ONE_REPEAT) | (1L << TWO_REPEAT) | (1L << VOICE_PREFIX))) != 0) );
       }
     }
     catch (RecognitionException re) {
@@ -262,10 +262,10 @@ public class AbcParser extends Parser {
       setState(52);
       switch (_input.LA(1)) {
       case T__0:
-      case T__1:
-      case T__2:
       case NEWLINE:
       case LETTER:
+      case REST:
+      case SPACE:
       case ACCIDENTAL:
       case DUPLET:
       case TRIPLET:
@@ -331,6 +331,10 @@ public class AbcParser extends Parser {
     public TerminalNode NEWLINE(int i) {
       return getToken(AbcParser.NEWLINE, i);
     }
+    public List<TerminalNode> SPACE() { return getTokens(AbcParser.SPACE); }
+    public TerminalNode SPACE(int i) {
+      return getToken(AbcParser.SPACE, i);
+    }
     public List<ElementContext> element() {
       return getRuleContexts(ElementContext.class);
     }
@@ -393,11 +397,11 @@ public class AbcParser extends Parser {
       setState(68);
       _errHandler.sync(this);
       _la = _input.LA(1);
-      while (_la==T__0) {
+      while (_la==SPACE) {
         {
         {
         setState(65);
-        match(T__0);
+        match(SPACE);
         }
         }
         setState(70);
@@ -420,7 +424,7 @@ public class AbcParser extends Parser {
             {
             {
             setState(72);
-            match(T__0);
+            match(SPACE);
             }
             } 
           }
@@ -433,15 +437,15 @@ public class AbcParser extends Parser {
         setState(80); 
         _errHandler.sync(this);
         _la = _input.LA(1);
-      } while ( (((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << T__1) | (1L << T__2) | (1L << LETTER) | (1L << ACCIDENTAL) | (1L << DUPLET) | (1L << TRIPLET) | (1L << QUADRUPLET))) != 0) );
+      } while ( (((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << T__0) | (1L << LETTER) | (1L << REST) | (1L << ACCIDENTAL) | (1L << DUPLET) | (1L << TRIPLET) | (1L << QUADRUPLET))) != 0) );
       setState(85);
       _errHandler.sync(this);
       _la = _input.LA(1);
-      while (_la==T__0) {
+      while (_la==SPACE) {
         {
         {
         setState(82);
-        match(T__0);
+        match(SPACE);
         }
         }
         setState(87);
@@ -463,7 +467,7 @@ public class AbcParser extends Parser {
           {
           {
           setState(89);
-          match(T__0);
+          match(SPACE);
           }
           } 
         }
@@ -487,6 +491,10 @@ public class AbcParser extends Parser {
   public static class VoiceContext extends ParserRuleContext {
     public TerminalNode VOICE_PREFIX() { return getToken(AbcParser.VOICE_PREFIX, 0); }
     public TerminalNode NEWLINE() { return getToken(AbcParser.NEWLINE, 0); }
+    public List<TerminalNode> SPACE() { return getTokens(AbcParser.SPACE); }
+    public TerminalNode SPACE(int i) {
+      return getToken(AbcParser.SPACE, i);
+    }
     public VoiceContext(ParserRuleContext parent, int invokingState) {
       super(parent, invokingState);
     }
@@ -528,7 +536,7 @@ public class AbcParser extends Parser {
           case 2:
             {
             setState(97);
-            match(T__0);
+            match(SPACE);
             }
             break;
           }
@@ -597,14 +605,14 @@ public class AbcParser extends Parser {
         note();
         }
         break;
-      case T__1:
+      case REST:
         enterOuterAlt(_localctx, 2);
         {
         setState(105);
         rest();
         }
         break;
-      case T__2:
+      case T__0:
         enterOuterAlt(_localctx, 3);
         {
         setState(106);
@@ -778,6 +786,7 @@ public class AbcParser extends Parser {
   }
 
   public static class RestContext extends ParserRuleContext {
+    public TerminalNode REST() { return getToken(AbcParser.REST, 0); }
     public DurationContext duration() {
       return getRuleContext(DurationContext.class,0);
     }
@@ -803,7 +812,7 @@ public class AbcParser extends Parser {
       enterOuterAlt(_localctx, 1);
       {
       setState(125);
-      match(T__1);
+      match(REST);
       setState(127);
       _la = _input.LA(1);
       if (_la==DURATION) {
@@ -966,7 +975,7 @@ public class AbcParser extends Parser {
       enterOuterAlt(_localctx, 1);
       {
       setState(135);
-      match(T__2);
+      match(T__0);
       setState(137); 
       _errHandler.sync(this);
       _la = _input.LA(1);
@@ -982,7 +991,7 @@ public class AbcParser extends Parser {
         _la = _input.LA(1);
       } while ( _la==LETTER || _la==ACCIDENTAL );
       setState(141);
-      match(T__3);
+      match(T__1);
       }
     }
     catch (RecognitionException re) {
@@ -1041,7 +1050,7 @@ public class AbcParser extends Parser {
         note();
         }
         break;
-      case T__2:
+      case T__0:
         {
         setState(145);
         chord();
@@ -1059,7 +1068,7 @@ public class AbcParser extends Parser {
         note();
         }
         break;
-      case T__2:
+      case T__0:
         {
         setState(149);
         chord();
@@ -1126,7 +1135,7 @@ public class AbcParser extends Parser {
         note();
         }
         break;
-      case T__2:
+      case T__0:
         {
         setState(154);
         chord();
@@ -1144,7 +1153,7 @@ public class AbcParser extends Parser {
         note();
         }
         break;
-      case T__2:
+      case T__0:
         {
         setState(158);
         chord();
@@ -1162,7 +1171,7 @@ public class AbcParser extends Parser {
         note();
         }
         break;
-      case T__2:
+      case T__0:
         {
         setState(162);
         chord();
@@ -1229,7 +1238,7 @@ public class AbcParser extends Parser {
         note();
         }
         break;
-      case T__2:
+      case T__0:
         {
         setState(167);
         chord();
@@ -1247,7 +1256,7 @@ public class AbcParser extends Parser {
         note();
         }
         break;
-      case T__2:
+      case T__0:
         {
         setState(171);
         chord();
@@ -1265,7 +1274,7 @@ public class AbcParser extends Parser {
         note();
         }
         break;
-      case T__2:
+      case T__0:
         {
         setState(175);
         chord();
@@ -1283,7 +1292,7 @@ public class AbcParser extends Parser {
         note();
         }
         break;
-      case T__2:
+      case T__0:
         {
         setState(179);
         chord();
@@ -1321,35 +1330,35 @@ public class AbcParser extends Parser {
       "\3\20\5\20\u009e\n\20\3\20\3\20\5\20\u00a2\n\20\3\20\3\20\5\20\u00a6"+
       "\n\20\3\21\3\21\3\21\5\21\u00ab\n\21\3\21\3\21\5\21\u00af\n\21\3\21"+
       "\3\21\5\21\u00b3\n\21\3\21\3\21\5\21\u00b7\n\21\3\21\2\2\22\2\4\6"+
-      "\b\n\f\16\20\22\24\26\30\32\34\36 \2\4\4\2\17\20\22\23\5\2\7\7\17"+
+      "\b\n\f\16\20\22\24\26\30\32\34\36 \2\4\4\2\17\20\22\23\5\2\5\5\17"+
       "\17\21\21\u00c8\2\"\3\2\2\2\4&\3\2\2\2\6-\3\2\2\2\b=\3\2\2\2\na\3"+
       "\2\2\2\fn\3\2\2\2\16s\3\2\2\2\20v\3\2\2\2\22\177\3\2\2\2\24\u0083"+
       "\3\2\2\2\26\u0085\3\2\2\2\30\u0087\3\2\2\2\32\u0089\3\2\2\2\34\u0091"+
       "\3\2\2\2\36\u009a\3\2\2\2 \u00a7\3\2\2\2\"#\5\4\3\2#$\7\2\2\3$\3\3"+
       "\2\2\2%\'\5\6\4\2&%\3\2\2\2\'(\3\2\2\2(&\3\2\2\2()\3\2\2\2)\5\3\2"+
-      "\2\2*,\7\7\2\2+*\3\2\2\2,/\3\2\2\2-+\3\2\2\2-.\3\2\2\2.\66\3\2\2\2"+
+      "\2\2*,\7\5\2\2+*\3\2\2\2,/\3\2\2\2-+\3\2\2\2-.\3\2\2\2.\66\3\2\2\2"+
       "/-\3\2\2\2\60\62\5\b\5\2\61\60\3\2\2\2\62\63\3\2\2\2\63\61\3\2\2\2"+
       "\63\64\3\2\2\2\64\67\3\2\2\2\65\67\5\n\6\2\66\61\3\2\2\2\66\65\3\2"+
-      "\2\2\678\3\2\2\289\7\7\2\29\7\3\2\2\2:<\7\7\2\2;:\3\2\2\2<?\3\2\2"+
+      "\2\2\678\3\2\2\289\7\5\2\29\7\3\2\2\2:<\7\5\2\2;:\3\2\2\2<?\3\2\2"+
       "\2=;\3\2\2\2=>\3\2\2\2>A\3\2\2\2?=\3\2\2\2@B\t\2\2\2A@\3\2\2\2AB\3"+
-      "\2\2\2BF\3\2\2\2CE\7\3\2\2DC\3\2\2\2EH\3\2\2\2FD\3\2\2\2FG\3\2\2\2"+
-      "GP\3\2\2\2HF\3\2\2\2IM\5\f\7\2JL\7\3\2\2KJ\3\2\2\2LO\3\2\2\2MK\3\2"+
+      "\2\2\2BF\3\2\2\2CE\7\b\2\2DC\3\2\2\2EH\3\2\2\2FD\3\2\2\2FG\3\2\2\2"+
+      "GP\3\2\2\2HF\3\2\2\2IM\5\f\7\2JL\7\b\2\2KJ\3\2\2\2LO\3\2\2\2MK\3\2"+
       "\2\2MN\3\2\2\2NQ\3\2\2\2OM\3\2\2\2PI\3\2\2\2QR\3\2\2\2RP\3\2\2\2R"+
-      "S\3\2\2\2SW\3\2\2\2TV\7\3\2\2UT\3\2\2\2VY\3\2\2\2WU\3\2\2\2WX\3\2"+
-      "\2\2XZ\3\2\2\2YW\3\2\2\2Z^\t\3\2\2[]\7\3\2\2\\[\3\2\2\2]`\3\2\2\2"+
+      "S\3\2\2\2SW\3\2\2\2TV\7\b\2\2UT\3\2\2\2VY\3\2\2\2WU\3\2\2\2WX\3\2"+
+      "\2\2XZ\3\2\2\2YW\3\2\2\2Z^\t\3\2\2[]\7\b\2\2\\[\3\2\2\2]`\3\2\2\2"+
       "^\\\3\2\2\2^_\3\2\2\2_\t\3\2\2\2`^\3\2\2\2ad\7\24\2\2be\13\2\2\2c"+
-      "e\7\3\2\2db\3\2\2\2dc\3\2\2\2ef\3\2\2\2fd\3\2\2\2fg\3\2\2\2gh\3\2"+
-      "\2\2hi\7\7\2\2i\13\3\2\2\2jo\5\20\t\2ko\5\22\n\2lo\5\32\16\2mo\5\16"+
+      "e\7\b\2\2db\3\2\2\2dc\3\2\2\2ef\3\2\2\2fd\3\2\2\2fg\3\2\2\2gh\3\2"+
+      "\2\2hi\7\5\2\2i\13\3\2\2\2jo\5\20\t\2ko\5\22\n\2lo\5\32\16\2mo\5\16"+
       "\b\2nj\3\2\2\2nk\3\2\2\2nl\3\2\2\2nm\3\2\2\2o\r\3\2\2\2pt\5\34\17"+
       "\2qt\5\36\20\2rt\5 \21\2sp\3\2\2\2sq\3\2\2\2sr\3\2\2\2t\17\3\2\2\2"+
-      "uw\5\30\r\2vu\3\2\2\2vw\3\2\2\2wx\3\2\2\2xz\7\b\2\2y{\5\26\f\2zy\3"+
+      "uw\5\30\r\2vu\3\2\2\2vw\3\2\2\2wx\3\2\2\2xz\7\6\2\2y{\5\26\f\2zy\3"+
       "\2\2\2z{\3\2\2\2{}\3\2\2\2|~\5\24\13\2}|\3\2\2\2}~\3\2\2\2~\21\3\2"+
-      "\2\2\177\u0081\7\4\2\2\u0080\u0082\5\24\13\2\u0081\u0080\3\2\2\2\u0081"+
+      "\2\2\177\u0081\7\7\2\2\u0080\u0082\5\24\13\2\u0081\u0080\3\2\2\2\u0081"+
       "\u0082\3\2\2\2\u0082\23\3\2\2\2\u0083\u0084\7\t\2\2\u0084\25\3\2\2"+
       "\2\u0085\u0086\7\n\2\2\u0086\27\3\2\2\2\u0087\u0088\7\13\2\2\u0088"+
-      "\31\3\2\2\2\u0089\u008b\7\5\2\2\u008a\u008c\5\20\t\2\u008b\u008a\3"+
+      "\31\3\2\2\2\u0089\u008b\7\3\2\2\u008a\u008c\5\20\t\2\u008b\u008a\3"+
       "\2\2\2\u008c\u008d\3\2\2\2\u008d\u008b\3\2\2\2\u008d\u008e\3\2\2\2"+
-      "\u008e\u008f\3\2\2\2\u008f\u0090\7\6\2\2\u0090\33\3\2\2\2\u0091\u0094"+
+      "\u008e\u008f\3\2\2\2\u008f\u0090\7\4\2\2\u0090\33\3\2\2\2\u0091\u0094"+
       "\7\f\2\2\u0092\u0095\5\20\t\2\u0093\u0095\5\32\16\2\u0094\u0092\3"+
       "\2\2\2\u0094\u0093\3\2\2\2\u0095\u0098\3\2\2\2\u0096\u0099\5\20\t"+
       "\2\u0097\u0099\5\32\16\2\u0098\u0096\3\2\2\2\u0098\u0097\3\2\2\2\u0099"+

@@ -11,13 +11,14 @@ root : body EOF;
 
 
 body : line+;
+
 line :  NEWLINE* (measure+ | voice) NEWLINE;
-measure : NEWLINE* (BEGIN_REPEAT | ONE_REPEAT | TWO_REPEAT | BARLINE)? ' '* (element ' '*)+ ' '* (BARLINE| END_REPEAT| NEWLINE) ' '*;
-voice : VOICE_PREFIX (.|' ')+ NEWLINE;
+measure : NEWLINE* (BEGIN_REPEAT | ONE_REPEAT | TWO_REPEAT | BARLINE)? SPACE* (element SPACE*)+ SPACE* (BARLINE| END_REPEAT| NEWLINE) SPACE*;
+voice : VOICE_PREFIX (.|SPACE)+ NEWLINE;
 element : note | rest | chord | tuplet;
 tuplet : duplet | triplet | quadruplet;
 note : (accidental? LETTER octave? duration?);
-rest : 'z' duration?;
+rest : REST duration?;
 duration: DURATION;
 octave: OCTAVE;
 accidental: ACCIDENTAL;
@@ -33,8 +34,9 @@ quadruplet : QUADRUPLET (note | chord) (note | chord) (note | chord) (note | cho
 
 NEWLINE : [\n\r]+;
 LETTER : [a-gA-G];
+REST: 'z';
 
-
+SPACE: ' ';
 DURATION: ([1-9]+| ' / ' | [1-9]* '/' [1-9]*);
 OCTAVE : ('\'' | ',')+;
 ACCIDENTAL : ('^'|'^^'|'_'|'__' | '=');
