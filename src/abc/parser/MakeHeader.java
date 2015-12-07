@@ -27,7 +27,7 @@ public class MakeHeader implements XyzListener {
 	private String composer;
 	private RatNum length;
 	private RatNum meter;
-	private int tempo;
+	private Integer tempo;
 	private Key key;
 
 	@Override
@@ -90,6 +90,18 @@ public class MakeHeader implements XyzListener {
 		
 		if (meter != null) {
 			header.setMeter(meter);
+			if (length == null) {
+				if (meter.toDouble() < 0.75) {
+					header.setDefaultLength(new RatNum(1, 16));
+				}
+				else {
+					header.setDefaultLength(new RatNum(1, 8));
+				}
+			}
+		}
+		
+		if (tempo != null) {
+			header.setTempo(tempo);
 		}
 		
 	}
@@ -170,7 +182,7 @@ public class MakeHeader implements XyzListener {
 
 	@Override
 	public void exitTempo(TempoContext ctx) {
-		// TODO Auto-generated method stub
+		tempo = Integer.parseInt(ctx.getText().substring(2).trim());
 		
 	}
 
