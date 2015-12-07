@@ -120,24 +120,4 @@ public interface XyzListener extends ParseTreeListener {
    * @param ctx the parse tree
    */
   void exitCharacters(XyzParser.CharactersContext ctx);
-  /**
-   * Enter a parse tree produced by {@link XyzParser#temp_bpm}.
-   * @param ctx the parse tree
-   */
-  void enterTemp_bpm(XyzParser.Temp_bpmContext ctx);
-  /**
-   * Exit a parse tree produced by {@link XyzParser#temp_bpm}.
-   * @param ctx the parse tree
-   */
-  void exitTemp_bpm(XyzParser.Temp_bpmContext ctx);
-  /**
-   * Enter a parse tree produced by {@link XyzParser#number}.
-   * @param ctx the parse tree
-   */
-  void enterNumber(XyzParser.NumberContext ctx);
-  /**
-   * Exit a parse tree produced by {@link XyzParser#number}.
-   * @param ctx the parse tree
-   */
-  void exitNumber(XyzParser.NumberContext ctx);
 }
