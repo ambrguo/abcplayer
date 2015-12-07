@@ -4,21 +4,22 @@ import org.antlr.v4.runtime.ParserRuleContext;
 import org.antlr.v4.runtime.tree.ErrorNode;
 import org.antlr.v4.runtime.tree.TerminalNode;
 
+import abc.parser.XyzParser.CharactersContext;
 import abc.parser.XyzParser.ComposerContext;
 import abc.parser.XyzParser.HeaderContext;
 import abc.parser.XyzParser.IndexContext;
 import abc.parser.XyzParser.KeyContext;
 import abc.parser.XyzParser.LengthContext;
 import abc.parser.XyzParser.MeterContext;
-import abc.parser.XyzParser.NameContext;
 import abc.parser.XyzParser.RootContext;
 import abc.parser.XyzParser.TempoContext;
 import abc.parser.XyzParser.TitleContext;
 import abc.parser.XyzParser.VoiceContext;
 import abc.sound.Header;
+import abc.sound.Key;
 import abc.sound.RatNum;
 
-public class MakeHeader implements XyzListener{
+public class MakeHeader implements XyzListener {
 	private Header header;
 	
 	private int index;
@@ -27,7 +28,7 @@ public class MakeHeader implements XyzListener{
 	private RatNum length;
 	private RatNum meter;
 	private int tempo;
-	private String key;
+	private Key key;
 
 	@Override
 	public void enterEveryRule(ParserRuleContext arg0) {
@@ -101,7 +102,8 @@ public class MakeHeader implements XyzListener{
 
 	@Override
 	public void exitIndex(IndexContext ctx) {
-		index = Integer.parseInt(ctx.getText().substring(2).trim());
+		index = Integer.parseInt(ctx.DIGITS().getText());
+		
 	}
 
 	@Override
@@ -112,7 +114,8 @@ public class MakeHeader implements XyzListener{
 
 	@Override
 	public void exitTitle(TitleContext ctx) {
-		title = ctx.getText().substring(2).trim();
+		title = ctx.characters().getText();
+		
 	}
 
 	@Override
@@ -123,7 +126,7 @@ public class MakeHeader implements XyzListener{
 
 	@Override
 	public void exitComposer(ComposerContext ctx) {
-		composer = ctx.getText().substring(2).trim();
+		composer = ctx.characters().getText();
 		
 	}
 
@@ -135,8 +138,9 @@ public class MakeHeader implements XyzListener{
 
 	@Override
 	public void exitLength(LengthContext ctx) {
-		String[] len = ctx.getText().split("/");
-		length = new RatNum(Integer.parseInt(len[0]), Integer.parseInt(len[1]));
+		String str = ctx.getText().substring(2).trim();
+		String[] split = str.split("/");
+		length = new RatNum(Integer.parseInt(split[0]), Integer.parseInt(split[1]));
 		
 	}
 
@@ -148,16 +152,12 @@ public class MakeHeader implements XyzListener{
 
 	@Override
 	public void exitMeter(MeterContext ctx) {
-		String context = ctx.getText().substring(2).trim();
-		if (context.equals("C")) {
-			meter = new RatNum(4, 4);
-		}
-		else if (context.equals("C|")) {
-			meter = new RatNum(2, 2);
-		}
+		String str = ctx.getText().substring(2).trim();
+		if (str.equals("C")) meter = new RatNum(4, 4);
+		else if (str.equals("C|")) meter = new RatNum(2, 2);
 		else {
-			String[] m = context.split("/");
-			meter = new RatNum(Integer.parseInt(m[0]), Integer.parseInt(m[1]));
+			String[] split = str.split("/");
+			meter = new RatNum(Integer.parseInt(split[0]), Integer.parseInt(split[1]));
 		}
 		
 	}
@@ -170,7 +170,7 @@ public class MakeHeader implements XyzListener{
 
 	@Override
 	public void exitTempo(TempoContext ctx) {
-		tempo = Integer.parseInt(ctx.getText().substring(2).trim());
+		// TODO Auto-generated method stub
 		
 	}
 
@@ -182,7 +182,7 @@ public class MakeHeader implements XyzListener{
 
 	@Override
 	public void exitKey(KeyContext ctx) {
-		key = ctx.getText().substring(2).trim();
+		// TODO Auto-generated method stub
 		
 	}
 
@@ -199,15 +199,15 @@ public class MakeHeader implements XyzListener{
 	}
 
 	@Override
-	public void enterName(NameContext ctx) {
+	public void enterCharacters(CharactersContext ctx) {
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public void exitName(NameContext ctx) {
+	public void exitCharacters(CharactersContext ctx) {
 		// TODO Auto-generated method stub
 		
 	}
-
+	
 }

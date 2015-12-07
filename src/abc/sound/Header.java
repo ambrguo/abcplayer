@@ -11,7 +11,7 @@ public class Header {
 	// Required header fields
 	private final int index;
 	private final String title;
-	private final String keySignature;
+	private final Key keySignature;
 	
 	// Optional header fields
     private String composer;
@@ -32,7 +32,7 @@ public class Header {
      * @param title non-null title
      * @param keySignature non-null key signature 
      */
-    public Header(int index, String title, String keySignature)
+    public Header(int index, String title, Key keySignature)
     {
         this.index = index; 
         this.title = title; 
@@ -55,7 +55,7 @@ public class Header {
         return title; 
     }
     
-	public String getKeySignature() {
+	public Key getKeySignature() {
 		return keySignature;
 	}
 	
