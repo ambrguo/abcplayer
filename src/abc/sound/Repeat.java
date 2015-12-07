@@ -21,7 +21,7 @@ public class Repeat implements Playable {
 	private final boolean isBeginRepeat;
 	private final boolean isEndRepeat;
 	private final boolean hasAlternateEnding;
-	private final int counter;
+	private int counter;
 	
 	/**
 	 * Constructs a Repeat
@@ -69,10 +69,8 @@ public class Repeat implements Playable {
 	/**
 	 * @return Repeat with updated counter
 	 */
-	public Repeat hit() {
-		Repeat r = new Repeat(isBeginRepeat, isEndRepeat, hasAlternateEnding, counter+1);
-		checkRep();
-		return r;
+	public void hit() {
+		counter += 1;
 	}
 
 	@Override
