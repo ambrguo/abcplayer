@@ -10,10 +10,10 @@ root : body EOF;
 
 
 
-body : line+;
+body : line+ ;
 
 line :  NEWLINE* (measure+ | voice) NEWLINE;
-measure : NEWLINE* (BEGIN_REPEAT | ONE_REPEAT | TWO_REPEAT | BARLINE)? SPACE* (element SPACE*)+ SPACE* (BARLINE| END_REPEAT| NEWLINE) SPACE*;
+measure : NEWLINE* (BEGIN_REPEAT | ONE_REPEAT | TWO_REPEAT | BARLINE)? SPACE* (element SPACE*)+ SPACE* (BARLINE SPACE*| SPACE*| NEWLINE);
 voice : VOICE_PREFIX (.|SPACE)+ NEWLINE;
 element : note | rest | chord | tuplet;
 tuplet : duplet | triplet | quadruplet;
@@ -54,4 +54,3 @@ VOICE_PREFIX: 'V:';
 
 /* tell Antlr to ignore spaces around tokens. */
 SPACES : [ ]+ -> skip;
-PERCENT : [%]+ -> skip;
