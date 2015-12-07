@@ -146,30 +146,6 @@ public class XyzBaseListener implements XyzListener {
    * <p>The default implementation does nothing.</p>
    */
   @Override public void exitCharacters(XyzParser.CharactersContext ctx) { }
-  /**
-   * {@inheritDoc}
-   *
-   * <p>The default implementation does nothing.</p>
-   */
-  @Override public void enterTemp_bpm(XyzParser.Temp_bpmContext ctx) { }
-  /**
-   * {@inheritDoc}
-   *
-   * <p>The default implementation does nothing.</p>
-   */
-  @Override public void exitTemp_bpm(XyzParser.Temp_bpmContext ctx) { }
-  /**
-   * {@inheritDoc}
-   *
-   * <p>The default implementation does nothing.</p>
-   */
-  @Override public void enterNumber(XyzParser.NumberContext ctx) { }
-  /**
-   * {@inheritDoc}
-   *
-   * <p>The default implementation does nothing.</p>
-   */
-  @Override public void exitNumber(XyzParser.NumberContext ctx) { }
 
   /**
    * {@inheritDoc}

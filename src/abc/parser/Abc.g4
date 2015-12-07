@@ -10,11 +10,11 @@ root : body EOF;
 
 
 
-body : line+ ;
+body : line+;
 
 line :  NEWLINE* (measure+ | voice) NEWLINE;
-measure : NEWLINE* (BEGIN_REPEAT | ONE_REPEAT | TWO_REPEAT | BARLINE)? SPACE* (element SPACE*)+ SPACE* (BARLINE SPACE*| SPACE*| NEWLINE);
-voice : VOICE_PREFIX (.|SPACE)+ NEWLINE;
+measure :  (BEGIN_REPEAT | ONE_REPEAT | TWO_REPEAT | BARLINE)?  (element)+  (BARLINE|END_REPEAT);
+voice : VOICE_PREFIX (LETTER|OTHER_LETTERS|DURATION|ZERO|BARLINE|REST)+;
 element : note | rest | chord | tuplet;
 tuplet : duplet | triplet | quadruplet;
 note : (accidental? LETTER octave? duration?);
@@ -34,16 +34,17 @@ quadruplet : QUADRUPLET (note | chord) (note | chord) (note | chord) (note | cho
 
 NEWLINE : [\n\r]+;
 LETTER : [a-gA-G];
+OTHER_LETTERS : [g-yH-Z];
 REST: 'z';
 
-SPACE: ' ';
+ZERO: '0';
 DURATION: ([1-9]+| ' / ' | [1-9]* '/' [1-9]*);
 OCTAVE : ('\'' | ',')+;
 ACCIDENTAL : ('^'|'^^'|'_'|'__' | '=');
 DUPLET : '(' '2';
 TRIPLET : '(' '3';
 QUADRUPLET : '(' '4';
-BARLINE : '|' | '[|';
+BARLINE : '|' | '[|'| '|]';
 BEGIN_REPEAT : '|:';
 END_REPEAT : ':|';
 
@@ -53,4 +54,5 @@ TWO_REPEAT : '[2';
 VOICE_PREFIX: 'V:';
 
 /* tell Antlr to ignore spaces around tokens. */
-SPACES : [ ]+ -> skip;
+SPACES :  [ \t]+ -> skip;
+PERCENT : [ %]+ -> skip;
