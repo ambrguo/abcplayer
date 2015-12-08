@@ -1,5 +1,7 @@
 package abc.parser;
 
+import java.util.List;
+
 import org.antlr.v4.runtime.ParserRuleContext;
 import org.antlr.v4.runtime.tree.ErrorNode;
 import org.antlr.v4.runtime.tree.TerminalNode;
@@ -27,8 +29,11 @@ public class MakeHeader implements XyzListener {
 	private String composer;
 	private RatNum length;
 	private RatNum meter;
+	private RatNum tempoLength;
 	private Integer tempo;
 	private Key key;
+	
+	private List<String> voices;
 
 	@Override
 	public void enterEveryRule(ParserRuleContext arg0) {
@@ -101,10 +106,19 @@ public class MakeHeader implements XyzListener {
 		}
 		
 		if (tempo != null) {
-			header.setTempo(tempo);
+			if (tempoLength.equals(length)) {
+				header.setTempo(tempo);
+			}
+			else {
+				int factor = tempoLength.divide(length).toDouble().intValue();
+				header.setTempo(tempo*factor);
+			}
 		}
 		
-	}
+		if (voices != null) {
+			header.setVoice(voices);
+		}
+ 	}
 
 	@Override
 	public void enterIndex(IndexContext ctx) {
@@ -150,9 +164,9 @@ public class MakeHeader implements XyzListener {
 
 	@Override
 	public void exitLength(LengthContext ctx) {
-		String str = ctx.getText().substring(2).trim();
-		String[] split = str.split("/");
-		length = new RatNum(Integer.parseInt(split[0]), Integer.parseInt(split[1]));
+		String num = ctx.DIGITS(0).getText();
+		String denom = ctx.DIGITS(1).getText();
+		length = new RatNum(Integer.parseInt(num), Integer.parseInt(denom));
 		
 	}
 
@@ -164,12 +178,19 @@ public class MakeHeader implements XyzListener {
 
 	@Override
 	public void exitMeter(MeterContext ctx) {
-		String str = ctx.getText().substring(2).trim();
-		if (str.equals("C")) meter = new RatNum(4, 4);
-		else if (str.equals("C|")) meter = new RatNum(2, 2);
+		String commonTime = ctx.C_LETTER().getText();
+		String cutTime = ctx.CL_LETTER().getText();
+		String num = ctx.DIGITS(0).getText();
+		String denom = ctx.DIGITS(1).getText();
+		
+		if (commonTime != null) {
+			meter = new RatNum(4, 4);
+		}
+		else if (cutTime != null) {
+			meter = new RatNum(2, 4);
+		}
 		else {
-			String[] split = str.split("/");
-			meter = new RatNum(Integer.parseInt(split[0]), Integer.parseInt(split[1]));
+			meter = new RatNum(Integer.parseInt(num), Integer.parseInt(denom));
 		}
 		
 	}
@@ -182,7 +203,10 @@ public class MakeHeader implements XyzListener {
 
 	@Override
 	public void exitTempo(TempoContext ctx) {
-		tempo = Integer.parseInt(ctx.getText().substring(2).trim());
+		String num = ctx.DIGITS(0).getText();
+		String denom = ctx.DIGITS(1).getText();
+		tempoLength = new RatNum(Integer.parseInt(num), Integer.parseInt(denom));
+		tempo = Integer.parseInt(ctx.DIGITS(2).getText());
 		
 	}
 
@@ -194,7 +218,41 @@ public class MakeHeader implements XyzListener {
 
 	@Override
 	public void exitKey(KeyContext ctx) {
-		// TODO Auto-generated method stub
+		String musicLetter = ctx.MUSIC_LETTER().getText();
+		String flat = ctx.FLAT(1).getText();
+		String sharp = ctx.SHARP().getText();
+		String minor = ctx.MINOR().getText();
+		String ks;
+		if (minor == null) {
+			// is major key
+			if (flat == null) {
+				if (sharp == null) {
+					ks = musicLetter.toUpperCase() + "_MAJOR";
+				}
+				else {
+					ks = musicLetter.toUpperCase() + "_SHARP_MAJOR";
+				}
+			}
+			else {
+				ks = musicLetter.toUpperCase() + "_FLAT_MAJOR";
+			}
+		}
+		else {
+			// is minor key
+			if (flat == null) {
+				if (sharp == null) {
+					ks = musicLetter.toUpperCase() + "_MINOR";
+				}
+				else {
+					ks = musicLetter.toUpperCase() + "_SHARP_MINOR";
+				}
+			}
+			else {
+				ks = musicLetter.toUpperCase() + "_FLAT_MINOR";
+			}
+		}
+		
+		key = Key.valueOf(ks);
 		
 	}
 
@@ -206,8 +264,8 @@ public class MakeHeader implements XyzListener {
 
 	@Override
 	public void exitVoice(VoiceContext ctx) {
-		// TODO Auto-generated method stub
-		
+		String voice = ctx.characters().getText();
+		voices.add(voice);
 	}
 
 	@Override
