@@ -1,5 +1,6 @@
 package abc.parser;
 
+import java.util.HashSet;
 import java.util.Set;
 
 import org.antlr.v4.runtime.ParserRuleContext;
@@ -33,7 +34,7 @@ public class MakeHeader implements XyzListener {
 	private Integer tempo;
 	private Key key;
 	
-	private Set<String> voices;
+	private Set<String> voices = new HashSet<>();
 	
 	public Header getHeader() {
 		return header;
@@ -277,8 +278,15 @@ public class MakeHeader implements XyzListener {
 
 	@Override
 	public void exitVoice(VoiceContext ctx) {
-		String voice = ctx.characters().getText().trim();
-		voices.add(voice);
+		if (ctx.characters() != null) {
+			String voice = ctx.characters().getText().trim();
+			System.out.println(voice);
+			System.out.println(voices);
+			voices.add(voice);
+		}
+//		String voice = ctx.characters().getText().trim();
+//		System.out.println(voice);
+//		voices.add(voice);
 	}
 
 	@Override

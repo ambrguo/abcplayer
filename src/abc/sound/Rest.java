@@ -36,6 +36,11 @@ public class Rest implements Playable {
     public boolean isChord() {
         return false;
     }
+	
+	@Override
+	public boolean isTuplet() {
+		return false;
+	}
 
 	@Override
 	public boolean isRepeat() {

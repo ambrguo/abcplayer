@@ -51,6 +51,11 @@ public class Tuplet implements Playable {
     public boolean isChord() {
         return false;
     }
+    
+    @Override
+    public boolean isTuplet() {
+    	return true;
+    }
 
     @Override
     public boolean isRepeat() {

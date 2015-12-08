@@ -13,7 +13,7 @@ public class Note implements Playable {
 	
 	private final Pitch pitch;
 	private final RatNum duration;
-	private final Accidental accidental;
+	private Accidental accidental;
 	
 	/**
 	 * Constructs a Note with Pitch pitch, RatNum duration, and Accidental accidental
@@ -42,6 +42,10 @@ public class Note implements Playable {
 		return accidental;
 	}
 	
+	public void setAccidental(Accidental a) {
+		accidental = a;
+	}
+	
 	@Override 
 	public RatNum getDuration() {
 		return duration;
@@ -55,6 +59,11 @@ public class Note implements Playable {
     @Override 
     public boolean isChord() {
         return false;
+    }
+    
+    @Override
+    public boolean isTuplet() {
+    	return false;
     }
     
     @Override

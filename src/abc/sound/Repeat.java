@@ -89,6 +89,11 @@ public class Repeat implements Playable {
 	}
 	
 	@Override
+	public boolean isTuplet() {
+		return false;
+	}
+	
+	@Override
 	public boolean isRepeat() {
 		return true;
 	}

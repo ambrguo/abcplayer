@@ -27,6 +27,11 @@ public interface Playable {
 	public boolean isChord();
 	
 	/**
+	 * @return true if the Playable object is a Tuplet
+	 */
+	public boolean isTuplet();
+	
+	/**
 	 * @return true if the Playable object is a Repeat
 	 */
 	public boolean isRepeat();
