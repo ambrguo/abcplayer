@@ -64,7 +64,7 @@ public class Header {
         this.setTempo(DEFAULT_TEMPO);
         this.setComposer(DEFAULT_COMPOSER);
         
-        this.voices = new ArrayList<>();
+        this.setVoice(new ArrayList<>());
     }
     
     /**
@@ -173,8 +173,10 @@ public class Header {
 	 * adds additional voices to the piece, if specified. 
 	 * @param voice
 	 */
-	public void setVoice(String voice) {
-		voices.add(voice);
+	public void setVoice(List<String> v) {
+		for (String voice : v) {
+			voices.add(voice);
+		}
 	}
 	
 	
