@@ -1,6 +1,7 @@
 package abc.sound;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class Voice {
@@ -16,10 +17,21 @@ public class Voice {
 
 	}
 	
+	public List<Measure> getMeasure() {
+		return Collections.unmodifiableList(new ArrayList<Measure>(measures));
+	}
+	
 	public String getName() {
 	    return name;
 	}
 	
+	public int computeTicks() {
+		List<Integer> ticks = new ArrayList<>();
+		for (Measure m : measures) {
+			ticks.add(Integer.valueOf(m.computeTicks()));
+		}
+		return Collections.max(ticks);
+	}
 	
 	public List<PlaybackNote> play() {
 		// TODO handle repeats

@@ -51,6 +51,30 @@ public class Measure {
 		return hasAlternateEnding;
 	}
 	
+	public int computeTicks() {
+		int lcm = -1;
+		for (int i = 0; i < playables.size(); i++) {
+			int d = playables.get(i).getDuration().getDenominator();
+			if (i == 0) lcm = d;
+			else {
+				lcm = lcm(lcm, d);
+			}
+		}
+		return lcm;
+	}
+	
+	private int lcm(int a, int b) {
+		if (a < 0 || b < 0) throw new IllegalArgumentException();
+		int gcd = gcd(a, b);
+		return a*b/gcd;
+	}
+	
+	private int gcd(int p, int q) {
+		if (p < 0 || q < 0) throw new IllegalArgumentException();
+		if (q == 0) return p;
+		else return gcd(q, p%q);
+	}
+	
 	public List<PlaybackNote> play(int startTick, int numTicks, RatNum defaultLength) {
 		List<Playable> toPlay = new ArrayList<Playable>(playables);
 		List<PlaybackNote> playbackNotes = new ArrayList<PlaybackNote>();

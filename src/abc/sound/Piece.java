@@ -3,6 +3,7 @@ package abc.sound;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
@@ -49,6 +50,14 @@ public class Piece {
 	 */
 	public Set<Voice> getVoices() {
 		return Collections.unmodifiableSet(new HashSet<Voice>(voices));
+	}
+	
+	public int computeTicks() {
+		List<Integer> ticks = new ArrayList<>();
+		for (Voice voice : voices) {
+			ticks.add(Integer.valueOf(voice.computeTicks()));
+		}
+		return Collections.max(ticks);
 	}
 	
 	public SequencePlayer play() throws MidiUnavailableException, InvalidMidiDataException {
