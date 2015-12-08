@@ -102,7 +102,19 @@ public class Repeat implements Playable {
 	public List<PlaybackNote> play(int startTick, int numTicks, RatNum defaultLength) {
 		return new ArrayList<PlaybackNote>(); 
 	}
+	@Override
+	public boolean equals(Object that){
+	    if (!(that instanceof Repeat)) return false;
+	    Repeat compare = (Repeat) that;
+	    if (this.isBeginRepeat==compare.getIsBeginRepeat() && this.isEndRepeat==compare.getIsEndRepeat()&& this.hasAlternateEnding
+	                == compare.hasAlternateEnding && this.counter == compare.counter()) return true;
+	    return false;
+	}
 	
+    @Override
+    public int hashCode(){
+        return counter;
+    }
 	/**
 	 * Checks the rep invariant
 	 */
