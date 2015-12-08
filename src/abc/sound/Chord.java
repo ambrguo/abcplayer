@@ -101,4 +101,6 @@ public class Chord implements Playable {
 			assert note != null;
 		}
 	}
+
+ 
 }

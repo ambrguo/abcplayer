@@ -88,5 +88,25 @@ public class Measure {
 		}
 		return playbackNotes;
 	}
+	
+	@Override
+	public boolean equals(Object that){
+	    if (!(that instanceof Measure)) return false;
+	    Measure thatObject = (Measure) that;
+	    if (!(thatObject.playables.size() == this.playables.size())) return false;
+	    for (int counter = 0; counter < this.playables.size(); counter++ ){
+            if (!thatObject.playables.get(counter).equals(this.playables.get(counter))) return false;
+        }
+        return true;
+	}
+	
+	@Override
+	public int hashCode() {
+	    int mult = 1;
+        for (Playable p: this.playables){
+            mult *= p.hashCode();
+        }
+        return mult;
+	}
 
 }
