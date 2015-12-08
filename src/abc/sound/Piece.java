@@ -18,6 +18,7 @@ import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.TokenStream;
 import org.antlr.v4.runtime.tree.ParseTree;
 //import org.antlr.v4.runtime.tree.ParseTreeWalker;
+import org.antlr.v4.runtime.tree.ParseTreeWalker;
 
 import abc.parser.*;
 
@@ -31,13 +32,15 @@ public class Piece {
 	//							 - getVoices() returns a defensively copied set with an unmodifiableSet wrapper 
 	
 	private final Set<Voice> voices;
+	private final Header header;
 	
 	/**
 	 * Constructs a Piece with set voices
 	 * @param voices set of voices in the piece
 	 */
-	public Piece(Set<Voice> voices) {
+	public Piece(Set<Voice> voices, Header header) {
 		this.voices = voices;
+		this.header = header;
 		checkRep();
 	}
 	
@@ -73,6 +76,7 @@ public class Piece {
 	    
 	    // Process header 	    
 	    String header = headerBody[0];
+	    Header head;
 
         try{
             CharStream stream = new ANTLRInputStream(header);
@@ -88,10 +92,9 @@ public class Piece {
             ParseTree tree = parser.root();
             Trees.inspect(tree, parser);
             
-//            //TODO call it MakePiece?
-//            MakeHeader measureMaker = new MakeHeader();
-//            new ParseTreeWalker().walk(measureMaker, tree);
-//            //TODO, return measure?
+            MakeHeader headerMaker = new MakeHeader();
+            new ParseTreeWalker().walk(headerMaker, tree);
+            head = headerMaker.getHeader();
           
         } catch (RuntimeException e){
             throw new IllegalArgumentException("not a valid Piece");
@@ -110,10 +113,10 @@ public class Piece {
             
             Trees.inspect(tree, parser);
             
-//            //TODO call it MakePiece?
-//            MakeBody measureMaker = new MakeBody();
-//            new ParseTreeWalker().walk(measureMaker, tree);
-//            //TODO, return measure?
+            MakeBody bodyMaker = new MakeBody();
+            new ParseTreeWalker().walk(bodyMaker, tree);
+            
+            Set<Voice> voicesSet = bodyMaker.getVoices();
           
         } catch (RuntimeException e){
             throw new IllegalArgumentException("not a valid Piece");
