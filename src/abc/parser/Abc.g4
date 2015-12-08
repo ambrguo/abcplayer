@@ -12,8 +12,8 @@ root : body EOF;
 
 body : line+;
 
-line :  NEWLINE+ (measure+ | voice);
-measure :  (BEGIN_REPEAT | ONE_REPEAT | TWO_REPEAT | BARLINE)?  (element)+  (BARLINE|END_REPEAT|NEWLINE);
+line :  NEWLINE* (measure+ | voice) NEWLINE;
+measure :  (BEGIN_REPEAT | ONE_REPEAT | TWO_REPEAT | BARLINE)?  (element)+  (BARLINE|END_REPEAT);
 voice : VOICE_PREFIX (LETTER|OTHER_LETTERS|DURATION|ZERO|BARLINE|REST)+;
 element : note | rest | chord | tuplet;
 tuplet : duplet | triplet | quadruplet;
