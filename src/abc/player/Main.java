@@ -10,6 +10,9 @@ import java.io.IOException;
 //import java.util.Map;
 //import java.util.Set;
 
+import javax.sound.midi.InvalidMidiDataException;
+import javax.sound.midi.MidiUnavailableException;
+
 import abc.sound.Piece;
 //import abc.sound.Voice;
 //import abc.sound.Measure;
@@ -37,78 +40,22 @@ public class Main {
      * 
      * @param file the name of input abc file
      * @throws IOException 
+     * @throws InvalidMidiDataException 
+     * @throws MidiUnavailableException 
      */
-    public static void play(String file) throws IOException {
-//        String composer;
-//        
-//        
-//        String currentLine;
-//        BufferedReader r = new BufferedReader(new FileReader(file));
-//        String currentVoice;
-//        Map<String, List<Measure>> voiceMeasures = new HashMap<String, List<Measure>>();
-//        Set<String> voicesNames = new HashSet<String>();
-//        boolean inHeader = true;
-//        while ( (currentLine = r.readLine()) != null){
-//                if (currentLine.startsWith(VOICE_PREFIX)){
-//                     
-//                    
-//                    if (inHeader && !voicesNames.contains(currentLine.substring(2).trim())){
-//                        
-//  
-//                    }
-//                }
-//                else if (currentLine.startsWith(COMPOSER_PREFIX)){
-//                    if (inHeader){
-//                        composer = currentLine.substring(2).trim();
-//                        
-//                    }
-//                    
-//                }
-//                else if (currentLine.startsWith(DURATION_PREFIX)){
-//                    
-//                }
-//                else if (currentLine.startsWith(KEY_PREFIX)){
-//                    
-//                }
-//                else if (currentLine.startsWith(METER_PREFIX)){
-//                    
-//                }
-//                else if (currentLine.startsWith(TEMPO_PREFIX)){
-//                    
-//                }
-//                else if (currentLine.startsWith(TITLE_PREFIX)){
-//                    
-//                }
-//                else if (currentLine.startsWith(INDEX_PREFIX)){
-//                    
-//                } 
-//            
-//            
-//            else { 
-//                if (inHeader){
-//                    inHeader = false;
-//                }
-//                
-//                
-//            }
-//            
-//        }
-//        
-//            
-//        r.close();
-        Piece.parse(file);
+    public static void play(String file) throws IOException, MidiUnavailableException, InvalidMidiDataException {
+
+        Piece piece = Piece.parse(file);
+        piece.play();
         
 
     }
 
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) throws IOException, MidiUnavailableException, InvalidMidiDataException {
         // CALL play() HERE USING ARGS
-        //right now i'm assuming that each of the args is a file to play...
-//        for (String file: args){
-//            play(file);
-//        }
+
         
-        String file = "sample_abc/fur_elise.abc";
+        String file = "sample_abc/test_piece_1.abc";
         
         play(file);
     }
