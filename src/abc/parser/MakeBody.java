@@ -46,6 +46,7 @@ public class MakeBody implements AbcListener {
     private boolean chordN = false;
     private boolean chordT = false;
     private boolean tupletN = false;
+    private boolean def = true;
 
     private Stack<Note> chord = new Stack<>();
     private Stack<Playable> tuplet = new Stack<>();
@@ -62,23 +63,21 @@ public class MakeBody implements AbcListener {
         }
         return voice;
     }
+    @Override
+    public void enterLine(LineContext ctx) {
+        if (def){
+            voices.put("DEFAULT_VOICE", new ArrayList<Measure>());
+        }
+        def = false;
+    }
+    @Override
+    public void exitRoot(RootContext ctx) {}
 
     @Override
-    public void exitRoot(RootContext ctx) {
-    }
+    public void exitBody(BodyContext ctx) {}
 
     @Override
-    public void exitBody(BodyContext ctx) {
-        List<AbcParser.LineContext> body = ctx.line();
-
-    }
-
-    @Override
-    public void exitLine(LineContext ctx) {
-        List<AbcParser.MeasureContext> body = ctx.measure();
-        String voice = ctx.voice().getText();
-
-    }
+    public void exitLine(LineContext ctx) {}
 
     @Override
     public void enterTuplet(TupletContext ctx) {
@@ -111,7 +110,11 @@ public class MakeBody implements AbcListener {
         }
         
         Measure m = new Measure(playables, beginR, endR, alternateE);
-        voices.get(key).add(m);
+        if (voices.size()>1){
+            voices.get(key).add(m);
+        } else {
+            voices.get("DEFAULT_VOICE").add(m);
+        }
     }
 
     @Override
@@ -127,16 +130,10 @@ public class MakeBody implements AbcListener {
     public void exitVoice(VoiceContext ctx) {}
 
     @Override
-    public void exitElement(ElementContext ctx) {
-        // TODO Auto-generated method stub
-
-    }
+    public void exitElement(ElementContext ctx) {}
 
     @Override
-    public void exitTuplet(TupletContext ctx) {
-        // TODO Auto-generated method stub
-
-    }
+    public void exitTuplet(TupletContext ctx) {}
 
     @Override
     public void exitNote(NoteContext ctx) {
@@ -174,7 +171,7 @@ public class MakeBody implements AbcListener {
         if (ctx.duration() != null) {
             rest = new Rest(duration);
         }
-        playable.push(rest); // TODO
+        playable.push(rest); 
         duration = new RatNum(1, 1);
     }
 
@@ -310,10 +307,6 @@ public class MakeBody implements AbcListener {
 
     @Override
     public void enterBody(BodyContext ctx) {
-    }
-
-    @Override
-    public void enterLine(LineContext ctx) {
     }
 
     @Override
