@@ -3,7 +3,6 @@ package abc.sound;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
@@ -99,7 +98,7 @@ public class Piece {
         }
         
         String body = headerBody[1];
-        
+       
         try{
             CharStream stream = new ANTLRInputStream(body);
             AbcLexer lexer = new AbcLexer(stream);
@@ -149,8 +148,11 @@ public class Piece {
         }
         
         while ((currentLine = r.readLine()) != null){
-            body += currentLine + "\n";
+            body +=  currentLine + "\n";
         }
+        
+
+                
         
         r.close();
         
