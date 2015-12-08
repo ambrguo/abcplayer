@@ -1,5 +1,6 @@
 package abc.sound;
 
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -46,6 +47,8 @@ public class Header {
     public static final RatNum DEFAULT_LENGTH = new RatNum(1, 8);
     public static final int DEFAULT_TEMPO = 100;
     public static final String DEFAULT_COMPOSER = "unknown";
+    public static final Set<String> DEFAULT_VOICES = new HashSet<>(Arrays.asList("DEFAULT_VOICE"));
+    
     
     /**
      * Initializes a new Header 
@@ -64,7 +67,7 @@ public class Header {
         this.setTempo(DEFAULT_TEMPO);
         this.setComposer(DEFAULT_COMPOSER);
         
-        this.setVoice(new HashSet<>());
+        this.setVoice(DEFAULT_VOICES);
     }
     
     /**
