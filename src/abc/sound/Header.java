@@ -211,7 +211,7 @@ public class Header {
             
             // Generate the parse tree
             ParseTree tree = parser.root();
-            Trees.inspect(tree, parser);
+//            Trees.inspect(tree, parser);
             
             MakeHeader headerMaker = new MakeHeader();
             new ParseTreeWalker().walk(headerMaker, tree);
