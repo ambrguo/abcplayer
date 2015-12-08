@@ -46,7 +46,7 @@ public interface Playable {
 	/**
 	 * @return whether or not a playable is equal to another playable
 	 */
-	public boolean equals(Playable p);
+	public boolean equals(Object p);
 	/**
 	 * @return hashCode of object
 	 */
