@@ -112,7 +112,7 @@ public class Piece {
             parser.reportErrorsAsExceptions();
             ParseTree tree = parser.root();
             
-            Trees.inspect(tree, parser);
+            //Trees.inspect(tree, parser);
             
             MakeBody bodyMaker = new MakeBody();
             new ParseTreeWalker().walk(bodyMaker, tree);
