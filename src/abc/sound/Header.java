@@ -5,8 +5,29 @@ import java.util.List;
 
 /**
  * Stores data from the header of an abc file 
+ * 
+ * methods: 
+ * getIndex
+ * getTitle
+ * getKeySignature 
+ * 
+ * getComposer 
+ * getDefaultLength
+ * getMeter 
+ * getTempo
+ * getVoices 
  */
 public class Header {
+    
+    /*
+     * Abstraction function:
+     * Header represents different descriptive elements of a piece including
+     * composer, length, meter, tempo, voices, index, title, and key signature 
+     * Rep invariant: the values of each field are either the default values or 
+     * have been entered 
+     * Rep Exposure: fields are private and final; getter methods perform defensive 
+     * copying to prevent exposure 
+     */
 	
 	// Required header fields
 	private final int index;
@@ -46,36 +67,115 @@ public class Header {
         this.voices = new ArrayList<>();
     }
     
+    /**
+     * observer
+     * @return index int of piece 
+     */
     public int getIndexNumber() {
     	return index;
     }
     
+    /**
+     * observer
+     * @return title string of the piece 
+     */
     public String getTitle()
     {
         return title; 
     }
     
+    /**
+     * observer
+     * @return keySignature key of the piece 
+     */
 	public Key getKeySignature() {
 		return keySignature;
 	}
 	
+	/**
+	 * observer
+	 * @return meter RatNum of the piece 
+	 */
+	public RatNum getMeter(){
+        RatNum returnmeter = this.meter;
+        return returnmeter;
+    }
+    
+	/**
+	 * observer
+	 * @return defaultLength RatNum of the piece 
+	 */
+    public RatNum getDefaultLength() {
+        RatNum returndefaultLen = this.defaultLength;
+        return returndefaultLen;
+    }
+     /**
+      * observer
+      * @return Composer string 
+      */
+    public String getComposer() {
+        String returncomposer = this.composer;
+        return returncomposer;
+    }
+    
+    /**
+     * observer
+     * @return tempo int 
+     */
+    public int getTempo(){
+        int returntempo = this.tempo;
+        return returntempo;
+    }
+    
+    /**
+     * observer 
+     * @return voices List<String>
+     */
+    public List<String> getVoices() {
+        List<String> returnvoices = this.voices;
+        return returnvoices;
+    }
+	
+    /**
+     * mutator -- sets the meter to something non-default 
+     * @param meter RatNum 
+     */
 	public void setMeter(RatNum meter) {
 		this.meter = meter;
 	}
 	
+	/**
+	 * mutator -- sets the default length to something non-default 
+	 * @param defaultLength RatNum 
+	 */
 	public void setDefaultLength(RatNum defaultLength) {
 		this.defaultLength = defaultLength;
 	}
 	
+	/**
+	 * mutator -- sets the tempo if the tempo of the header is specified 
+	 * @param tempo
+	 */
 	public void setTempo(int tempo) {
 		this.tempo = tempo;
 	}
 	
+	/**
+	 * sets the composer if the composer of the piece is specified 
+	 * mutator 
+	 * @param composer
+	 */
 	public void setComposer(String composer) {
 		this.composer = composer;
 	}
 	
+	/**
+	 * adds additional voices to the piece, if specified. 
+	 * @param voice
+	 */
 	public void setVoice(String voice) {
 		voices.add(voice);
 	}
+	
+	
 }
