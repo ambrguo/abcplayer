@@ -34,6 +34,10 @@ public class MakeHeader implements XyzListener {
 	private Key key;
 	
 	private List<String> voices;
+	
+	public Header getHeader() {
+		return header;
+	}
 
 	@Override
 	public void enterEveryRule(ParserRuleContext arg0) {
