@@ -43,4 +43,12 @@ public interface Playable {
 	 * @return a list of PlaybackNote objects containing the data needed to play the Playable object
 	 */
 	public List<PlaybackNote> play(int startTick, int numTicks, RatNum defaultLength);
+	/**
+	 * @return whether or not a playable is equal to another playable
+	 */
+	public boolean equals(Object p);
+	/**
+	 * @return hashCode of object
+	 */
+	public int hashCode();
 }
