@@ -75,31 +75,10 @@ public class Piece {
 	    String[] headerBody = fileSplitter(inputFile);
 	    
 	    // Process header 	    
-	    String header = headerBody[0];
 	    Header head;
 	    Set<Voice> voicesSet;
 
-        try{
-            CharStream stream = new ANTLRInputStream(header);
-            
-            // Generate parser
-            XyzLexer lexer = new XyzLexer(stream);
-            TokenStream tokens = new CommonTokenStream(lexer);
-            XyzParser parser = new XyzParser(tokens);
-            lexer.reportErrorsAsExceptions();
-            parser.reportErrorsAsExceptions();
-            
-            // Generate the parse tree
-            ParseTree tree = parser.root();
-            Trees.inspect(tree, parser);
-            
-            MakeHeader headerMaker = new MakeHeader();
-            new ParseTreeWalker().walk(headerMaker, tree);
-            head = headerMaker.getHeader();
-          
-        } catch (RuntimeException e){
-            throw new IllegalArgumentException("not a valid Piece");
-        }
+        head = Header.parse(inputFile);
         
         String body = headerBody[1];
        
@@ -137,7 +116,7 @@ public class Piece {
 	 * the body 
 	 * @throws IOException when file not found or when currentLine is null 
 	 */
-	private static String[] fileSplitter(String file) throws IOException {
+	public static String[] fileSplitter(String file) throws IOException {
 	    String header = "";
 	    String body = "";
 	    String currentLine;
