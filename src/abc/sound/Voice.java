@@ -35,6 +35,7 @@ public class Voice {
 	
 	public List<PlaybackNote> play() {
 		// TODO handle repeats
+		int ticks = 0;
 		List<PlaybackNote> playbackNotes = new ArrayList<PlaybackNote>();
 		return playbackNotes;
 	}

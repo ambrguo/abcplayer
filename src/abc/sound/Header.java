@@ -199,7 +199,7 @@ public class Header {
 	public static Header parse(String inputFile) throws IOException{
 	    String header = Piece.fileSplitter(inputFile)[0];
 	    
-	    try{
+//	    try{
             CharStream stream = new ANTLRInputStream(header);
             
             // Generate parser
@@ -217,9 +217,9 @@ public class Header {
             new ParseTreeWalker().walk(headerMaker, tree);
             return headerMaker.getHeader();
           
-        } catch (RuntimeException e){
-            throw new IllegalArgumentException("Header: not a valid header");
-        }
+//        } catch (RuntimeException e){
+//            throw new IllegalArgumentException("Header: not a valid header");
+//        }
 	}
 	
 	@Override

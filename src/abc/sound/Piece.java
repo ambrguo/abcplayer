@@ -61,8 +61,8 @@ public class Piece {
 	}
 	
 	public SequencePlayer play() throws MidiUnavailableException, InvalidMidiDataException {
-		int bpm = 0; // TODO initialize
-		int tpb = 0; // TODO initialize
+		int bpm = header.getTempo();
+		int tpb = computeTicks();
 		SequencePlayer sp = new SequencePlayer(bpm, tpb);
 		for (Voice voice : voices) {
 			List<PlaybackNote> playbackNotes = voice.play();

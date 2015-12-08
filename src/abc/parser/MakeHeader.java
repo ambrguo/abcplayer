@@ -156,7 +156,7 @@ public class MakeHeader implements XyzListener {
 
 	@Override
 	public void exitComposer(ComposerContext ctx) {
-		composer = ctx.characters().getText();
+		if (ctx.characters() != null) composer = ctx.characters().getText();
 		
 	}
 
@@ -168,9 +168,11 @@ public class MakeHeader implements XyzListener {
 
 	@Override
 	public void exitLength(LengthContext ctx) {
-		String num = ctx.DIGITS(0).getText();
-		String denom = ctx.DIGITS(1).getText();
-		length = new RatNum(Integer.parseInt(num), Integer.parseInt(denom));
+		if ((ctx.DIGITS(0)) != null && (ctx.DIGITS(1)) != null) {
+			String num = ctx.DIGITS(0).getText();
+			String denom = ctx.DIGITS(1).getText();
+			length = new RatNum(Integer.parseInt(num), Integer.parseInt(denom));
+		}
 		
 	}
 
@@ -182,18 +184,20 @@ public class MakeHeader implements XyzListener {
 
 	@Override
 	public void exitMeter(MeterContext ctx) {
-		String commonTime = ctx.C_LETTER().getText();
-		String cutTime = ctx.CL_LETTER().getText();
-		String num = ctx.DIGITS(0).getText();
-		String denom = ctx.DIGITS(1).getText();
+//		String commonTime = ctx.C_LETTER().getText();
+//		String cutTime = ctx.CL_LETTER().getText();
+//		String num = ctx.DIGITS(0).getText();
+//		String denom = ctx.DIGITS(1).getText();
 		
-		if (commonTime != null) {
+		if (ctx.C_LETTER() != null) {
 			meter = new RatNum(4, 4);
 		}
-		else if (cutTime != null) {
+		else if (ctx.CL_LETTER() != null) {
 			meter = new RatNum(2, 4);
 		}
 		else {
+			String num = ctx.DIGITS(0).getText();
+			String denom = ctx.DIGITS(1).getText();
 			meter = new RatNum(Integer.parseInt(num), Integer.parseInt(denom));
 		}
 		
@@ -207,10 +211,12 @@ public class MakeHeader implements XyzListener {
 
 	@Override
 	public void exitTempo(TempoContext ctx) {
-		String num = ctx.DIGITS(0).getText();
-		String denom = ctx.DIGITS(1).getText();
-		tempoLength = new RatNum(Integer.parseInt(num), Integer.parseInt(denom));
-		tempo = Integer.parseInt(ctx.DIGITS(2).getText());
+		if ((ctx.DIGITS(0) != null) && (ctx.DIGITS(1) != null)) {
+			String num = ctx.DIGITS(0).getText();
+			String denom = ctx.DIGITS(1).getText();
+			tempoLength = new RatNum(Integer.parseInt(num), Integer.parseInt(denom));
+			tempo = Integer.parseInt(ctx.DIGITS(2).getText());
+		}
 		
 	}
 
@@ -222,15 +228,18 @@ public class MakeHeader implements XyzListener {
 
 	@Override
 	public void exitKey(KeyContext ctx) {
-		String musicLetter = ctx.MUSIC_LETTER().getText();
-		String flat = ctx.FLAT(1).getText();
-		String sharp = ctx.SHARP().getText();
-		String minor = ctx.MINOR().getText();
+		String musicLetter = "";
+		if (ctx.MUSIC_LETTER() != null) musicLetter = ctx.MUSIC_LETTER().getText();
+		else if (ctx.FLAT(0) != null) musicLetter = ctx.FLAT(0).getText();
+		else if (ctx.C_LETTER() != null) musicLetter = ctx.C_LETTER().getText();
+//		String flat = ctx.FLAT(1).getText();
+//		String sharp = ctx.SHARP().getText();
+//		String minor = ctx.MINOR().getText();
 		String ks;
-		if (minor == null) {
+		if (ctx.MINOR() == null) {
 			// is major key
-			if (flat == null) {
-				if (sharp == null) {
+			if (ctx.FLAT(1) == null) {
+				if (ctx.SHARP() == null) {
 					ks = musicLetter.toUpperCase() + "_MAJOR";
 				}
 				else {
@@ -243,8 +252,8 @@ public class MakeHeader implements XyzListener {
 		}
 		else {
 			// is minor key
-			if (flat == null) {
-				if (sharp == null) {
+			if (ctx.FLAT(1) == null) {
+				if (ctx.SHARP() == null) {
 					ks = musicLetter.toUpperCase() + "_MINOR";
 				}
 				else {

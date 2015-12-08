@@ -17,7 +17,7 @@ public class PieceParserTest {
         Header header = Header.parse("sample_abc/piece1.abc");
     
         
-        Header headerCheck = new Header(1, "test1", Key.C_MAJOR);
+        Header headerCheck = new Header(1, "Piece No.1", Key.C_MAJOR);
         headerCheck.setMeter(new RatNum(4,4));
         headerCheck.setDefaultLength(new RatNum(1,4));
         headerCheck.setTempo(140);
