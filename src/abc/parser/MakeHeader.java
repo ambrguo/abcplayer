@@ -1,6 +1,7 @@
 package abc.parser;
 
 import java.util.List;
+import java.util.Set;
 
 import org.antlr.v4.runtime.ParserRuleContext;
 import org.antlr.v4.runtime.tree.ErrorNode;
@@ -33,7 +34,7 @@ public class MakeHeader implements XyzListener {
 	private Integer tempo;
 	private Key key;
 	
-	private List<String> voices;
+	private Set<String> voices;
 	
 	public Header getHeader() {
 		return header;
@@ -268,7 +269,7 @@ public class MakeHeader implements XyzListener {
 
 	@Override
 	public void exitVoice(VoiceContext ctx) {
-		String voice = ctx.characters().getText();
+		String voice = ctx.characters().getText().trim();
 		voices.add(voice);
 	}
 

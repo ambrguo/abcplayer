@@ -1,7 +1,7 @@
 package abc.sound;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * Stores data from the header of an abc file 
@@ -39,7 +39,7 @@ public class Header {
     private RatNum defaultLength; 
     private RatNum meter; 
     private int tempo;
-    private List<String> voices;
+    private Set<String> voices;
     
     // Default header field values 
     public static final RatNum DEFAULT_METER = new RatNum(4, 4); 
@@ -64,7 +64,7 @@ public class Header {
         this.setTempo(DEFAULT_TEMPO);
         this.setComposer(DEFAULT_COMPOSER);
         
-        this.setVoice(new ArrayList<>());
+        this.setVoice(new HashSet<>());
     }
     
     /**
@@ -131,8 +131,8 @@ public class Header {
      * observer 
      * @return voices List<String>
      */
-    public List<String> getVoices() {
-        List<String> returnvoices = this.voices;
+    public Set<String> getVoices() {
+        Set<String> returnvoices = this.voices;
         return returnvoices;
     }
 	
@@ -173,7 +173,7 @@ public class Header {
 	 * adds additional voices to the piece, if specified. 
 	 * @param voice
 	 */
-	public void setVoice(List<String> v) {
+	public void setVoice(Set<String> v) {
 		for (String voice : v) {
 			voices.add(voice);
 		}
