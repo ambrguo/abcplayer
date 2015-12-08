@@ -179,5 +179,45 @@ public class Header {
 		}
 	}
 	
+	@Override
+	public boolean equals(Object thatObject) {
+		if (!(thatObject instanceof Header)) return false;
+		Header that = (Header) thatObject;
+		if (!(index == that.index)) return false;
+		if (!(title.equals(that.title))) return false;
+		if (!(keySignature.equals(that.keySignature))) return false;
+		
+		if (!(composer.equals(that.composer))) return false;
+		if (!(defaultLength.equals(that.defaultLength))) return false;
+		if (!(meter.equals(that.meter))) return false;
+		if (!(tempo == that.tempo)) return false;
+		if (!(voices.equals(that.voices))) return false;
+		
+		return true;
+	}
+	
+	@Override
+	public int hashCode() {
+		return title.hashCode()*keySignature.hashCode()*composer.hashCode()*defaultLength.hashCode()*meter.hashCode();
+	}
+	
+	@Override
+	public String toString() {
+		StringBuilder voicesStr = new StringBuilder();
+		if (voices.isEmpty()) voicesStr.append("");
+		else {
+			for (String v : voices) {
+				voicesStr.append("Voice: " + v + "\n");
+			}
+		}
+		String headerStr = "Index: " + index + "\n"
+				+ "Title: " + title + "\n"
+				+ "Composer: " + composer + "\n"
+				+ "Default length: " + defaultLength + "\n"
+				+ "Meter: " + meter + "\n"
+				+ "Tempo: " + tempo + "\n"
+				+ voicesStr.toString();
+		return headerStr.trim();
+	}
 	
 }
