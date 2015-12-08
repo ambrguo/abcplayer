@@ -14,33 +14,40 @@ public class PieceParserTest {
 
     @Test
     public void Piece1() throws IOException {
-        Piece piece = Piece.parse("sample_abc/test_piece_1.abc");
+        Header header = Header.parse("sample_abc/piece1.abc");
+    
         
-        Header header = new Header(1, "test1", Key.C_MAJOR);
-        Note note = new Note(new Pitch('C'), header.getDefaultLength(), Accidental.NONE );
+        Header headerCheck = new Header(1, "test1", Key.C_MAJOR);
+        headerCheck.setMeter(new RatNum(4,4));
+        headerCheck.setDefaultLength(new RatNum(1,4));
+        headerCheck.setTempo(140);
         
-        List<Playable> playables = new ArrayList<Playable>();
-        playables.add(note);
-        playables.add(note);
-        playables.add(note);
-        playables.add(note);
+        assertEquals(header, headerCheck);
         
-        Measure measure = new Measure(playables, false, false, false);
-        
-        List<Measure> measures = new ArrayList<Measure>();
-        measures.add(measure);
-        
-        Voice voice = new Voice(measures, "DEFAULT_VOICE");
-        
-        Set<Voice> voiceSet = new HashSet<Voice>();
-        voiceSet.add(voice);
-        
-        Piece checkPiece = new Piece(voiceSet, header); 
-        
-        System.out.println(header.toString());
-        
-        //assertEquals(checkPiece, piece);
-                
+//        Note note = new Note(new Pitch('C'), header.getDefaultLength(), Accidental.NONE );
+//        
+//        List<Playable> playables = new ArrayList<Playable>();
+//        playables.add(note);
+//        playables.add(note);
+//        playables.add(note);
+//        playables.add(note);
+//        
+//        Measure measure = new Measure(playables, false, false, false);
+//        
+//        List<Measure> measures = new ArrayList<Measure>();
+//        measures.add(measure);
+//        
+//        Voice voice = new Voice(measures, "DEFAULT_VOICE");
+//        
+//        Set<Voice> voiceSet = new HashSet<Voice>();
+//        voiceSet.add(voice);
+//        
+//        Piece checkPiece = new Piece(voiceSet, header); 
+//        
+//        System.out.println(header.toString());
+//        
+//        //assertEquals(checkPiece, piece);
+//                
         
         
         

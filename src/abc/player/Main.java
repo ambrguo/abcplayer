@@ -55,7 +55,7 @@ public class Main {
         // CALL play() HERE USING ARGS
 
         
-        String file = "sample_abc/test_piece_1.abc";
+        String file = "sample_abc/piece1.abc";
         
         play(file);
     }

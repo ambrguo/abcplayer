@@ -1,8 +1,21 @@
 package abc.sound;
 
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
+
+import org.antlr.v4.gui.Trees;
+import org.antlr.v4.runtime.ANTLRInputStream;
+import org.antlr.v4.runtime.CharStream;
+import org.antlr.v4.runtime.CommonTokenStream;
+import org.antlr.v4.runtime.TokenStream;
+import org.antlr.v4.runtime.tree.ParseTree;
+import org.antlr.v4.runtime.tree.ParseTreeWalker;
+
+import abc.parser.MakeHeader;
+import abc.parser.XyzLexer;
+import abc.parser.XyzParser;
 
 /**
  * Stores data from the header of an abc file 
@@ -177,9 +190,36 @@ public class Header {
 	 * @param voice
 	 */
 	public void setVoice(Set<String> v) {
+	    this.voices = new HashSet<String>();
 		for (String voice : v) {
-			voices.add(voice);
+			this.voices.add(voice);
 		}
+	}
+	
+	public static Header parse(String inputFile) throws IOException{
+	    String header = Piece.fileSplitter(inputFile)[0];
+	    
+	    try{
+            CharStream stream = new ANTLRInputStream(header);
+            
+            // Generate parser
+            XyzLexer lexer = new XyzLexer(stream);
+            TokenStream tokens = new CommonTokenStream(lexer);
+            XyzParser parser = new XyzParser(tokens);
+            lexer.reportErrorsAsExceptions();
+            parser.reportErrorsAsExceptions();
+            
+            // Generate the parse tree
+            ParseTree tree = parser.root();
+            Trees.inspect(tree, parser);
+            
+            MakeHeader headerMaker = new MakeHeader();
+            new ParseTreeWalker().walk(headerMaker, tree);
+            return headerMaker.getHeader();
+          
+        } catch (RuntimeException e){
+            throw new IllegalArgumentException("Header: not a valid header");
+        }
 	}
 	
 	@Override
