@@ -95,7 +95,7 @@ public class Measure {
 	    Measure thatObject = (Measure) that;
 	    if (!(thatObject.playables.size() == this.playables.size())) return false;
 	    for (int counter = 0; counter < this.playables.size(); counter++ ){
-            if (!thatObject.playables.get(counter).equals(this.playables.get(counter))) return false;
+	        if (!thatObject.playables.get(counter).equals(this.playables.get(counter))) return false;
         }
         return true;
 	}

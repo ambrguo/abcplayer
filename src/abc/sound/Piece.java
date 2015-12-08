@@ -34,7 +34,21 @@ public class Piece {
 	
 	private final Set<Voice> voices;
 	private final Header header;
-	
+	/**
+	 * @return if a piece is equal to piece
+	 */
+	@Override
+	public boolean equals (Object p){
+	    if (!(p instanceof Piece))return false;
+	    Piece piece = (Piece)p;
+	    
+	    if (this.voices.equals(piece.getVoices())){
+	        System.out.println("works");
+	        return true;
+	    }
+	    System.out.println("no");
+	    return false;
+	}
 	/**
 	 * Constructs a Piece with set voices
 	 * @param voices set of voices in the piece
@@ -165,12 +179,6 @@ public class Piece {
             body +=  currentLine + "\n";
         }
         
-        
-        System.out.print("test");
-        System.out.print(body);
-        
-
-                
         
         r.close();
         

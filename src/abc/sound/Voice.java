@@ -44,7 +44,8 @@ public class Voice {
         if (!(p instanceof Voice)) return false;
         Voice v = (Voice) p;
         for (int i = 0; i < this.measures.size(); ++i){
-            if (this.measures.get(i)!=v.getMeasure().get(i)){
+            System.out.println("hi");
+            if (!this.measures.get(i).equals(v.getMeasure().get(i))){
                 return false;
             }
         }
