@@ -137,7 +137,7 @@ public class MakeBody implements AbcListener {
 
     @Override
     public void exitNote(NoteContext ctx) {
-        String pitch = ctx.LETTER().getText();
+        String pitch = ctx.LETTER().getText().trim();
         Pitch p = new Pitch('C');
         if (pitch.matches("[a-g]")) {
             octave += 12;
@@ -177,7 +177,7 @@ public class MakeBody implements AbcListener {
 
     @Override
     public void exitDuration(DurationContext ctx) {
-        String rational = ctx.DURATION().getText();
+        String rational = ctx.DURATION().getText().trim();
         if (rational.matches("[0-9]+")) { // x
             duration = new RatNum(Integer.parseInt(rational), 1);
         } else if (rational.matches("[0-9]/")) { // x/
@@ -190,7 +190,7 @@ public class MakeBody implements AbcListener {
             int slash = rational.indexOf("/"); // TODO match forward slash
                                                // correct?
             int numerator = Integer.parseInt(rational.substring(0, slash));
-            int denominator = Integer.parseInt(rational.substring(slash));
+            int denominator = Integer.parseInt(rational.substring(slash+1));
             duration = new RatNum(numerator, denominator);
         } else if (rational.equals("/")) {// /
             duration = new RatNum(1, 2);
@@ -199,7 +199,7 @@ public class MakeBody implements AbcListener {
 
     @Override
     public void exitOctave(OctaveContext ctx) {
-        String oct = ctx.OCTAVE().getText();
+        String oct = ctx.OCTAVE().getText().trim();
         if (oct.matches("[']+")) {
             for (int count = 0; count < oct.length(); ++count) {
                 if (oct.charAt(count) == '\'') { // TODO match apostrophe
@@ -219,7 +219,7 @@ public class MakeBody implements AbcListener {
 
     @Override
     public void exitAccidental(AccidentalContext ctx) {
-        String acc = ctx.ACCIDENTAL().getText();
+        String acc = ctx.ACCIDENTAL().getText().trim();
         if (acc.equals("^")) {
             accidental = Accidental.SHARP;
         } else if (acc.equals("^^")) {

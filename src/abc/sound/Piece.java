@@ -91,7 +91,7 @@ public class Piece {
         
         String body = headerBody[1];
        
-        try{
+        /*try{*/
             CharStream stream = new ANTLRInputStream(body);
             AbcLexer lexer = new AbcLexer(stream);
             TokenStream tokens = new CommonTokenStream(lexer);
@@ -107,9 +107,9 @@ public class Piece {
             
             voicesSet = bodyMaker.getVoices();
           
-        } catch (RuntimeException e){
+        /*} catch (RuntimeException e){
             throw new IllegalArgumentException("not a valid Piece");
-        }
+        }*/
         
         Piece piece = new Piece(voicesSet, head);
         return piece;
@@ -140,9 +140,14 @@ public class Piece {
             }
         }
         
+        body += "\n";
         while ((currentLine = r.readLine()) != null){
             body +=  currentLine + "\n";
         }
+        
+        
+        System.out.print("test");
+        System.out.print(body);
         
 
                 
