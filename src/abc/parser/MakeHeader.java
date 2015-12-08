@@ -102,10 +102,12 @@ public class MakeHeader implements XyzListener {
 			header.setMeter(meter);
 			if (length == null) {
 				if (meter.toDouble() < 0.75) {
-					header.setDefaultLength(new RatNum(1, 16));
+					length = new RatNum(1, 16);
+					header.setDefaultLength(length);
 				}
 				else {
-					header.setDefaultLength(new RatNum(1, 8));
+					length = new RatNum(1, 8);
+					header.setDefaultLength(length);
 				}
 			}
 		}
@@ -120,7 +122,7 @@ public class MakeHeader implements XyzListener {
 			}
 		}
 		
-		if (voices != null) {
+		if (!voices.isEmpty()) {
 			header.setVoice(voices);
 		}
  	}
@@ -145,7 +147,7 @@ public class MakeHeader implements XyzListener {
 
 	@Override
 	public void exitTitle(TitleContext ctx) {
-		title = ctx.characters().getText();
+		title = ctx.characters().getText().trim();
 		
 	}
 
@@ -280,8 +282,8 @@ public class MakeHeader implements XyzListener {
 	public void exitVoice(VoiceContext ctx) {
 		if (ctx.characters() != null) {
 			String voice = ctx.characters().getText().trim();
-			System.out.println(voice);
-			System.out.println(voices);
+//			System.out.println(voice);
+//			System.out.println(voices);
 			voices.add(voice);
 		}
 //		String voice = ctx.characters().getText().trim();

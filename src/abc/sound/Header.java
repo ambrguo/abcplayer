@@ -72,7 +72,7 @@ public class Header {
     public Header(int index, String title, Key keySignature)
     {
         this.index = index; 
-        this.title = title; 
+        this.title = title.trim(); 
         this.keySignature = keySignature; 
         
         this.setMeter(DEFAULT_METER);
