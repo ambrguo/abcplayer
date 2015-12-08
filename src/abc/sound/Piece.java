@@ -70,13 +70,14 @@ public class Piece {
 	 */
 	//must change return type to piece 
 	
-	public static void parse(String inputFile) throws IOException{
+	public static Piece parse(String inputFile) throws IOException{
 	    
 	    String[] headerBody = fileSplitter(inputFile);
 	    
 	    // Process header 	    
 	    String header = headerBody[0];
 	    Header head;
+	    Set<Voice> voicesSet;
 
         try{
             CharStream stream = new ANTLRInputStream(header);
@@ -116,13 +117,14 @@ public class Piece {
             MakeBody bodyMaker = new MakeBody();
             new ParseTreeWalker().walk(bodyMaker, tree);
             
-            Set<Voice> voicesSet = bodyMaker.getVoices();
+            voicesSet = bodyMaker.getVoices();
           
         } catch (RuntimeException e){
             throw new IllegalArgumentException("not a valid Piece");
         }
         
-        return;
+        Piece piece = new Piece(voicesSet, head);
+        return piece;
                 
     }
 	
