@@ -172,6 +172,8 @@ public class Piece {
 		assert !voices.isEmpty();
 		for (Voice v : voices) {
 			assert v != null;
+			assert this.header.getVoices().contains(v.getName());
 		}
+	
 	}
 }

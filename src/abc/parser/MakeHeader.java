@@ -1,6 +1,5 @@
 package abc.parser;
 
-import java.util.List;
 import java.util.Set;
 
 import org.antlr.v4.runtime.ParserRuleContext;

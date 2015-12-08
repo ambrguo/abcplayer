@@ -170,7 +170,7 @@ public class Header {
 	}
 	
 	/**
-	 * adds additional voices to the piece, if specified. 
+	 * sets voices to the piece, if specified. 
 	 * @param voice
 	 */
 	public void setVoice(Set<String> v) {
