@@ -112,5 +112,81 @@ public class HeaderTest {
     	assertEquals(header, myHeader);
     }
     
+    @Test
+    public void prelude() throws IOException {
+    	Header header = Header.parse("sample_abc/prelude.abc");
+    	
+    	Header myHeader = new Header(8628, "Prelude BWV 846 no. 1", Key.C_MAJOR);
+    	myHeader.setComposer("Johann Sebastian Bach");
+    	myHeader.setMeter(new RatNum(4, 4));
+    	myHeader.setDefaultLength(new RatNum(1, 16));
+    	myHeader.setTempo(280);
+    	
+    	Set<String> myVoices = new HashSet<>();
+    	myVoices.addAll(Arrays.asList("1", "2", "3"));
+    	myHeader.setVoice(myVoices);
+    	
+    	assertEquals(header, myHeader);
+    }
     
+    @Test
+    public void sample1() throws IOException {
+    	Header header = Header.parse("sample_abc/sample1.abc");
+    	
+    	Header myHeader = new Header(1, "sample 1", Key.C_MAJOR);
+    	
+    	assertEquals(header, myHeader);
+    }
+    
+    @Test
+    public void sample2() throws IOException {
+    	Header header = Header.parse("sample_abc/sample2.abc");
+    	
+    	Header myHeader = new Header(8, "Chord", Key.C_MAJOR);
+    	
+    	assertEquals(header, myHeader);
+    }
+    
+    @Test
+    public void sample3() throws IOException {
+    	Header header = Header.parse("sample_abc/sample3.abc");
+    	
+    	Header myHeader = new Header(1, "voices", Key.C_MINOR);
+    	
+    	assertEquals(header, myHeader);
+    }
+    
+    @Test
+    public void scale() throws IOException {
+    	Header header = Header.parse("sample_abc/scale.abc");
+    	
+    	Header myHeader = new Header(1, "Simple scale", Key.C_MAJOR);
+    	myHeader.setComposer("Unknown");
+    	myHeader.setMeter(new RatNum(4, 4));
+    	myHeader.setDefaultLength(new RatNum(1, 4));
+    	myHeader.setTempo(120);
+    	
+    	assertEquals(header, myHeader);
+    }
+    
+    @Test
+    public void test_piece_1() throws IOException {
+    	Header header = Header.parse("sample_abc/test_piece_1.abc");
+    	
+    	Header myHeader = new Header(1, "test1", Key.C_MAJOR);
+    	
+    	assertEquals(header, myHeader);
+    }
+    
+    @Test
+    public void waxies_dargle() throws IOException {
+    	Header header = Header.parse("sample_abc/waxies_dargle.abc");
+    	
+    	Header myHeader = new Header(2167, "Waxie's Dargle", Key.G_MAJOR);
+    	myHeader.setMeter(new RatNum(4, 4));
+    	myHeader.setDefaultLength(new RatNum(1, 8));
+    	myHeader.setTempo(360);
+    	
+    	assertEquals(header, myHeader);
+    }
 }
