@@ -1,5 +1,11 @@
 package abc.parser;
 
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+import java.util.Stack;
+
 import org.antlr.v4.runtime.ParserRuleContext;
 import org.antlr.v4.runtime.tree.ErrorNode;
 import org.antlr.v4.runtime.tree.TerminalNode;
@@ -20,148 +26,304 @@ import abc.parser.AbcParser.RootContext;
 import abc.parser.AbcParser.TripletContext;
 import abc.parser.AbcParser.TupletContext;
 import abc.parser.AbcParser.VoiceContext;
+import abc.sound.Accidental;
+import abc.sound.Chord;
+import abc.sound.Measure;
+import abc.sound.Note;
+import abc.sound.Piece;
+import abc.sound.Pitch;
+import abc.sound.Playable;
+import abc.sound.RatNum;
+import abc.sound.Rest;
+import abc.sound.Tuplet;
+import abc.sound.Voice;
 
 public class MakeBody implements AbcListener {
+    private RatNum duration = new RatNum(1,1);
+    private Accidental accidental = Accidental.NONE;
+    private int octave = 0;
+    private int chordN = 0;
+    private int chordT = 0;
+    private int tupletN = 0;
     
-    @Override
-    public void exitRoot(RootContext ctx) {
-        // TODO Auto-generated method stub
-        
-    }
+    private Stack<Note> chord = new Stack<>();
+    private Stack<Playable> tuplet = new Stack<>();
+    private Stack<Playable> playable = new Stack<>();
+    private Stack<Playable> intermediate = new Stack<>();
+    private Stack<Measure> measure = new Stack<>();
+    private Stack<Voice> voice = new Stack<>();
+    private Stack<Piece> piece = new Stack<>();
     
-    @Override
-    public void exitBody(BodyContext ctx) {
-        // TODO Auto-generated method stub
-        
+
+    public Piece getPiece() {
+        return piece.get(0);
     }
 
-    
+    @Override
+    public void exitRoot(RootContext ctx) {
+    }
+
+    @Override
+    public void exitBody(BodyContext ctx) {
+        List<AbcParser.LineContext> body = ctx.line();
+
+    }
 
     @Override
     public void exitLine(LineContext ctx) {
-        // TODO Auto-generated method stub
-        
-    }
-    
+        List<AbcParser.MeasureContext> body = ctx.measure();
+        String voice = ctx.voice().getText();
 
+    }
+    @Override
+    public void enterTuplet(TupletContext ctx) {
+        tupletN = 1;
+        chordT = 1;
+    }
+    @Override
+    public void enterChord(ChordContext ctx) {
+        chordN = 1;
+    }
     @Override
     public void exitMeasure(MeasureContext ctx) {
-        // TODO Auto-generated method stub
-        
+        boolean beginR = false;
+        boolean endR = false;
+        boolean alternateE = false;
+        List<Playable> playables = new ArrayList<Playable>();
+        if (ctx.BEGIN_REPEAT() != null) {
+            beginR = true;
+        }
+        if (ctx.END_REPEAT() != null) {
+            endR = true;
+        }
+        if (ctx.TWO_REPEAT() != null) {
+            alternateE = true;
+        }
+        while (!playable.isEmpty()){
+            playables.add(playable.pop());
+        }
+        Measure m = new Measure(playables, beginR, endR, alternateE);
     }
 
     @Override
     public void exitVoice(VoiceContext ctx) {
-        // TODO Auto-generated method stub
-        
+
     }
 
     @Override
     public void exitElement(ElementContext ctx) {
         // TODO Auto-generated method stub
-        
+
     }
 
     @Override
     public void exitTuplet(TupletContext ctx) {
         // TODO Auto-generated method stub
-        
+
     }
 
     @Override
     public void exitNote(NoteContext ctx) {
-        // TODO Auto-generated method stub
-        
+        String pitch = ctx.LETTER().getText();
+        Pitch p = new Pitch('C');
+        if (pitch.matches("[a-g]")){
+            octave += 12;
+            pitch = pitch.toUpperCase();
+            char charPitch = pitch.charAt(0);
+            p = new Pitch(charPitch); 
+            p = p.transpose(octave); //return new?
+        } else {
+            char charPitch = pitch.charAt(0);
+            p = new Pitch(charPitch);
+            p = p.transpose(octave);
+        }
+        if (chordN == 1){
+            Note note = new Note(p, duration, accidental);
+            chord.push(note);
+        } else if (tupletN == 1){
+            Note note = new Note(p, duration, accidental);
+            tuplet.push(note);
+        } else {
+            Note note = new Note(p, duration, accidental);
+            playable.push(note);
+        }
+        octave = 0;
+        duration = new RatNum(1,1);
+        accidental = Accidental.NONE;
     }
 
     @Override
     public void exitRest(RestContext ctx) {
-        // TODO Auto-generated method stub
-        
+        Rest rest = new Rest(new RatNum(1, 1));
+        if (ctx.duration() != null) {
+            rest = new Rest(duration);
+        }
+        playable.push(rest); // TODO
+        duration = new RatNum(1,1);
     }
 
     @Override
     public void exitDuration(DurationContext ctx) {
-        // TODO Auto-generated method stub
-        
+        String rational = ctx.DURATION().getText();
+        if (rational.matches("[0-9]+")) { // x
+            duration = new RatNum(Integer.parseInt(rational), 1);
+        } else if (rational.matches("[0-9]/")) { // x/
+            String numerator = rational.substring(0, rational.length() - 2);
+            duration = new RatNum(Integer.parseInt(numerator), 2);
+        } else if (rational.matches("/[0-9]+")) {// /x
+            String denominator = rational.substring(1);
+            duration = new RatNum(1, Integer.parseInt(denominator));
+        } else if (rational.matches("[0-9]+/[0-9]+")) {// x/x
+            int slash = rational.indexOf("/"); // TODO match forward slash correct?
+            int numerator = Integer.parseInt(rational.substring(0, slash));
+            int denominator = Integer.parseInt(rational.substring(slash));
+            duration = new RatNum(numerator, denominator);
+        } else if (rational.equals("/")) {// /
+            duration = new RatNum(1, 2);
+        }
     }
 
     @Override
     public void exitOctave(OctaveContext ctx) {
-        // TODO Auto-generated method stub
-        
+        String oct = ctx.OCTAVE().getText();
+        if (oct.matches("[']+")) {
+            for (int count = 0; count < oct.length(); ++count) {
+                if (oct.charAt(count) == '\'') { // TODO match apostrophe correct?
+                    octave += 1;
+                }
+            }
+        } else if (oct.matches("[,]+")) {
+            for (int count = 0; count < oct.length(); ++count) {
+                if (oct.charAt(count) == '\'') { // TODO match apostrophe correct?
+                    octave -= 1;
+                }
+            }
+        }
     }
 
     @Override
     public void exitAccidental(AccidentalContext ctx) {
-        // TODO Auto-generated method stub
-        
+        String acc = ctx.ACCIDENTAL().getText();
+        if (acc.equals("^")) {
+            accidental = Accidental.SHARP;
+        } else if (acc.equals("^^")) {
+            accidental = Accidental.DOUBLESHARP;
+        } else if (acc.equals("_")) {
+            accidental = Accidental.FLAT;
+        } else if (acc.equals("__")) {
+            accidental = Accidental.DOUBLEFLAT;
+        } else if (acc.equals("#")) {
+            accidental = Accidental.NATURAL;
+        }
     }
 
     @Override
     public void exitChord(ChordContext ctx) {
-        // TODO Auto-generated method stub
-        
+        Set<Note> notes = new HashSet<Note>();
+        while (!chord.empty()){
+            notes.add(chord.pop());
+        }
+        Chord c = new Chord(notes);
+        if (chordT == 1){
+            tuplet.push(c);
+        } else {
+            playable.push(c);
+        }
+        chordN = 0;
     }
-
-    
 
     @Override
     public void exitDuplet(DupletContext ctx) {
-        // TODO Auto-generated method stub
-        
+        List<Playable> notes = new ArrayList<Playable>();
+        while (!tuplet.empty()){
+            notes.add(tuplet.pop());
+        }
+        Tuplet tuplet = new Tuplet(notes);
+        playable.push(tuplet);
+        tupletN = 0;
+        chordT = 0;
     }
 
     @Override
     public void exitTriplet(TripletContext ctx) {
-        // TODO Auto-generated method stub
-        
+        List<Playable> notes = new ArrayList<Playable>();
+        while (!tuplet.empty()){
+            notes.add(tuplet.pop());
+        }
+        Tuplet tuplet = new Tuplet(notes);
+        playable.push(tuplet);
+        tupletN = 0;
+        chordT = 0;
+
     }
 
     @Override
     public void exitQuadruplet(QuadrupletContext ctx) {
-        // TODO Auto-generated method stub
-        
+        List<Playable> notes = new ArrayList<Playable>();
+        while (!tuplet.empty()){
+            notes.add(tuplet.pop());
+        }
+        Tuplet tuplet = new Tuplet(notes);
+        playable.push(tuplet);
+        tupletN = 0;
+        chordT = 0;
+    }
+
+    @Override
+    public void enterEveryRule(ParserRuleContext arg0) {
     }
     @Override
-    public void enterEveryRule(ParserRuleContext arg0) {}
+    public void exitEveryRule(ParserRuleContext arg0) {
+    }
     @Override
-    public void exitEveryRule(ParserRuleContext arg0) {}
+    public void visitErrorNode(ErrorNode arg0) {
+    }
     @Override
-    public void visitErrorNode(ErrorNode arg0) {}
+    public void visitTerminal(TerminalNode arg0) {
+    }
     @Override
-    public void visitTerminal(TerminalNode arg0) {}
+    public void enterRoot(RootContext ctx) {
+    }
     @Override
-    public void enterRoot(RootContext ctx) {}
+    public void enterBody(BodyContext ctx) {
+    }
     @Override
-    public void enterBody(BodyContext ctx) {}
+    public void enterLine(LineContext ctx) {
+    }
     @Override
-    public void enterLine(LineContext ctx) {}
+    public void enterMeasure(MeasureContext ctx) {
+    }
     @Override
-    public void enterMeasure(MeasureContext ctx) {}
+    public void enterVoice(VoiceContext ctx) {
+    }
     @Override
-    public void enterVoice(VoiceContext ctx) {}
+    public void enterElement(ElementContext ctx) {
+    }
+    
     @Override
-    public void enterElement(ElementContext ctx) {}
+    public void enterNote(NoteContext ctx) {
+    }
     @Override
-    public void enterTuplet(TupletContext ctx) {}
+    public void enterRest(RestContext ctx) {
+    }
     @Override
-    public void enterNote(NoteContext ctx) {}
+    public void enterDuration(DurationContext ctx) {
+    }
     @Override
-    public void enterRest(RestContext ctx) {}
+    public void enterOctave(OctaveContext ctx) {
+    }
     @Override
-    public void enterDuration(DurationContext ctx) {}
+    public void enterAccidental(AccidentalContext ctx) {
+    }
     @Override
-    public void enterOctave(OctaveContext ctx) {}
+    public void enterDuplet(DupletContext ctx) {
+    }
     @Override
-    public void enterAccidental(AccidentalContext ctx) {}
+    public void enterTriplet(TripletContext ctx) {
+    }
     @Override
-    public void enterChord(ChordContext ctx) {}
-    @Override
-    public void enterDuplet(DupletContext ctx) {}
-    @Override
-    public void enterTriplet(TripletContext ctx) {}
-    @Override
-    public void enterQuadruplet(QuadrupletContext ctx) {}
+    public void enterQuadruplet(QuadrupletContext ctx) {
+    }
 
 }
+
