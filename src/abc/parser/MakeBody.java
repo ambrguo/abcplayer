@@ -1,8 +1,10 @@
 package abc.parser;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.Stack;
 
@@ -30,7 +32,6 @@ import abc.sound.Accidental;
 import abc.sound.Chord;
 import abc.sound.Measure;
 import abc.sound.Note;
-import abc.sound.Piece;
 import abc.sound.Pitch;
 import abc.sound.Playable;
 import abc.sound.RatNum;
@@ -39,24 +40,27 @@ import abc.sound.Tuplet;
 import abc.sound.Voice;
 
 public class MakeBody implements AbcListener {
-    private RatNum duration = new RatNum(1,1);
+    private RatNum duration = new RatNum(1, 1);
     private Accidental accidental = Accidental.NONE;
     private int octave = 0;
     private int chordN = 0;
     private int chordT = 0;
     private int tupletN = 0;
-    
+
     private Stack<Note> chord = new Stack<>();
     private Stack<Playable> tuplet = new Stack<>();
     private Stack<Playable> playable = new Stack<>();
-    private Stack<Playable> intermediate = new Stack<>();
-    private Stack<Measure> measure = new Stack<>();
-    private Stack<Voice> voice = new Stack<>();
-    private Stack<Piece> piece = new Stack<>();
-    
+    String key = "";
+    private Map<String, List<Measure>> voices = new HashMap<String, List<Measure>>();
 
-    public Piece getPiece() {
-        return piece.get(0);
+    
+    public Set<Voice> getVoices() {
+        Set<Voice> voice = new HashSet<>();
+        for (String key : voices.keySet()){
+            Voice v = new Voice(voices.get(key), key);
+            voice.add(v);
+        }
+        return voice;
     }
 
     @Override
@@ -75,15 +79,18 @@ public class MakeBody implements AbcListener {
         String voice = ctx.voice().getText();
 
     }
+
     @Override
     public void enterTuplet(TupletContext ctx) {
         tupletN = 1;
         chordT = 1;
     }
+
     @Override
     public void enterChord(ChordContext ctx) {
         chordN = 1;
     }
+
     @Override
     public void exitMeasure(MeasureContext ctx) {
         boolean beginR = false;
@@ -99,16 +106,25 @@ public class MakeBody implements AbcListener {
         if (ctx.TWO_REPEAT() != null) {
             alternateE = true;
         }
-        while (!playable.isEmpty()){
+        while (!playable.isEmpty()) {
             playables.add(playable.pop());
         }
+        
         Measure m = new Measure(playables, beginR, endR, alternateE);
+        voices.get(key).add(m);
     }
 
     @Override
-    public void exitVoice(VoiceContext ctx) {
-
+    public void enterVoice(VoiceContext ctx) {
+        String v = ctx.getText().trim();
+        key = v;
+        if (!voices.containsKey(v)) {
+            voices.put(v, new ArrayList<Measure>());
+        }
     }
+
+    @Override
+    public void exitVoice(VoiceContext ctx) {}
 
     @Override
     public void exitElement(ElementContext ctx) {
@@ -126,21 +142,21 @@ public class MakeBody implements AbcListener {
     public void exitNote(NoteContext ctx) {
         String pitch = ctx.LETTER().getText();
         Pitch p = new Pitch('C');
-        if (pitch.matches("[a-g]")){
+        if (pitch.matches("[a-g]")) {
             octave += 12;
             pitch = pitch.toUpperCase();
             char charPitch = pitch.charAt(0);
-            p = new Pitch(charPitch); 
-            p = p.transpose(octave); //return new?
+            p = new Pitch(charPitch);
+            p = p.transpose(octave); // return new?
         } else {
             char charPitch = pitch.charAt(0);
             p = new Pitch(charPitch);
             p = p.transpose(octave);
         }
-        if (chordN == 1){
+        if (chordN == 1) {
             Note note = new Note(p, duration, accidental);
             chord.push(note);
-        } else if (tupletN == 1){
+        } else if (tupletN == 1) {
             Note note = new Note(p, duration, accidental);
             tuplet.push(note);
         } else {
@@ -148,7 +164,7 @@ public class MakeBody implements AbcListener {
             playable.push(note);
         }
         octave = 0;
-        duration = new RatNum(1,1);
+        duration = new RatNum(1, 1);
         accidental = Accidental.NONE;
     }
 
@@ -159,7 +175,7 @@ public class MakeBody implements AbcListener {
             rest = new Rest(duration);
         }
         playable.push(rest); // TODO
-        duration = new RatNum(1,1);
+        duration = new RatNum(1, 1);
     }
 
     @Override
@@ -174,7 +190,8 @@ public class MakeBody implements AbcListener {
             String denominator = rational.substring(1);
             duration = new RatNum(1, Integer.parseInt(denominator));
         } else if (rational.matches("[0-9]+/[0-9]+")) {// x/x
-            int slash = rational.indexOf("/"); // TODO match forward slash correct?
+            int slash = rational.indexOf("/"); // TODO match forward slash
+                                               // correct?
             int numerator = Integer.parseInt(rational.substring(0, slash));
             int denominator = Integer.parseInt(rational.substring(slash));
             duration = new RatNum(numerator, denominator);
@@ -188,13 +205,15 @@ public class MakeBody implements AbcListener {
         String oct = ctx.OCTAVE().getText();
         if (oct.matches("[']+")) {
             for (int count = 0; count < oct.length(); ++count) {
-                if (oct.charAt(count) == '\'') { // TODO match apostrophe correct?
+                if (oct.charAt(count) == '\'') { // TODO match apostrophe
+                                                 // correct?
                     octave += 1;
                 }
             }
         } else if (oct.matches("[,]+")) {
             for (int count = 0; count < oct.length(); ++count) {
-                if (oct.charAt(count) == '\'') { // TODO match apostrophe correct?
+                if (oct.charAt(count) == '\'') { // TODO match apostrophe
+                                                 // correct?
                     octave -= 1;
                 }
             }
@@ -220,11 +239,11 @@ public class MakeBody implements AbcListener {
     @Override
     public void exitChord(ChordContext ctx) {
         Set<Note> notes = new HashSet<Note>();
-        while (!chord.empty()){
+        while (!chord.empty()) {
             notes.add(chord.pop());
         }
         Chord c = new Chord(notes);
-        if (chordT == 1){
+        if (chordT == 1) {
             tuplet.push(c);
         } else {
             playable.push(c);
@@ -235,7 +254,7 @@ public class MakeBody implements AbcListener {
     @Override
     public void exitDuplet(DupletContext ctx) {
         List<Playable> notes = new ArrayList<Playable>();
-        while (!tuplet.empty()){
+        while (!tuplet.empty()) {
             notes.add(tuplet.pop());
         }
         Tuplet tuplet = new Tuplet(notes);
@@ -247,7 +266,7 @@ public class MakeBody implements AbcListener {
     @Override
     public void exitTriplet(TripletContext ctx) {
         List<Playable> notes = new ArrayList<Playable>();
-        while (!tuplet.empty()){
+        while (!tuplet.empty()) {
             notes.add(tuplet.pop());
         }
         Tuplet tuplet = new Tuplet(notes);
@@ -260,7 +279,7 @@ public class MakeBody implements AbcListener {
     @Override
     public void exitQuadruplet(QuadrupletContext ctx) {
         List<Playable> notes = new ArrayList<Playable>();
-        while (!tuplet.empty()){
+        while (!tuplet.empty()) {
             notes.add(tuplet.pop());
         }
         Tuplet tuplet = new Tuplet(notes);
@@ -272,58 +291,69 @@ public class MakeBody implements AbcListener {
     @Override
     public void enterEveryRule(ParserRuleContext arg0) {
     }
+
     @Override
     public void exitEveryRule(ParserRuleContext arg0) {
     }
+
     @Override
     public void visitErrorNode(ErrorNode arg0) {
     }
+
     @Override
     public void visitTerminal(TerminalNode arg0) {
     }
+
     @Override
     public void enterRoot(RootContext ctx) {
     }
+
     @Override
     public void enterBody(BodyContext ctx) {
     }
+
     @Override
     public void enterLine(LineContext ctx) {
     }
+
     @Override
     public void enterMeasure(MeasureContext ctx) {
     }
-    @Override
-    public void enterVoice(VoiceContext ctx) {
-    }
+
     @Override
     public void enterElement(ElementContext ctx) {
     }
-    
+
     @Override
     public void enterNote(NoteContext ctx) {
     }
+
     @Override
     public void enterRest(RestContext ctx) {
     }
+
     @Override
     public void enterDuration(DurationContext ctx) {
     }
+
     @Override
     public void enterOctave(OctaveContext ctx) {
     }
+
     @Override
     public void enterAccidental(AccidentalContext ctx) {
     }
+
     @Override
     public void enterDuplet(DupletContext ctx) {
     }
+
     @Override
     public void enterTriplet(TripletContext ctx) {
     }
+
     @Override
     public void enterQuadruplet(QuadrupletContext ctx) {
     }
 
 }
-
