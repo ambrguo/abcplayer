@@ -43,9 +43,9 @@ public class MakeBody implements AbcListener {
     private RatNum duration = new RatNum(1, 1);
     private Accidental accidental = Accidental.NONE;
     private int octave = 0;
-    private int chordN = 0;
-    private int chordT = 0;
-    private int tupletN = 0;
+    private boolean chordN = false;
+    private boolean chordT = false;
+    private boolean tupletN = false;
 
     private Stack<Note> chord = new Stack<>();
     private Stack<Playable> tuplet = new Stack<>();
@@ -82,13 +82,13 @@ public class MakeBody implements AbcListener {
 
     @Override
     public void enterTuplet(TupletContext ctx) {
-        tupletN = 1;
-        chordT = 1;
+        tupletN = true;
+        chordT = true;
     }
 
     @Override
     public void enterChord(ChordContext ctx) {
-        chordN = 1;
+        chordN = true;
     }
 
     @Override
@@ -153,10 +153,10 @@ public class MakeBody implements AbcListener {
             p = new Pitch(charPitch);
             p = p.transpose(octave);
         }
-        if (chordN == 1) {
+        if (chordN) {
             Note note = new Note(p, duration, accidental);
             chord.push(note);
-        } else if (tupletN == 1) {
+        } else if (tupletN) {
             Note note = new Note(p, duration, accidental);
             tuplet.push(note);
         } else {
@@ -243,12 +243,12 @@ public class MakeBody implements AbcListener {
             notes.add(chord.pop());
         }
         Chord c = new Chord(notes);
-        if (chordT == 1) {
+        if (chordT) {
             tuplet.push(c);
         } else {
             playable.push(c);
         }
-        chordN = 0;
+        chordN = false;
     }
 
     @Override
@@ -259,8 +259,8 @@ public class MakeBody implements AbcListener {
         }
         Tuplet tuplet = new Tuplet(notes);
         playable.push(tuplet);
-        tupletN = 0;
-        chordT = 0;
+        tupletN = false;
+        chordT = false;
     }
 
     @Override
@@ -271,8 +271,8 @@ public class MakeBody implements AbcListener {
         }
         Tuplet tuplet = new Tuplet(notes);
         playable.push(tuplet);
-        tupletN = 0;
-        chordT = 0;
+        tupletN = false;
+        chordT = false;
 
     }
 
@@ -284,8 +284,8 @@ public class MakeBody implements AbcListener {
         }
         Tuplet tuplet = new Tuplet(notes);
         playable.push(tuplet);
-        tupletN = 0;
-        chordT = 0;
+        tupletN = false;
+        chordT = false;
     }
 
     @Override
