@@ -53,11 +53,31 @@ public class Piece {
 	}
 	
 	public int computeTicks() {
-		List<Integer> ticks = new ArrayList<>();
+		List<Integer> tickList = new ArrayList<>();
 		for (Voice voice : voices) {
-			ticks.add(Integer.valueOf(voice.computeTicks()));
+			tickList.add(voice.computeTicks());
 		}
-		return Collections.max(ticks);
+		int lcm = -1;
+		for (int i = 0; i < tickList.size(); i++) {
+			int t = tickList.get(i);
+			if (i == 0) lcm = t;
+			else {
+				lcm = lcm(lcm, t);
+			}
+		}
+		return lcm;
+	}
+	
+	private int lcm(int a, int b) {
+		if (a < 0 || b < 0) throw new IllegalArgumentException();
+		int gcd = gcd(a, b);
+		return a*b/gcd;
+	}
+	
+	private int gcd(int p, int q) {
+		if (p < 0 || q < 0) throw new IllegalArgumentException();
+		if (q == 0) return p;
+		else return gcd(q, p%q);
 	}
 	
 	public SequencePlayer play() throws MidiUnavailableException, InvalidMidiDataException {
