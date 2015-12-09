@@ -30,15 +30,29 @@ public class Voice {
 		for (Measure m : measures) {
 			ticks.add(Integer.valueOf(m.computeTicks()));
 		}
-		return Collections.max(ticks);
+		int lcm = -1;
+		for (int i = 0; i < ticks.size(); i++) {
+			int t = ticks.get(i);
+			if (i == 0) lcm = t;
+			else {
+				lcm = lcm(lcm, t);
+			}
+		}
+		return lcm;
 	}
 	
-	public List<PlaybackNote> play() {
-		// TODO handle repeats
-		int ticks = 0;
-		List<PlaybackNote> playbackNotes = new ArrayList<PlaybackNote>();
-		return playbackNotes;
+	private int lcm(int a, int b) {
+		if (a < 0 || b < 0) throw new IllegalArgumentException();
+		int gcd = gcd(a, b);
+		return a*b/gcd;
 	}
+	
+	private int gcd(int p, int q) {
+		if (p < 0 || q < 0) throw new IllegalArgumentException();
+		if (q == 0) return p;
+		else return gcd(q, p%q);
+	}
+	
 	@Override
     public boolean equals(Object p){
         if (!(p instanceof Voice)) return false;
@@ -58,6 +72,5 @@ public class Voice {
     @Override 
     public int hashCode() {
         return this.name.length();
-    }
-	
+    }	
 }

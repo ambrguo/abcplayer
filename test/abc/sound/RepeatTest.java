@@ -21,12 +21,12 @@ public class RepeatTest {
      */
     @Test
     public void testGetIsBeginRepeatTrue(){
-        Repeat test = new Repeat(true, false, false, 0);
+        Repeat test = new Repeat(true, false, false, false, 0);
         assertTrue(test.getIsBeginRepeat());
     }
     @Test
     public void testGetIsBeginRepeatFalse(){
-        Repeat test = new Repeat(false, false, false, 0);
+        Repeat test = new Repeat(false, false, false, false, 0);
         assertFalse(test.getIsBeginRepeat());
     }
     /**
@@ -36,28 +36,44 @@ public class RepeatTest {
      */
     @Test
     public void testGetIsEndRepeatTrue(){
-        Repeat test = new Repeat(false, true, false, 0);
+        Repeat test = new Repeat(false, true, false, false, 0);
         assertTrue(test.getIsEndRepeat());
     }
     @Test
     public void testGetIsEndRepeatFalse(){
-        Repeat test = new Repeat(false, false, false, 0);
+        Repeat test = new Repeat(false, false, false, false, 0);
         assertFalse(test.getIsEndRepeat());
     }
     /**
-     * hasAlternateEnding
+     * getIsFirstAlternate
      * 1) True
      * 2) False
      */
     @Test
-    public void testHasAlternateEndingTrue(){
-        Repeat test = new Repeat(false, true, true, 0);
-        assertTrue(test.hasAlternateEnding());
+    public void testIsFirstAlternateTrue(){
+        Repeat test = new Repeat(false, false, true, false, 0);
+        assertTrue(test.getIsFirstAlternate());
     }
     @Test
-    public void testHasAlternateEndingFalse(){
-        Repeat test = new Repeat(false, false, false, 0);
-        assertFalse(test.hasAlternateEnding());
+    public void testIsFirstAlternateFalse(){
+        Repeat test = new Repeat(false, false, false, false, 0);
+        assertFalse(test.getIsFirstAlternate());
+    }
+    
+    /**
+     * getIsSecondAlternate
+     * 1) True
+     * 2) False
+     */
+    @Test
+    public void testIsSecondAlternateTrue(){
+        Repeat test = new Repeat(false, false, false, true, 0);
+        assertTrue(test.getIsSecondAlternate());
+    }
+    @Test
+    public void testIsSecondAlternateFalse(){
+        Repeat test = new Repeat(false, false, false, false, 0);
+        assertFalse(test.getIsSecondAlternate());
     }
     /**
      * counter
@@ -66,12 +82,12 @@ public class RepeatTest {
      */
     @Test
     public void testCounter0(){
-        Repeat test = new Repeat(false, false, false, 0);
+        Repeat test = new Repeat(false, false, false, false, 0);
         assertTrue(0 == test.counter());
     }
     @Test
     public void testCounter0Plus(){
-        Repeat test = new Repeat(false, false, false, 1);
+        Repeat test = new Repeat(false, false, false, false, 1);
         assertTrue(1 == test.counter());
     }
     /**
@@ -81,13 +97,13 @@ public class RepeatTest {
      */
     @Test
     public void testHit0(){
-        Repeat test = new Repeat(false, false, false, 0);
+        Repeat test = new Repeat(false, false, false, false, 0);
         test.hit();
         assertTrue(1 == test.counter());
     }
     @Test
     public void testHit0Plus(){
-        Repeat test = new Repeat(false, false, false, 1);
+        Repeat test = new Repeat(false, false, false, false, 1);
         test.hit();
         assertTrue(2 == test.counter());
     }
@@ -97,7 +113,7 @@ public class RepeatTest {
      */
     @Test
     public void testGetDuration(){
-        Repeat test = new Repeat(false, false, false, 1);
+        Repeat test = new Repeat(false, false, false, false, 1);
         assertTrue(test.getDuration().equals(new RatNum(0,1)));
     }
     /**
@@ -106,7 +122,7 @@ public class RepeatTest {
      */
     @Test
     public void testIsNote(){
-        Repeat test = new Repeat(false, false, false, 1);
+        Repeat test = new Repeat(false, false, false, false, 1);
         assertFalse(test.isNote());
     }
     /**
@@ -115,7 +131,7 @@ public class RepeatTest {
      */
     @Test
     public void testIsChord(){
-        Repeat test = new Repeat(false, false, false, 1);
+        Repeat test = new Repeat(false, false, false, false, 1);
         assertFalse(test.isChord());
     }
     /**
@@ -124,16 +140,8 @@ public class RepeatTest {
      */
     @Test
     public void testIsRepeat(){
-        Repeat test = new Repeat(false, false, false, 1);
+        Repeat test = new Repeat(false, false, false, false, 1);
         assertTrue(test.isRepeat());
     }
-    /**
-     * play
-     */
-    @Test
-    public void testPlay() {
-        Repeat test = new Repeat(false, false, false, 1);
-        List<PlaybackNote> playbackNotes = test.play(0, 4, new RatNum(1, 4));
-        assertTrue(playbackNotes.isEmpty());
-    }
+
 }

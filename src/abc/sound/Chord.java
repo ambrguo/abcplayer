@@ -3,8 +3,6 @@ package abc.sound;
 import java.util.Set;
 import java.util.Map;
 import java.util.HashSet;
-import java.util.List;
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 
@@ -66,15 +64,6 @@ public class Chord implements Playable {
 	public boolean isRepeat() {
 		return false;
 	}
-    
-	@Override
-    public List<PlaybackNote> play(int start, int ticks, RatNum defaultLength) {
-    	List<PlaybackNote> playbackNotes = new ArrayList<PlaybackNote>();
-    	for (Note note : notes) {
-    		playbackNotes.addAll(note.play(start, ticks, defaultLength));
-    	}
-    	return playbackNotes;
-    }
 	
 	@Override
 	public boolean equals(Object that) {

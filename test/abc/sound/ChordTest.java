@@ -121,37 +121,5 @@ public class ChordTest {
         Chord chord = new Chord(notes);
         assertFalse(chord.isRepeat());
     }
-    
-    /**
-     * play
-     * 1) 2 notes in chord
-     * 2) 2 + notes in chord
-     * 3) notes of different duration
-     * 4) notes of same Duration
-     */
-    @Test
-    public void testPlay2NotesSameDuration() {
-        Note a = new Note(new Pitch('A'), new RatNum(1, 8), Accidental.NONE);
-        Note b = new Note(new Pitch('B'), new RatNum(1, 8), Accidental.NONE);
-        Set<Note> notes = new HashSet<Note>();
-        notes.add(a);
-        notes.add(b);
-        Chord chord = new Chord(notes);
-        List<PlaybackNote> playbackNotes = chord.play(0, 8, new RatNum(1, 4));
-        assertEquals(2, playbackNotes.size());
-    }
-    @Test
-    public void testPlay2PlusNotesDifferentDuration() {
-        Note a = new Note(new Pitch('A'), new RatNum(1, 8), Accidental.NONE);
-        Note b = new Note(new Pitch('B'), new RatNum(1, 8), Accidental.NONE);
-        Note c = new Note(new Pitch('C'), new RatNum(3, 4), Accidental.NONE);
-        Set<Note> notes = new HashSet<Note>();
-        notes.add(a);
-        notes.add(b);
-        notes.add(c);
-        Chord chord = new Chord(notes);
-        List<PlaybackNote> playbackNotes = chord.play(0, 8, new RatNum(1, 4));
-        assertEquals(3, playbackNotes.size());
-    }
 
 }

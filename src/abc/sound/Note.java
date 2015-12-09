@@ -72,26 +72,6 @@ public class Note implements Playable {
     }
     
     @Override
-    public List<PlaybackNote> play(int startTick, int numTicks, RatNum defaultLength) {
-    	List<PlaybackNote> playbackNotes = new ArrayList<PlaybackNote>();
-    	switch (accidental) {
-    		case NONE: playbackNotes.add(new PlaybackNote(pitch, startTick, numTicks));
-    			break;
-    		case DOUBLESHARP: playbackNotes.add(new PlaybackNote(pitch.transpose(2), startTick, numTicks));
-    			break;
-    		case SHARP: playbackNotes.add(new PlaybackNote(pitch.transpose(1), startTick, numTicks));
-    			break;
-    		case NATURAL: playbackNotes.add(new PlaybackNote(pitch, startTick, numTicks));
-    			break;
-    		case FLAT: playbackNotes.add(new PlaybackNote(pitch.transpose(-1), startTick, numTicks));
-    			break;
-    		case DOUBLEFLAT: playbackNotes.add(new PlaybackNote(pitch.transpose(-2), startTick, numTicks));
-    			break;
-    	}
-    	return playbackNotes;
-    }
-    
-    @Override
     public boolean equals(Object that) {
     	if (!(that instanceof Note)) return false;
     	Note thatNote = (Note) that;

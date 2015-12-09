@@ -23,16 +23,18 @@ public class Measure {
 	private final List<Playable> playables;
 	private final boolean beginRepeat;
 	private final boolean endRepeat;
-	private final boolean hasAlternateEnding;
+	private final boolean firstAlternate;
+	private final boolean secondAlternate;
 	
-	public Measure(List<Playable> playables, boolean beginRepeat, boolean endRepeat, boolean hasAlternateEnding) {
-		if (beginRepeat || endRepeat) {
-			playables.add(0, new Repeat(beginRepeat, endRepeat, hasAlternateEnding, 0));
+	public Measure(List<Playable> playables, boolean beginRepeat, boolean endRepeat, boolean firstAlternate, boolean secondAlternate) {
+		if (beginRepeat || endRepeat || firstAlternate || secondAlternate) {
+			playables.add(new Repeat(beginRepeat, endRepeat, firstAlternate, secondAlternate, 0));
 		}
 		this.playables = playables;
 		this.beginRepeat = beginRepeat;
 		this.endRepeat = endRepeat;
-		this.hasAlternateEnding = hasAlternateEnding;
+		this.firstAlternate = firstAlternate;
+		this.secondAlternate = secondAlternate;
 	}
 	
 	public List<Playable> getPlayables() {
@@ -47,8 +49,12 @@ public class Measure {
 		return endRepeat;
 	}
 	
-	public boolean getHasAlternateEnding() {
-		return hasAlternateEnding;
+	public boolean getFirstAlternate() {
+		return firstAlternate;
+	}
+	
+	public boolean getSecondAlternate() {
+		return secondAlternate;
 	}
 	
 	public int computeTicks() {
@@ -75,20 +81,6 @@ public class Measure {
 		else return gcd(q, p%q);
 	}
 	
-	public List<PlaybackNote> play(int startTick, int numTicks, RatNum defaultLength) {
-		List<Playable> toPlay = new ArrayList<Playable>(playables);
-		List<PlaybackNote> playbackNotes = new ArrayList<PlaybackNote>();
- 		if (toPlay.get(0).isRepeat()) {
- 			toPlay.remove(0);
- 		}
- 		// TODO handle changing startTicks
- 		// TODO handle accidentals
-		for (Playable playable : toPlay) {
-			playbackNotes.addAll(playable.play(startTick, numTicks, defaultLength));
-		}
-		return playbackNotes;
-	}
-	
 	@Override
 	public boolean equals(Object that){
 	    if (!(that instanceof Measure)) return false;
@@ -108,5 +100,4 @@ public class Measure {
         }
         return mult;
 	}
-
 }
