@@ -48,7 +48,7 @@ public class MakeBody implements AbcListener {
     private boolean chordT = false;
     private boolean tupletN = false;
     private boolean def = true;
-    //private Map<String,Accidental> accidentalMeasure;
+    private Map<String,Accidental> accidentalMeasure;
 
     private Stack<Note> chord = new Stack<>();
     private Stack<Playable> tuplet = new Stack<>();
@@ -56,23 +56,23 @@ public class MakeBody implements AbcListener {
     String key = "";
     private Map<String, List<Measure>> voices = new HashMap<String, List<Measure>>();
 
-    
     public Set<Voice> getVoices() {
         Set<Voice> voice = new HashSet<>();
-        for (String key : voices.keySet()){
+        for (String key : voices.keySet()) {
             Voice v = new Voice(voices.get(key), key);
             voice.add(v);
         }
         return voice;
     }
+
     @Override
     public void enterLine(LineContext ctx) {
-        if (def){
+        if (def) {
             voices.put("DEFAULT_VOICE", new ArrayList<Measure>());
         }
         def = false;
     }
- 
+
     @Override
     public void enterTuplet(TupletContext ctx) {
         tupletN = true;
@@ -83,10 +83,10 @@ public class MakeBody implements AbcListener {
     public void enterChord(ChordContext ctx) {
         chordN = true;
     }
-    
+
     @Override
     public void enterMeasure(MeasureContext ctx) {
-        //accidentalMeasure= new HashMap<String,Accidental>();
+        accidentalMeasure= new HashMap<String,Accidental>();
     }
 
     @Override
@@ -95,7 +95,7 @@ public class MakeBody implements AbcListener {
         boolean endR = false;
         boolean firstE = false;
         boolean secondE = false;
-        
+
         List<Playable> playables = new ArrayList<Playable>();
         if (ctx.BEGIN_REPEAT() != null) {
             beginR = true;
@@ -103,7 +103,7 @@ public class MakeBody implements AbcListener {
         if (ctx.END_REPEAT() != null) {
             endR = true;
         }
-        if (ctx.ONE_REPEAT()!=null){
+        if (ctx.ONE_REPEAT() != null) {
             firstE = true;
         }
         if (ctx.TWO_REPEAT() != null) {
@@ -114,12 +114,12 @@ public class MakeBody implements AbcListener {
         }
         Collections.reverse(playables);
         Measure m = new Measure(playables, beginR, endR, firstE, secondE);
-        if (voices.size()>1){
+        if (voices.size() > 1) {
             voices.get(key).add(m);
         } else {
             voices.get("DEFAULT_VOICE").add(m);
         }
-        accidental = Accidental.NONE;
+        //accidental = Accidental.NONE;
     }
 
     @Override
@@ -132,18 +132,33 @@ public class MakeBody implements AbcListener {
     }
 
     @Override
-    public void exitVoice(VoiceContext ctx) {}
+    public void exitVoice(VoiceContext ctx) {
+    }
 
     @Override
-    public void exitElement(ElementContext ctx) {}
+    public void exitElement(ElementContext ctx) {
+    }
 
     @Override
-    public void exitTuplet(TupletContext ctx) {}
+    public void exitTuplet(TupletContext ctx) {
+    }
 
     @Override
     public void exitNote(NoteContext ctx) {
         String pitch = ctx.LETTER().getText().trim();
         Pitch p = new Pitch('C');
+        if (accidentalMeasure.containsKey(pitch.toUpperCase())){
+            if (accidental == accidental.NONE){ 
+                accidental = accidentalMeasure.get(pitch.toUpperCase()); 
+            } else {
+                accidentalMeasure.put(pitch.toUpperCase(), accidental);
+            }
+              
+        } else if (!accidentalMeasure.containsKey(pitch.toUpperCase())){
+            if (accidental != accidental.NONE){
+                accidentalMeasure.put(pitch.toUpperCase(), accidental);
+            }
+        }
         if (pitch.matches("[a-g]")) {
             octave = octave + 12;
             pitch = pitch.toUpperCase();
@@ -164,10 +179,10 @@ public class MakeBody implements AbcListener {
         } else {
             Note note = new Note(p, duration, accidental);
             playable.push(note);
-            //duration = new RatNum(1, 1);
         }
         octave = 0;
         duration = new RatNum(1, 1);
+        accidental = accidental.NONE;
     }
 
     @Override
@@ -176,7 +191,7 @@ public class MakeBody implements AbcListener {
         if (ctx.duration() != null) {
             rest = new Rest(duration);
         }
-        playable.push(rest); 
+        playable.push(rest);
         duration = new RatNum(1, 1);
     }
 
@@ -193,9 +208,9 @@ public class MakeBody implements AbcListener {
             String denominator = rational.substring(1);
             duration = new RatNum(1, Integer.parseInt(denominator));
         } else if (rational.matches("[0-9]+/[0-9]+")) {// x/x
-            int slash = rational.indexOf("/"); 
+            int slash = rational.indexOf("/");
             int numerator = Integer.parseInt(rational.substring(0, slash));
-            int denominator = Integer.parseInt(rational.substring(slash+1));
+            int denominator = Integer.parseInt(rational.substring(slash + 1));
             duration = new RatNum(numerator, denominator);
         } else if (rational.equals("/")) {// /
             duration = new RatNum(1, 2);
@@ -206,26 +221,23 @@ public class MakeBody implements AbcListener {
     public void exitOctave(OctaveContext ctx) {
         String oct = ctx.OCTAVE().getText().trim();
         if (oct.matches("[']+")) {
-            //System.out.println("up");
             for (int count = 0; count < oct.length(); ++count) {
-                if (oct.charAt(count) == '\'') { 
+                if (oct.charAt(count) == '\'') {
                     octave = octave + 12;
                 }
             }
         } else if (oct.matches("[,]+")) {
             for (int count = 0; count < oct.length(); ++count) {
-                if (oct.charAt(count) == ',') { 
+                if (oct.charAt(count) == ',') {
                     octave = octave - 12;
                 }
             }
-            System.out.print(octave);
         }
     }
 
     @Override
     public void exitAccidental(AccidentalContext ctx) {
         String acc = ctx.ACCIDENTAL().getText().trim();
-        //System.out.println("hit");
         if (acc.equals("^")) {
             accidental = Accidental.SHARP;
         } else if (acc.equals("^^")) {
@@ -236,7 +248,7 @@ public class MakeBody implements AbcListener {
             accidental = Accidental.DOUBLEFLAT;
         } else if (acc.equals("=")) {
             accidental = Accidental.NATURAL;
-        } 
+        }
     }
 
     @Override
@@ -246,14 +258,14 @@ public class MakeBody implements AbcListener {
             notes.add(chord.pop());
         }
         Collections.reverse(notes);
-        Chord c = new Chord(notes); 
-        if (chordT) {  //add to Tuplet
+        Chord c = new Chord(notes);
+        if (chordT) { // add to Tuplet
             tuplet.push(c);
         } else {
             playable.push(c);
         }
         chordN = false;
-        //duration = new RatNum(1,1);
+        //System.out.println("chord done");
     }
 
     @Override
@@ -295,15 +307,22 @@ public class MakeBody implements AbcListener {
         tupletN = false;
         chordT = false;
     }
-    
+
     @Override
-    public void exitRoot(RootContext ctx) {}
+    public void exitRoot(RootContext ctx) {
+    }
+
     @Override
-    public void exitBody(BodyContext ctx) {}
+    public void exitBody(BodyContext ctx) {
+    }
+
     @Override
-    public void exitLine(LineContext ctx) {}
+    public void exitLine(LineContext ctx) {
+    }
+
     @Override
-    public void enterEveryRule(ParserRuleContext arg0) {}
+    public void enterEveryRule(ParserRuleContext arg0) {
+    }
 
     @Override
     public void exitEveryRule(ParserRuleContext arg0) {
