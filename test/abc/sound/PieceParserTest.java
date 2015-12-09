@@ -21,7 +21,7 @@ public class PieceParserTest {
      * 6) voices: 1, 1+
      * 7) measure: repeats
      */
-    /*@Test
+    @Test
     public void test1() throws IOException { //accidental, duration, 1 voice     
         Pitch p = new Pitch('C');
         p = p.transpose(12);
@@ -116,7 +116,7 @@ public class PieceParserTest {
         Piece checkPiece = new Piece(voiceSet, header); 
         
         assertTrue(checkPiece.equals(piece));  
-    }*/
+    }
     @Test
     public void test3() throws IOException { //repeats     
         Pitch a = new Pitch('A');
