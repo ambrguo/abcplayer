@@ -70,7 +70,11 @@ public class Measure {
 	}
 	
 	public List<List<Playback>> play() {
-	    //TODO
+	    List<List<Playback>> playbacks = new ArrayList<List<Playback>>();
+	    for (Playable p : playables ){
+	        playbacks.addAll(p.play());
+	    }
+	    return playbacks;
 	}
 	
 	private int lcm(int a, int b) {
