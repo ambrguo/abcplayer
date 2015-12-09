@@ -62,18 +62,6 @@ public class Tuplet implements Playable {
         return false;
     }
 
-    @Override
-    public List<PlaybackNote> play(int start, int ticks, RatNum defaultLength) {
-        List<PlaybackNote> playbackNotes = new ArrayList<PlaybackNote>();
-        int now = start;
-        for (Playable playable : playables) {
-            playbackNotes.addAll(playable.play(now, ticks, defaultLength));
-            int increment = 0; // TODO calculate
-            now += increment;
-        }
-        return playbackNotes;
-    }
-
     private void checkRep() {
         assert playables.size() >= 2 && playables.size() <= 4;
         for (Playable playable : playables) {

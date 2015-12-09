@@ -46,11 +46,6 @@ public class Rest implements Playable {
 	public boolean isRepeat() {
 		return false;
 	}
-    
-	@Override
-    public List<PlaybackNote> play(int start, int ticks, RatNum defaultLength) {
-    	return new ArrayList<PlaybackNote>();
-    }
 	
 	@Override
 	public boolean equals(Object that) {

@@ -45,14 +45,6 @@ public class Voice {
 		if (p < 0 || q < 0) throw new IllegalArgumentException();
 		if (q == 0) return p;
 		else return gcd(q, p%q);
-	}
-	
-	public List<PlaybackNote> play() {
-		// TODO handle repeats
-		int ticks = 0;
-		List<PlaybackNote> playbackNotes = new ArrayList<PlaybackNote>();
-		return playbackNotes;
-	}
-	
+	}	
 	
 }

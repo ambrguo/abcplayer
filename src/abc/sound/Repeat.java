@@ -15,12 +15,13 @@ public class Repeat implements Playable {
 	//							the repeat is an end repeat. hasAlternateEnding maps to whether or not the repeat has an alternate 
 	//							ending to be played the second time. counter maps to the number of times the repeat object has been 
 	//							encountered.
-	// Rep invariant: hasAlternateEnding == true iff isEndRepeat == true, counter >= 0
+	// Rep invariant: counter >= 0
 	// Safety from rep exposure: all fields are private and final
 	
 	private final boolean isBeginRepeat;
 	private final boolean isEndRepeat;
-	private final boolean hasAlternateEnding;
+	private final boolean isFirstAlternate;
+	private final boolean isSecondAlternate;
 	private int counter;
 	
 	/**
@@ -30,10 +31,11 @@ public class Repeat implements Playable {
 	 * @param hasAlternateEnding if Repeat is an end repeat that has an alternate ending
 	 * @param counter number of times the repeat object has been encountered
 	 */
-	public Repeat(boolean isBeginRepeat, boolean isEndRepeat, boolean hasAlternateEnding, int counter) {
+	public Repeat(boolean isBeginRepeat, boolean isEndRepeat, boolean isFirstAlternate, boolean isSecondAlternate, int counter) {
 		this.isBeginRepeat = isBeginRepeat;
 		this.isEndRepeat = isEndRepeat;
-		this.hasAlternateEnding = hasAlternateEnding;
+		this.isFirstAlternate = isFirstAlternate;
+		this.isSecondAlternate = isSecondAlternate;
 		this.counter = counter;
 		checkRep();
 	}
@@ -53,10 +55,17 @@ public class Repeat implements Playable {
 	}
 	
 	/**
-	 * @return true if Repeat is an end repeat that has an alternate ending
+	 * @return true if Repeat is a first alternate ending
 	 */
-	public boolean hasAlternateEnding() {
-		return hasAlternateEnding;
+	public boolean isFirstAlternate() {
+		return isFirstAlternate;
+	}
+	
+	/**
+	 * @return true if Repeat is a second alternate ending
+	 */
+	public boolean isSecondAlternate() {
+		return isSecondAlternate;
 	}
 	
 	/**
@@ -97,17 +106,11 @@ public class Repeat implements Playable {
 	public boolean isRepeat() {
 		return true;
 	}
-
-	@Override
-	public List<PlaybackNote> play(int startTick, int numTicks, RatNum defaultLength) {
-		return new ArrayList<PlaybackNote>(); 
-	}
 	
 	/**
 	 * Checks the rep invariant
 	 */
 	private void checkRep() {
-		if (hasAlternateEnding == true) assert isEndRepeat == true;
 		assert counter >= 0;
 	}
 }
