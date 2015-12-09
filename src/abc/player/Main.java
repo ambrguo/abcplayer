@@ -27,15 +27,6 @@ import abc.sound.SequencePlayer;
  * Main entry point of your application.
  */
 public class Main {
-    
-//    private static final String COMPOSER_PREFIX = "C:";
-//    private static final String KEY_PREFIX = "K:";
-//    private static final String DURATION_PREFIX = "L:";
-//    private static final String METER_PREFIX = "M:";
-//    private static final String TEMPO_PREFIX = "Q:";
-//    private static final String TITLE_PREFIX = "T:";
-//    private static final String INDEX_PREFIX = "X:";
-//    private static final String VOICE_PREFIX = "V:";
 
     /**
      * Plays the input file using Java MIDI API and displays
@@ -78,11 +69,8 @@ public class Main {
                 } catch (Exception e){
                     throw new RuntimeException("please enter a valid piece");
                 }
-            }
-
+            }        
         
-        
-        
-    }
+        }
     }
 }
