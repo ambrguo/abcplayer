@@ -14,6 +14,7 @@ import javax.sound.midi.InvalidMidiDataException;
 import javax.sound.midi.MidiUnavailableException;
 
 import abc.sound.Piece;
+import abc.sound.SequencePlayer;
 //import abc.sound.Voice;
 //import abc.sound.Measure;
 
@@ -46,7 +47,9 @@ public class Main {
     public static void play(String file) throws IOException, MidiUnavailableException, InvalidMidiDataException {
 
         Piece piece = Piece.parse(file);
-        piece.play();
+        SequencePlayer sp = piece.play();
+        sp.play();
+        System.in.read();
         
 
     }
@@ -55,8 +58,9 @@ public class Main {
         // CALL play() HERE USING ARGS
 
         
-        String file = "sample_abc/piece1.abc";
+        String file = "sample_abc/fur_elise.abc";
         
         play(file);
+        
     }
 }

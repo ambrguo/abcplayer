@@ -55,7 +55,7 @@ public class Piece {
 	public Piece(Set<Voice> voices, Header header) {
 		this.voices = voices;
 		this.header = header;
-		checkRep();
+		//checkRep();
 	}
 	
 	/**
@@ -82,13 +82,13 @@ public class Piece {
 	}
 	
 	private int lcm(int a, int b) {
-		if (a < 0 || b < 0) throw new IllegalArgumentException();
+//		if (a < 0 || b < 0) throw new IllegalArgumentException();
 		int gcd = gcd(a, b);
 		return a*b/gcd;
 	}
 	
 	private int gcd(int p, int q) {
-		if (p < 0 || q < 0) throw new IllegalArgumentException();
+//		if (p < 0 || q < 0) throw new IllegalArgumentException();
 		if (q == 0) return p;
 		else return gcd(q, p%q);
 	}
@@ -135,17 +135,25 @@ public class Piece {
 	        return 0;
 	    }
 	    
+	    
 	    Map<String, Accidental> map = KeySwitch.keySwitch(k);
 	    
-	    Accidental a = map.get(letter);
+	    if (map.keySet().contains(letter)){
+	        Accidental a = map.get(letter);
+	        return transposeAccidental(a);
+	    }
 	    
-	    return transposeAccidental(a);
+	    return 0;
 	}
 
 	
 	public SequencePlayer play() throws MidiUnavailableException, InvalidMidiDataException {
 		int bpm = header.getTempo();
+		System.out.println(bpm);
+		
 		int tpb = computeTicks();
+		System.out.println("tpb:" + tpb);
+
 	
 		SequencePlayer sp = new SequencePlayer(bpm, tpb);
 		
@@ -154,13 +162,13 @@ public class Piece {
 		for (Voice v : this.getVoices()){
 		    tick = 0;
 		    for (List<Playback> list : v.play()){
-		        int span = new Double(list.get(0).getDuration().multiply(this.header.getDefaultLength()).toDouble()*tpb).intValue();
+		        int span = new Double(list.get(0).getDuration().toDouble()*tpb).intValue();
 		        for (Playback p : list){
 		            if (p.hasPitch()){
 		                //is something being played 
 		                int transpose = 0;
 		                Pitch pitch = p.getPitch();
-		                int numTicks = new Double(p.getDuration().multiply(this.header.getDefaultLength()).toDouble()*tpb).intValue();
+		                int numTicks = new Double(p.getDuration().toDouble()*tpb).intValue();
 		                if (p.getAccidental() != Accidental.NONE){
 		                    transpose = transposeAccidental(p.getAccidental());  
 		                } else {
@@ -259,16 +267,17 @@ public class Piece {
         String[] headerBody = {header, body};
         return headerBody;
 	}
-	
-	/**
-	 * Checks the rep invariant
-	 */
-	private void checkRep() {
-		assert !voices.isEmpty();
-		for (Voice v : voices) {
-			assert v != null;
-			assert this.header.getVoices().contains(v.getName());
-		}
-	
-	}
 }
+	
+//	/**
+//	 * Checks the rep invariant
+//	 */
+//	private void checkRep() {
+//		assert !voices.isEmpty();
+//		for (Voice v : voices) {
+//			assert v != null;
+//			assert this.header.getVoices().contains(v.getName());
+//		}
+//	
+//	}
+//}

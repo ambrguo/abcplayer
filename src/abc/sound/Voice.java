@@ -54,17 +54,25 @@ public class Voice {
 	            indexBeginRepeat = index;
 	            
 	        }
+	        if (measure.getFirstAlternate()){
+                System.out.println("first alt hit at" + index);
+                indexFirstAlternate = index;
+            }
 	        if (measure.getEndRepeat()){
 	            
 	            
 	            if (indexFirstAlternate != null){
+	                System.out.println("first alternate:" +indexFirstAlternate);
 	                for (int innerIndex = indexBeginRepeat; innerIndex < indexFirstAlternate; innerIndex++){
+	                    System.out.println("non null" + innerIndex);
 	                    Measure innerMeasure = measures.get(innerIndex);
 	                    List<List<Playback>> innerAdd = innerMeasure.play();
 	                    playbacks.addAll(innerAdd);
 	                }
 	            } else {
+	                
 	                for (int innerIndex = indexBeginRepeat; innerIndex <= index; innerIndex++){
+	                    System.out.println("null" + innerIndex);
                         Measure innerMeasure = measures.get(innerIndex);
                         List<List<Playback>> innerAdd = innerMeasure.play();
                         playbacks.addAll(innerAdd);
@@ -75,9 +83,7 @@ public class Voice {
 	            
 	            
 	        }
-	        if (measure.getFirstAlternate()){
-	            indexFirstAlternate = index;
-	        }
+	        
 	        
 	        
 	    }
