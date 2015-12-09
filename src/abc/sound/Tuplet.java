@@ -64,11 +64,10 @@ public class Tuplet implements Playable {
     @Override
     public List<List<Playback>> play() {
     	List<List<Playback>> playTuplet = new ArrayList<List<Playback>>();
-//    	List<Playback> nestedPlaybacks = new ArrayList<Playback>();
     	for (Playable playable : playables) {
     		for (int i = 0; i < playable.play().size(); i++) {
-    			List<Playback> playablePlayback = new ArrayList<Playback>();
     			for (Playback p : playable.play().get(i)) {
+        			List<Playback> playablePlayback = new ArrayList<Playback>();
     				if (p.hasPitch()) {
     					RatNum d = p.getDuration();
     					if (playables.size() == 2) {
@@ -80,15 +79,12 @@ public class Tuplet implements Playable {
     					else if (playables.size() == 4) {
     						d = d.multiply(new RatNum(3, 4));
     					}
-//    					List<Playback> playablePlayback = new ArrayList<Playback>();
     					playablePlayback.add(new Playback(Optional.of(p.getPitch()), p.getAccidental(), d));
-    					//playTuplet.add(nest);
-    					//nestedPlaybacks.add(new Playback(Optional.of(p.getPitch()), p.getAccidental(), d));
     				}
+        			playTuplet.add(playablePlayback);
+
     			}
-    			playTuplet.add(playablePlayback);
     		}
-    		//playTuplet.add(nestedPlaybacks);
     	}
     	return playTuplet;
     }
