@@ -15,13 +15,13 @@ public class BodyTest {
      * 1) accidental : DOUBLESHARP, SHARP, NATURAL, FLAT, DOUBLEFLAT, NONE
      * 2) duration : x, x/x, x/, /x, /, none
      * 3) chord: notes = same duration, notes = different duration
-     * 4) octave: lowercase, ''', ','
-     * 5) tuplet: duplet, triplet, quadruplet
+     * 4) octave: A-G, a-g, ''', ','
+     * 5) tuplet: duplet, triplet, quadruplet, notes, chords
      * 6) voices: 1, 1+
      * 7) measure: repeats, no repeats
      */
     @Test
-    public void test1() throws IOException { //accidental, duration, 1 voice     
+    public void test1() throws IOException { //accidentals, durations, 1 voice     
         Pitch p = new Pitch('C');
         p = p.transpose(12);
             
@@ -117,7 +117,45 @@ public class BodyTest {
         assertTrue(checkPiece.equals(piece));  
     }
     @Test
-    public void test3() throws IOException { //repeats     
+    public void test3() throws IOException { //tuplets    
+        Pitch a = new Pitch('A');
+        Pitch b = new Pitch('B');
+        RatNum x = new RatNum(1,1);
+        Accidental y = Accidental.NONE;
+       
+        Note an = new Note(a, x, y);
+        Note bn = new Note(b, x, y);
+        
+        List<Playable> quad = new ArrayList<Playable>();
+        
+        quad.add(an); quad.add(bn); quad.add(an); quad.add(bn);
+        
+        Tuplet quadruplet = new Tuplet(quad);
+        
+        List<Playable> one3 = new ArrayList<Playable>();
+        
+        one3.add(quadruplet);
+        
+        Measure m3 = new Measure(one3, false, false, false, false);
+       
+        List<Measure> measure1 = new ArrayList<Measure>();
+        List<Measure> measure2 = new ArrayList<Measure>();
+        
+        measure1.add(m3);
+        
+        Voice voice = new Voice(measure1, "DEFAULT_VOICE");
+        Set<Voice> voiceSet = new HashSet<Voice>();
+        voiceSet.add(voice);
+        
+        Header header = Header.parse("sample_abc/sample3.abc");
+        Piece piece = Piece.parse("sample_abc/sample3.abc");
+        
+        Piece checkPiece = new Piece(voiceSet, header); 
+        
+        assertTrue(checkPiece.equals(piece));  
+    }
+    @Test
+    public void test4() throws IOException { //reeats  
         Pitch a = new Pitch('A');
         Pitch b = new Pitch('B');
         Pitch c = new Pitch('C');
