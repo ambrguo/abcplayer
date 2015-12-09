@@ -107,7 +107,7 @@ public class HeaderTest {
     	Header myHeader = new Header(1, "Piece No.2", Key.C_MAJOR);
     	myHeader.setMeter(new RatNum(4, 4));
     	myHeader.setDefaultLength(new RatNum(1, 8));
-    	myHeader.setTempo(200);
+    	myHeader.setTempo(400);
     	
     	assertEquals(header, myHeader);
     }

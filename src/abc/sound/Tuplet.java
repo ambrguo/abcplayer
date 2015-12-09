@@ -2,6 +2,7 @@ package abc.sound;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * Represents a tuplet, a consecutive group of notes that are to be played for a duration that is either greater or less than 
@@ -65,9 +66,24 @@ public class Tuplet implements Playable {
     @Override
     public List<List<Playback>> play() {
     	List<List<Playback>> playTuplet = new ArrayList<List<Playback>>();
+    	List<Playback> nestedPlaybacks = new ArrayList<Playback>();
     	for (Playable playable : playables) {
-    		for (List<Playback> playablePlayback : playable.play()) {
-    			playTuplet.add(playablePlayback);
+    		for (int i = 0; i < playable.play().size(); i++) {
+    			for (Playback p : playable.play().get(i)) {
+    				if (p.hasPitch()) {
+    					RatNum d = p.getDuration();
+    					if (playables.size() == 2) {
+    						d.multiply(new RatNum(3, 2));
+    					}
+    					else if (playables.size() == 3) {
+    						d.multiply(new RatNum(2, 3));
+    					}
+    					else if (playables.size() == 4) {
+    						d.multiply(new RatNum(3, 4));
+    					}
+    					nestedPlaybacks.add(new Playback(Optional.of(p.getPitch()), p.getAccidental(), d));
+    				}
+    			}
     		}
     	}
     	return playTuplet;

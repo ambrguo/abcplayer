@@ -2,6 +2,9 @@ package abc.sound;
 
 import java.util.Optional;
 
+/**
+ * Playback is an intermediary object that stores pitch, accidental, and duration data for future use in scheduling notes in the SequencePlayer
+ */
 public class Playback {
 	private Optional<Pitch> pitch;
 	private final Accidental accidental;
