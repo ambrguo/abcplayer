@@ -4,6 +4,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -27,24 +28,26 @@ public class ChordTest {
     public void testGetNotes2() {
         Note a = new Note(new Pitch('A'), new RatNum(1, 8), Accidental.NONE);
         Note b = new Note(new Pitch('B'), new RatNum(1, 8), Accidental.NONE);
-        Set<Note> notes = new HashSet<Note>();
+        List<Note> notes = new ArrayList<Note>();
         notes.add(a);
         notes.add(b);
         Chord chord = new Chord(notes);
         assertEquals(notes, chord.getNotes());
     }
+    
     @Test
     public void testGetNotes2Plus() {
         Note a = new Note(new Pitch('A'), new RatNum(1, 8), Accidental.NONE);
         Note b = new Note(new Pitch('B'), new RatNum(1, 8), Accidental.NONE);
         Note c = new Note(new Pitch('C'), new RatNum(1, 8), Accidental.NONE);
-        Set<Note> notes = new HashSet<Note>();
+        List<Note> notes = new ArrayList<Note>();
         notes.add(a);
         notes.add(b);
         notes.add(c);
         Chord chord = new Chord(notes);
         assertEquals(notes, chord.getNotes());
     }
+    
     /**
      * getDuration
      * 1) notes in chord same length
@@ -54,25 +57,27 @@ public class ChordTest {
     public void testGetDurationSame() {
         Note a = new Note(new Pitch('A'), new RatNum(1, 8), Accidental.NONE);
         Note b = new Note(new Pitch('B'), new RatNum(1, 8), Accidental.NONE);
-        Set<Note> notes = new HashSet<Note>();
+        List<Note> notes = new ArrayList<Note>();
         notes.add(a);
         notes.add(b);
         Chord chord = new Chord(notes);
         assertEquals(a.getDuration(), chord.getDuration());
         assertEquals(b.getDuration(), chord.getDuration());
     }
+    
     @Test
     public void testGetDurationDifferent() {
         Note a = new Note(new Pitch('A'), new RatNum(1, 8), Accidental.NONE);
         Note b = new Note(new Pitch('B'), new RatNum(1, 4), Accidental.NONE);
         Note c = new Note(new Pitch('C'), new RatNum(3, 8), Accidental.NONE);
-        Set<Note> notes = new HashSet<Note>();
+        List<Note> notes = new ArrayList<Note>();
         notes.add(a);
         notes.add(b);
         notes.add(c);
         Chord chord = new Chord(notes);
-        assertEquals(c.getDuration(), chord.getDuration());
+        assertEquals(a.getDuration(), chord.getDuration());
     }
+    
     /**
      * isNotes
      * 1) False
@@ -82,13 +87,14 @@ public class ChordTest {
         Note a = new Note(new Pitch('A'), new RatNum(1, 8), Accidental.NONE);
         Note b = new Note(new Pitch('B'), new RatNum(1, 8), Accidental.NONE);
         Note c = new Note(new Pitch('C'), new RatNum(1, 8), Accidental.NONE);
-        Set<Note> notes = new HashSet<Note>();
+        List<Note> notes = new ArrayList<Note>();
         notes.add(a);
         notes.add(b);
         notes.add(c);
         Chord chord = new Chord(notes);
         assertFalse(chord.isNote());
     }
+    
     /**
      * isChord
      * 1) True
@@ -98,13 +104,14 @@ public class ChordTest {
         Note a = new Note(new Pitch('A'), new RatNum(1, 8), Accidental.NONE);
         Note b = new Note(new Pitch('B'), new RatNum(1, 8), Accidental.NONE);
         Note c = new Note(new Pitch('C'), new RatNum(1, 8), Accidental.NONE);
-        Set<Note> notes = new HashSet<Note>();
+        List<Note> notes = new ArrayList<Note>();
         notes.add(a);
         notes.add(b);
         notes.add(c);
         Chord chord = new Chord(notes);
         assertTrue(chord.isChord());
     }
+    
     /**
      * isRepeat
      * 1) False
@@ -114,7 +121,7 @@ public class ChordTest {
         Note a = new Note(new Pitch('A'), new RatNum(1, 8), Accidental.NONE);
         Note b = new Note(new Pitch('B'), new RatNum(1, 8), Accidental.NONE);
         Note c = new Note(new Pitch('C'), new RatNum(1, 8), Accidental.NONE);
-        Set<Note> notes = new HashSet<Note>();
+        List<Note> notes = new ArrayList<Note>();
         notes.add(a);
         notes.add(b);
         notes.add(c);
