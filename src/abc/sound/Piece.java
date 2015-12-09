@@ -142,87 +142,17 @@ public class Piece {
 	    
 	    return transposeAccidental(a);
 	}
-	/**
-	 * method checks if the object has an accidental and transposes it, or object
-	 * is modified by the key signature and modifies it, adds the note to a sequence player
-	 * starting at the start tick, returns the new start tick 
-	 * @param n Note 
-	 * @param sp SequencePlayer 
-	 * @param startTick int 
-	 * @return tick int 
-	 */
-	private int addNote(Note n, int startTick, SequencePlayer sp){
-	    int bpm = header.getTempo();
-        int tpb = computeTicks();
-        int num_ticks = n.getDuration().multiply(new RatNum(tpb,1)).toDouble().intValue();
-        
-        Pitch p = n.getPitch();
-        int transpose = 0;
-        
-        if (n.getAccidental() != Accidental.NONE){
-            transpose = transposeAccidental(n.getAccidental());
-        } else {
-            transpose = transposeKeySignature(p);
-        }
-        
-        sp.addNote(p.transpose(transpose).toMidiNote(), startTick, num_ticks);
-        
-        return startTick += num_ticks;
-        
-	}
+
 	
 	public SequencePlayer play() throws MidiUnavailableException, InvalidMidiDataException {
 		int bpm = header.getTempo();
 		int tpb = computeTicks();
-		Set<Note> keysignotes; //do something about matching the keysig to the set of notes with accidentals
+	
 		SequencePlayer sp = new SequencePlayer(bpm, tpb);
 		
 		int tick;
 		
-		for (Voice voice : voices) {
-		    tick = 0;
-		    Integer indexStartRepeat = null; 
-		    Integer indexEndRepeat = null;
-		    Integer indexFirstAlternate = null;
-		    Integer indexSecondAlternate = null;
-		    for (int index = 0; index < voice.getMeasure().size(); index++){
-		        Measure measure = voice.getMeasure().get(index);
-		        if (measure.getBeginRepeat()){
-		            indexStartRepeat = index;
-		            for (Playable p: measure.getPlayables()){
-		           
-		                if (p.isRepeat()) continue;
-		                if (p.isNote()){
-		                    int transpose = 0;
-		                    Note note = (Note) p;
-		                    int num_ticks = p.getDuration().multiply(new RatNum(tpb,1)).toDouble().intValue();
-		                    if (note.getAccidental()!=Accidental.NONE){
-		                        //TODO something about changing semitones with transpose 
-		                    } else {
-		                        if (keysignotes.contains(note)){
-		                            //TODO change transpose based on the ones in the keysignature 
-		                        }
-		                    }
-		                    sp.addNote(note.getPitch().transpose(transpose).toMidiNote(), tick, num_ticks);
-		                    
-		                }
-		            }
-		        }
-		        if (measure.getEndRepeat()){
-		            indexEndRepeat = index;
-		            
-		        } 
-		        if (measure.getFirstAlternate()){
-		            indexFirstAlternate = index;
-		        }
-		        if (measure.getSecondAlternate()){
-		            indexSecondAlternate = index;
-		        }
-		        
-		    }
-			
-		}
-		return sp;
+		
 	}
 	
 	/**
