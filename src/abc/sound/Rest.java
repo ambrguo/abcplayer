@@ -1,5 +1,9 @@
 package abc.sound;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+
 /**
  * Represents a rest in the music
  */
@@ -42,6 +46,13 @@ public class Rest implements Playable {
 	@Override
 	public boolean isRepeat() {
 		return false;
+	}
+	
+	@Override
+	public List<Playback> play() {
+		List<Playback> playRest = new ArrayList<>();
+		playRest.add(new Playback(Optional.empty(), Optional.empty(), duration));
+		return playRest;
 	}
 	
 	@Override
