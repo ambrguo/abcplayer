@@ -94,6 +94,83 @@ public class Piece {
 		else return gcd(q, p%q);
 	}
 	
+	private int transposeAccidental(Accidental a){
+	    int semitones = 0;
+	    switch (a) {
+	    case NONE: break;
+	    case NATURAL: break;
+	    case SHARP: semitones = 1;
+	    break;
+	    case FLAT: semitones = -1;
+	    break;
+	    case DOUBLESHARP: semitones = 2;
+	    break;
+	    case DOUBLEFLAT: semitones = -2;
+	    break;
+	    }
+	    return semitones;
+	}
+	
+	private int transposeKeySignature(Pitch p) {
+	    Key k = this.header.getKeySignature();
+	    
+	    String letter;
+	    
+	    String check = p.toString();
+	    
+	    if (check.contains("C")){
+	        letter = "C";
+	    } else if (check.contains("D")){
+	        letter = "D";
+	    } else if (check.contains("E")){
+	        letter = "E";
+	    } else if (check.contains("F")){
+	        letter = "F";
+	    } else if (check.contains("G")){
+	        letter = "G";    
+	    } else if (check.contains("A")){
+	        letter = "A";
+	    } else if (check.contains("B")){
+	        letter = "B";
+	    } else {
+	        return 0;
+	    }
+	    
+	    Map<String, Accidental> map = KeySwitch.keySwitch(k);
+	    
+	    Accidental a = map.get(letter);
+	    
+	    return transposeAccidental(a);
+	}
+	/**
+	 * method checks if the object has an accidental and transposes it, or object
+	 * is modified by the key signature and modifies it, adds the note to a sequence player
+	 * starting at the start tick, returns the new start tick 
+	 * @param n Note 
+	 * @param sp SequencePlayer 
+	 * @param startTick int 
+	 * @return tick int 
+	 */
+	private int addNote(Note n, int startTick, SequencePlayer sp){
+	    int bpm = header.getTempo();
+        int tpb = computeTicks();
+        int num_ticks = n.getDuration().multiply(new RatNum(tpb,1)).toDouble().intValue();
+        
+        Pitch p = n.getPitch();
+        int transpose = 0;
+        
+        if (n.getAccidental() != Accidental.NONE){
+            transpose = transposeAccidental(n.getAccidental());
+        } else {
+            transpose = transposeKeySignature(p);
+        }
+        
+        sp.addNote(p.transpose(transpose).toMidiNote(), startTick, num_ticks);
+        
+        return startTick += num_ticks;
+        
+	}
+	
 	public SequencePlayer play() throws MidiUnavailableException, InvalidMidiDataException {
 		int bpm = header.getTempo();
 		int tpb = computeTicks();
@@ -104,10 +181,10 @@ public class Piece {
 		
 		for (Voice voice : voices) {
 		    tick = 0;
-		    Object indexStartRepeat = null; 
-		    Object indexEndRepeat = null;
-		    Object indexFirstAlternate = null;
-		    Object indexSecondAlternate = null;
+		    Integer indexStartRepeat = null; 
+		    Integer indexEndRepeat = null;
+		    Integer indexFirstAlternate = null;
+		    Integer indexSecondAlternate = null;
 		    for (int index = 0; index < voice.getMeasure().size(); index++){
 		        Measure measure = voice.getMeasure().get(index);
 		        if (measure.getBeginRepeat()){
