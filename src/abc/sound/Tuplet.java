@@ -73,18 +73,19 @@ public class Tuplet implements Playable {
     				if (p.hasPitch()) {
     					RatNum d = p.getDuration();
     					if (playables.size() == 2) {
-    						d.multiply(new RatNum(3, 2));
+    						d = d.multiply(new RatNum(3, 2));
     					}
     					else if (playables.size() == 3) {
-    						d.multiply(new RatNum(2, 3));
+    						d = d.multiply(new RatNum(2, 3));
     					}
     					else if (playables.size() == 4) {
-    						d.multiply(new RatNum(3, 4));
+    						d = d.multiply(new RatNum(3, 4));
     					}
     					nestedPlaybacks.add(new Playback(Optional.of(p.getPitch()), p.getAccidental(), d));
     				}
     			}
     		}
+    		playTuplet.add(nestedPlaybacks);
     	}
     	return playTuplet;
     }
