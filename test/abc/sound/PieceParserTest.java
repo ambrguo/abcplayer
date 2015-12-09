@@ -62,7 +62,7 @@ public class PieceParserTest {
         Piece checkPiece = new Piece(voiceSet, header); 
         
         assertTrue(checkPiece.equals(piece));  
-    }/*
+    }
     @Test
     public void test2() throws IOException { //octave, chord, tuplet     
         Pitch c3 = new Pitch('C');
@@ -98,7 +98,7 @@ public class PieceParserTest {
         Piece checkPiece = new Piece(voiceSet, header); 
         
         assertTrue(checkPiece.equals(piece));  
-    }*/
+    }
     
 
 
