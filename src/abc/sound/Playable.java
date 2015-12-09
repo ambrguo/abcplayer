@@ -1,5 +1,7 @@
 package abc.sound;
 
+import java.util.List;
+
 /**
  * An immutable data type that represents a fundamental element of music that can appear in the body of a piece, 
  * as specified in the ABC subset for 6.005
@@ -33,6 +35,11 @@ public interface Playable {
 	 * @return true if the Playable object is a Repeat
 	 */
 	public boolean isRepeat();
+	
+	/**
+	 * @return list of Playbacks to be scheduled
+	 */
+	public List<Playback> play();
 
 	/**
 	 * @return whether or not a playable is equal to another playable
