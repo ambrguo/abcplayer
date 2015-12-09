@@ -1,18 +1,13 @@
 package abc.sound;
 
-import java.util.Set;
-import java.util.Map;
-import java.util.HashSet;
 import java.util.List;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
 
 /**
  * Represents a chord in the music
  */
 public class Chord implements Playable {
-	// Abstraction function: Chord represents a chord consisting of the set notes.
+	// Abstraction function: Chord represents a chord consisting of the set notes
     // Rep invariant: notes contains at least 2 non-null notes
 	// Safety from rep exposure: - all fields are private and final
 	//							 - getNotes() returns a defensively copied set with an unmodifiableSet wrapper 
@@ -32,10 +27,12 @@ public class Chord implements Playable {
 	 * @return the set of notes in the chord
 	 */
 	public List<Note> getNotes() {
-	    List<Note> copy = new ArrayList<Note>(notes);
-		return copy;
+	    return new ArrayList<Note>(notes);
 	}
 	
+	/**
+	 * @return the duration of the chord, as determined by the duration of the first note of the chord
+	 */
 	@Override
 	public RatNum getDuration() {
 	    RatNum first = notes.get(0).getDuration();
@@ -76,10 +73,10 @@ public class Chord implements Playable {
 	}
 	
 	@Override
-	public boolean equals(Object that) {
-		if (!(that instanceof Chord)) return false;
-		Chord thatChord = (Chord) that;
-		return notes.equals(thatChord.notes);
+	public boolean equals(Object thatObject) {
+		if (!(thatObject instanceof Chord)) return false;
+		Chord that = (Chord) thatObject;
+		return notes.equals(that.notes);
 	}
 	
 	@Override

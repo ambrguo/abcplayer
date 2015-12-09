@@ -110,7 +110,6 @@ public class Repeat implements Playable {
 	
 	@Override
 	public List<List<Playback>> play() {
-		// does nothing
 		List<List<Playback>> playRepeat = new ArrayList<List<Playback>>();
 		List<Playback> repeatPlayback = new ArrayList<>();
 		repeatPlayback.add(new Playback(Optional.empty(), Accidental.NONE, new RatNum(0, 1)));
@@ -119,19 +118,21 @@ public class Repeat implements Playable {
 	}
 
 	@Override
-	public boolean equals(Object that){
-	    if (!(that instanceof Repeat)) return false;
-	    Repeat compare = (Repeat) that;
-	    if (this.isBeginRepeat==compare.getIsBeginRepeat() && this.isEndRepeat==compare.getIsEndRepeat() && this.isFirstAlternate
-	                == compare.isFirstAlternate && this.isSecondAlternate == compare.isSecondAlternate 
-	                && this.counter == compare.counter()) return true;
-	    return false;
+	public boolean equals(Object thatObject){
+	    if (!(thatObject instanceof Repeat)) return false;
+	    Repeat that = (Repeat) thatObject;
+	    return this.isBeginRepeat == that.getIsBeginRepeat() && this.isEndRepeat == that.getIsEndRepeat() 
+	    		&& this.isFirstAlternate == that.isFirstAlternate && this.isSecondAlternate == that.isSecondAlternate 
+	                && this.counter == that.counter();
 	}
 	
     @Override
     public int hashCode(){
         return counter;
     }
+    
+    // HELPER METHOD
+    
 	/**
 	 * Checks the rep invariant
 	 */

@@ -58,10 +58,10 @@ public class Rest implements Playable {
 	}
 	
 	@Override
-	public boolean equals(Object that) {
-		if (!(that instanceof Rest)) return false;
-		Rest thatRest = (Rest) that;
-		return (this.duration).equals(thatRest.duration);
+	public boolean equals(Object thatObject) {
+		if (!(thatObject instanceof Rest)) return false;
+		Rest that = (Rest) thatObject;
+		return (this.duration).equals(that.duration);
 	}
 	
 	@Override

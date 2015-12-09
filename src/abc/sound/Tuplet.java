@@ -11,15 +11,13 @@ import java.util.Optional;
  * contain chords. A tuplet may have notes and chords of different lengths.
  */
 public class Tuplet implements Playable {
-    // Abstraction function: Tuplet represents a tuplet of type type that is mapped by a list of Playable objects playables
+    // Abstraction function: Tuplet represents a tuplet that is mapped by a list of Playable objects playables
     // Rep invariant: playables consists of either 2, 3, or 4 Playable objects of type Chord or Note
     // Safety from rep exposure: all fields are private and final
 
     private final List<Playable> playables;
-    /*private final TupletType type;*/
 
     public Tuplet(List<Playable> playables) {
-        /*this.type = type;*/
         this.playables = playables;
         checkRep();
     }
@@ -27,15 +25,15 @@ public class Tuplet implements Playable {
     @Override
     public RatNum getDuration() {
         RatNum duration = new RatNum(0, 1);
-        if (playables.size() == 2) {
+        if (playables.size() == 2) { // duplet
             for (Playable p : playables) {
                 duration = duration.add(p.getDuration().multiply(new RatNum(3, 2)));
             }
-        } else if (playables.size() == 3) {
+        } else if (playables.size() == 3) { // triplet
             for (Playable p : playables) {
                 duration = duration.add(p.getDuration().multiply(new RatNum(2, 3)));
             }
-        } else if (playables.size() == 4) {
+        } else if (playables.size() == 4) { // quadruplet
             for (Playable p : playables) {
                 duration = duration.add(p.getDuration().multiply(new RatNum(3,4)));
             }
@@ -66,9 +64,10 @@ public class Tuplet implements Playable {
     @Override
     public List<List<Playback>> play() {
     	List<List<Playback>> playTuplet = new ArrayList<List<Playback>>();
-    	List<Playback> nestedPlaybacks = new ArrayList<Playback>();
+//    	List<Playback> nestedPlaybacks = new ArrayList<Playback>();
     	for (Playable playable : playables) {
     		for (int i = 0; i < playable.play().size(); i++) {
+    			List<Playback> playablePlayback = new ArrayList<Playback>();
     			for (Playback p : playable.play().get(i)) {
     				if (p.hasPitch()) {
     					RatNum d = p.getDuration();
@@ -81,32 +80,26 @@ public class Tuplet implements Playable {
     					else if (playables.size() == 4) {
     						d = d.multiply(new RatNum(3, 4));
     					}
-    					List<Playback> nest = new ArrayList<Playback>();
-    					nest.add(new Playback(Optional.of(p.getPitch()), p.getAccidental(), d));
-    					playTuplet.add(nest);
+//    					List<Playback> playablePlayback = new ArrayList<Playback>();
+    					playablePlayback.add(new Playback(Optional.of(p.getPitch()), p.getAccidental(), d));
+    					//playTuplet.add(nest);
     					//nestedPlaybacks.add(new Playback(Optional.of(p.getPitch()), p.getAccidental(), d));
     				}
     			}
+    			playTuplet.add(playablePlayback);
     		}
     		//playTuplet.add(nestedPlaybacks);
     	}
     	return playTuplet;
     }
-
-    private void checkRep() {
-        assert playables.size() >= 2 && playables.size() <= 4;
-        for (Playable playable : playables) {
-            assert(playable.isChord() || playable.isNote());
-        }
-    }
     
     @Override 
-    public boolean equals(Object that){
-        if (!(that instanceof Tuplet)) return false;
-        Tuplet thatObject = (Tuplet) that;
-        if (!(thatObject.playables.size() == this.playables.size())) return false;
+    public boolean equals(Object thatObject){
+        if (!(thatObject instanceof Tuplet)) return false;
+        Tuplet that = (Tuplet) thatObject;
+        if (!(that.playables.size() == this.playables.size())) return false;
         for (int counter = 0; counter < this.playables.size(); counter++ ){
-            if (!thatObject.playables.get(counter).equals(this.playables.get(counter))) return false;
+            if (!that.playables.get(counter).equals(this.playables.get(counter))) return false;
         }
         return true;
         
@@ -119,5 +112,15 @@ public class Tuplet implements Playable {
             mult *= p.hashCode();
         }
         return mult;
+    }
+    
+    /**
+     * Checks the rep invariant
+     */
+    private void checkRep() {
+        assert playables.size() >= 2 && playables.size() <= 4;
+        for (Playable playable : playables) {
+            assert(playable.isChord() || playable.isNote());
+        }
     }
 }

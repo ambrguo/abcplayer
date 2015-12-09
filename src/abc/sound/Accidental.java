@@ -9,5 +9,10 @@ package abc.sound;
  * accidental that occurs in the same bar.
  */
 public enum Accidental {
-	DOUBLESHARP, SHARP, NATURAL, FLAT, DOUBLEFLAT, NONE
+	DOUBLESHARP, 
+	SHARP, 
+	NATURAL, 
+	FLAT, 
+	DOUBLEFLAT, 
+	NONE
 }

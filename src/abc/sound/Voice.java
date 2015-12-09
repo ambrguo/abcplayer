@@ -7,24 +7,36 @@ import java.util.List;
 public class Voice {
 	
 	private final List<Measure> measures;
-	private final String name;
-
+	private final String name;	
 	
-	
+	/**
+	 * Constructs a voice
+	 * @param measures list of measures in the voice
+	 * @param name name of the voice
+	 */
 	public Voice(List<Measure> measures, String name) {
 		this.measures = measures;
 		this.name = name;
 
 	}
 	
+	/**
+	 * @return the list of measures in the voice
+	 */
 	public List<Measure> getMeasure() {
 		return Collections.unmodifiableList(new ArrayList<Measure>(measures));
 	}
 	
+	/**
+	 * @return the name of the voice
+	 */
 	public String getName() {
 	    return name;
 	}
 	
+	/**
+	 * @return the lcm of the ticks computed for the measures in the voice
+	 */
 	public int computeTicks() {
 		List<Integer> ticks = new ArrayList<>();
 		for (Measure m : measures) {
@@ -41,6 +53,9 @@ public class Voice {
 		return lcm;
 	}
 	
+	/**
+	 * @return the Playback objects created by the play methods of the measure in the voice
+	 */
 	public List<List<Playback>> play() {
 	    Integer indexBeginRepeat = 0;
 	    Integer indexFirstAlternate = null;
@@ -83,13 +98,33 @@ public class Voice {
 	            
 	            
 	        }
-	        
-	        
-	        
+	        	        
 	    }
 	    return playbacks;
 	}
 	
+	@Override
+    public boolean equals(Object thatObject){
+        if (!(thatObject instanceof Voice)) return false;
+        Voice that = (Voice) thatObject;
+        for (int i = 0; i < this.measures.size(); ++i){
+            if (!this.measures.get(i).equals(that.getMeasure().get(i))){
+                return false;
+            }
+        }
+        if (that.getName().equals(this.name)){
+            return true;
+        }
+        return false; 
+    }
+    
+    @Override 
+    public int hashCode() {
+        return this.name.length();
+    }
+    
+	// HELPER METHODS
+    
 	private int lcm(int a, int b) {
 		if (a < 0 || b < 0) throw new IllegalArgumentException();
 		int gcd = gcd(a, b);
@@ -101,24 +136,4 @@ public class Voice {
 		if (q == 0) return p;
 		else return gcd(q, p%q);
 	}
-	
-	@Override
-    public boolean equals(Object p){
-        if (!(p instanceof Voice)) return false;
-        Voice v = (Voice) p;
-        for (int i = 0; i < this.measures.size(); ++i){
-            if (!this.measures.get(i).equals(v.getMeasure().get(i))){
-                return false;
-            }
-        }
-        if (v.getName().equals(this.name)){
-            return true;
-        }
-        return false; 
-    }
-    
-    @Override 
-    public int hashCode() {
-        return this.name.length();
-    }	
 }

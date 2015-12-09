@@ -1,5 +1,8 @@
 package abc.sound;
 
+/**
+ * Represents the possible key signatures that may be specified in the header
+ */
 public enum Key {
 	// Major key signatures
 	C_SHARP_MAJOR,

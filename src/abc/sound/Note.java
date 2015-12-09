@@ -8,7 +8,7 @@ import java.util.Optional;
  * Represents a note in the music
  */
 public class Note implements Playable {
-	// Abstraction function: Note represents a note with Pitch pitch and Accidental accidental that lasts for duration beats.
+	// Abstraction function: Note represents a note with Pitch pitch and Accidental accidental that lasts for duration beats
     // Rep invariant: pitch is non-null, accidental is non-null duration > 0
 	// Safety from rep exposure: all fields are private and final 
 	
@@ -43,6 +43,10 @@ public class Note implements Playable {
 		return accidental;
 	}
 	
+	/**
+	 * mutator -- changes the accidental of the note
+	 * @param a accidental to change to
+	 */
 	public void setAccidental(Accidental a) {
 		accidental = a;
 	}
@@ -82,11 +86,11 @@ public class Note implements Playable {
     }
     
     @Override
-    public boolean equals(Object that) {
-    	if (!(that instanceof Note)) return false;
-    	Note thatNote = (Note) that;
-    	return (this.pitch).equals(thatNote.pitch) && (this.duration).equals(thatNote.duration)
-    			&& (this.accidental).equals(thatNote.accidental);
+    public boolean equals(Object thatObject) {
+    	if (!(thatObject instanceof Note)) return false;
+    	Note that = (Note) thatObject;
+    	return (this.pitch).equals(that.pitch) && (this.duration).equals(that.duration)
+    			&& (this.accidental).equals(that.accidental);
     }
     
     @Override

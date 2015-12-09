@@ -18,9 +18,9 @@ import abc.parser.XyzLexer;
 import abc.parser.XyzParser;
 
 /**
- * Stores data from the header of an abc file 
+ * Stores data from the header of an abc file; mutable
  * 
- * methods: 
+ * getter methods: 
  * getIndex
  * getTitle
  * getKeySignature 
@@ -30,18 +30,22 @@ import abc.parser.XyzParser;
  * getMeter 
  * getTempo
  * getVoices 
+ * 
+ * setter methods:
+ * setComposer
+ * setDefaultLength
+ * setMeter
+ * setTempo
+ * setVoice
+ * 
+ * parse method
  */
 public class Header {
     
-    /*
-     * Abstraction function:
-     * Header represents different descriptive elements of a piece including
-     * composer, length, meter, tempo, voices, index, title, and key signature 
-     * Rep invariant: the values of each field are either the default values or 
-     * have been entered 
-     * Rep Exposure: fields are private and final; getter methods perform defensive 
-     * copying to prevent exposure 
-     */
+    // Abstraction function: Header represents different descriptive elements of a piece including composer, 
+    //							length, meter, tempo, voices, index, title, and key signature 
+    // Rep invariant: the values of each field are either the default values or the set vaues 
+    // Safety from rep exposure: fields are private and final; getter methods are defensively copied; setter methods are void
 	
 	// Required header fields
 	private final int index;
@@ -196,10 +200,16 @@ public class Header {
 		}
 	}
 	
+	/**
+	 * Parse a header
+	 * @param inputFile the abc file
+	 * @return a Header given the information specified in the header section of the input file
+	 * @throws IOException
+	 */
 	public static Header parse(String inputFile) throws IOException{
 	    String header = Piece.fileSplitter(inputFile)[0];
 	    
-//	    try{
+	    try{
             CharStream stream = new ANTLRInputStream(header);
             
             // Generate parser
@@ -211,15 +221,14 @@ public class Header {
             
             // Generate the parse tree
             ParseTree tree = parser.root();
-//            Trees.inspect(tree, parser);
             
             MakeHeader headerMaker = new MakeHeader();
             new ParseTreeWalker().walk(headerMaker, tree);
             return headerMaker.getHeader();
           
-//        } catch (RuntimeException e){
-//            throw new IllegalArgumentException("Header: not a valid header");
-//        }
+        } catch (RuntimeException e){
+            throw new IllegalArgumentException("Header: not a valid header");
+        }
 	}
 	
 	@Override

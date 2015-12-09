@@ -100,10 +100,10 @@ public class RatNum {
 	}
 	
 	@Override
-	public boolean equals(Object that) {
-		if (!(that instanceof RatNum)) return false;
-		RatNum rn = (RatNum) that;
-		return this.numerator == rn.numerator && this.denominator == rn.denominator;
+	public boolean equals(Object thatObject) {
+		if (!(thatObject instanceof RatNum)) return false;
+		RatNum that = (RatNum) thatObject;
+		return this.numerator == that.numerator && this.denominator == that.denominator;
 	}
 	
 	@Override
@@ -116,8 +116,8 @@ public class RatNum {
 	/**
 	 * Computes the gcd of two integers p,q using Euclid's algorithm
 	 * 
-	 * @param p integer
-	 * @param q integer
+	 * @param p non-negative integer
+	 * @param q non-negative integer
 	 * @return the greatest common denominator of p and q
 	 */
 	private int gcd(int p, int q) {
