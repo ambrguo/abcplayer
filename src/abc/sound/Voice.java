@@ -7,7 +7,9 @@ import java.util.List;
 public class Voice {
 	
 	private final List<Measure> measures;
-	private final String name;	
+	private final String name;
+
+	
 	
 	public Voice(List<Measure> measures, String name) {
 		this.measures = measures;
@@ -24,14 +26,11 @@ public class Voice {
 	}
 	
 	public int computeTicks() {
-		int lcm = -1;
-		for (int i = 0; i < measures.size(); i++) {
-			int t = measures.get(i).computeTicks();
-			if (i == 0) lcm = t;
-			else {
-				lcm = lcm(lcm, t);
-			}
+		List<Integer> ticks = new ArrayList<>();
+		for (Measure m : measures) {
+			ticks.add(Integer.valueOf(m.computeTicks()));
 		}
+<<<<<<< HEAD
 		return lcm;
 	}
 	
@@ -46,5 +45,36 @@ public class Voice {
 		if (q == 0) return p;
 		else return gcd(q, p%q);
 	}	
+=======
+		return Collections.max(ticks);
+	}
+	
+	public List<PlaybackNote> play() {
+		// TODO handle repeats
+		int ticks = 0;
+		List<PlaybackNote> playbackNotes = new ArrayList<PlaybackNote>();
+		return playbackNotes;
+	}
+	@Override
+    public boolean equals(Object p){
+        if (!(p instanceof Voice)) return false;
+        Voice v = (Voice) p;
+        for (int i = 0; i < this.measures.size(); ++i){
+            System.out.println("hi");
+            if (!this.measures.get(i).equals(v.getMeasure().get(i))){
+                return false;
+            }
+        }
+        if (v.getName().equals(this.name)){
+            return true;
+        }
+        return false; 
+    }
+    
+    @Override 
+    public int hashCode() {
+        return this.name.length();
+    }
+>>>>>>> 07484bad6bf6ebb36554197f4b3cfc3c6f4eb40b
 	
 }

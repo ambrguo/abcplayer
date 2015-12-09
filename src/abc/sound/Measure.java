@@ -80,5 +80,42 @@ public class Measure {
 		if (q == 0) return p;
 		else return gcd(q, p%q);
 	}
+<<<<<<< HEAD
+=======
+	
+	public List<PlaybackNote> play(int startTick, int numTicks, RatNum defaultLength) {
+		List<Playable> toPlay = new ArrayList<Playable>(playables);
+		List<PlaybackNote> playbackNotes = new ArrayList<PlaybackNote>();
+ 		if (toPlay.get(0).isRepeat()) {
+ 			toPlay.remove(0);
+ 		}
+ 		// TODO handle changing startTicks
+ 		// TODO handle accidentals
+		for (Playable playable : toPlay) {
+			playbackNotes.addAll(playable.play(startTick, numTicks, defaultLength));
+		}
+		return playbackNotes;
+	}
+	
+	@Override
+	public boolean equals(Object that){
+	    if (!(that instanceof Measure)) return false;
+	    Measure thatObject = (Measure) that;
+	    if (!(thatObject.playables.size() == this.playables.size())) return false;
+	    for (int counter = 0; counter < this.playables.size(); counter++ ){
+	        if (!thatObject.playables.get(counter).equals(this.playables.get(counter))) return false;
+        }
+        return true;
+	}
+	
+	@Override
+	public int hashCode() {
+	    int mult = 1;
+        for (Playable p: this.playables){
+            mult *= p.hashCode();
+        }
+        return mult;
+	}
+>>>>>>> 07484bad6bf6ebb36554197f4b3cfc3c6f4eb40b
 
 }
