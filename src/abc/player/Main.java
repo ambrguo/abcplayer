@@ -58,7 +58,7 @@ public class Main {
         // CALL play() HERE USING ARGS
 
         
-        String file = "sample_abc/fur_elise.abc";
+        String file = "sample_abc/tuplet.abc";
         
         play(file);
         

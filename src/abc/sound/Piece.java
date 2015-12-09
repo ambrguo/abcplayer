@@ -65,6 +65,10 @@ public class Piece {
 		return Collections.unmodifiableSet(new HashSet<Voice>(voices));
 	}
 	
+	/**
+	 * ticks needed 
+	 * @return ticks int
+	 */
 	public int computeTicks() {
 		List<Integer> tickList = new ArrayList<>();
 		for (Voice voice : voices) {
@@ -92,7 +96,11 @@ public class Piece {
 		if (q == 0) return p;
 		else return gcd(q, p%q);
 	}
-	
+	/**
+	 * maps accidental to its semitones transpose 
+	 * @param a Accidental 
+	 * @return semitones transpose 
+	 */
 	private int transposeAccidental(Accidental a){
 	    int semitones = 0;
 	    switch (a) {
@@ -110,6 +118,12 @@ public class Piece {
 	    return semitones;
 	}
 	
+	/**
+	 * checks if pitch is of a class that would be affected by the key signature
+	 * maps to the key signature changes and returns the semitones transposed 
+	 * @param p pitch 
+	 * @return semitones int 
+	 */
 	private int transposeKeySignature(Pitch p) {
 	    Key k = this.header.getKeySignature();
 	    
@@ -146,7 +160,12 @@ public class Piece {
 	    return 0;
 	}
 
-	
+	/**
+	 * 
+	 * @return Squenceplayer of all the notes in the piece 
+	 * @throws MidiUnavailableException
+	 * @throws InvalidMidiDataException
+	 */
 	public SequencePlayer play() throws MidiUnavailableException, InvalidMidiDataException {
 		int bpm = header.getTempo();
 		System.out.println(bpm);
@@ -191,7 +210,8 @@ public class Piece {
 	
 	/**
 	 * Parse a piece.
-	 * @param inputFile file of piece to parse
+	 * 
+	 * @param inputFile file of piece to parse.  Require every measure to end with a barline. 
 	 */
 	//must change return type to piece 
 	
