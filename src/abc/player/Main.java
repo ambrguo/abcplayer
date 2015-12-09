@@ -45,7 +45,6 @@ public class Main {
         Piece piece = Piece.parse(file);
         System.out.println(piece.getHeaderToString());
         SequencePlayer sp = piece.play();
-        System.out.println(sp);
         sp.play();
         System.in.read();
         
