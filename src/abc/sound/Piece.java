@@ -85,6 +85,13 @@ public class Piece {
 		return lcm;
 	}
 	
+	/*
+	 * get header tostring 
+	 */
+	public String getHeaderToString(){
+	    return header.toString();
+	}
+	
 	private int lcm(int a, int b) {
 //		if (a < 0 || b < 0) throw new IllegalArgumentException();
 		int gcd = gcd(a, b);
@@ -168,10 +175,10 @@ public class Piece {
 	 */
 	public SequencePlayer play() throws MidiUnavailableException, InvalidMidiDataException {
 		int bpm = header.getTempo();
-		System.out.println(bpm);
+		
 		
 		int tpb = computeTicks();
-		System.out.println("tpb:" + tpb);
+		
 
 	
 		SequencePlayer sp = new SequencePlayer(bpm, tpb);
