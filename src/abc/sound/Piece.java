@@ -152,6 +152,33 @@ public class Piece {
 		
 		int tick;
 		
+		for (Voice v : this.getVoices()){
+		    tick = 0;
+		    for (List<Playback> list : v.play()){
+		        int span = new Double(list.get(0).getDuration().multiply(this.header.getDefaultLength()).toDouble()*tpb).intValue();
+		        for (Playback p : list){
+		            if (p.hasPitch()){
+		                //is something being played 
+		                int transpose = 0;
+		                Pitch pitch = p.getPitch();
+		                int numTicks = new Double(p.getDuration().multiply(this.header.getDefaultLength()).toDouble()*tpb).intValue();
+		                if (p.getAccidental() != Accidental.NONE){
+		                    transpose = transposeAccidental(p.getAccidental());  
+		                } else {
+		                    transpose = transposeKeySignature(pitch);
+		                }
+		                sp.addNote(pitch.transpose(transpose).toMidiNote(), tick, numTicks);
+		            } else if (!p.hasPitch()){
+		                //is rest 
+		                break;
+		            }
+		        }
+		        tick += span ;
+		    }
+		}
+		
+		return sp;
+		
 		
 	}
 	
