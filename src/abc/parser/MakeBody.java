@@ -145,7 +145,7 @@ public class MakeBody implements AbcListener {
         String pitch = ctx.LETTER().getText().trim();
         Pitch p = new Pitch('C');
         if (pitch.matches("[a-g]")) {
-            octave += 12;
+            octave = octave + 12;
             pitch = pitch.toUpperCase();
             char charPitch = pitch.charAt(0);
             p = new Pitch(charPitch);
@@ -161,14 +161,13 @@ public class MakeBody implements AbcListener {
         } else if (tupletN) {
             Note note = new Note(p, duration, accidental);
             tuplet.push(note);
-            duration = new RatNum(1,1);
         } else {
             Note note = new Note(p, duration, accidental);
             playable.push(note);
-            duration = new RatNum(1, 1);
+            //duration = new RatNum(1, 1);
         }
         octave = 0;
-        //duration = new RatNum(1, 1);
+        duration = new RatNum(1, 1);
     }
 
     @Override
@@ -209,19 +208,17 @@ public class MakeBody implements AbcListener {
         if (oct.matches("[']+")) {
             //System.out.println("up");
             for (int count = 0; count < oct.length(); ++count) {
-                if (oct.charAt(count) == '\'') { // TODO match apostrophe
-                                                 // correct?
-                    octave += 1;
+                if (oct.charAt(count) == '\'') { 
+                    octave = octave + 12;
                 }
             }
         } else if (oct.matches("[,]+")) {
-            //System.out.println("yes");
             for (int count = 0; count < oct.length(); ++count) {
-                if (oct.charAt(count) == '\'') { // TODO match apostrophe
-                                                 // correct?
-                    octave -= 1;
+                if (oct.charAt(count) == ',') { 
+                    octave = octave - 12;
                 }
             }
+            System.out.print(octave);
         }
     }
 
@@ -244,10 +241,11 @@ public class MakeBody implements AbcListener {
 
     @Override
     public void exitChord(ChordContext ctx) {
-        Set<Note> notes = new HashSet<Note>();
+        List<Note> notes = new ArrayList<Note>();
         while (!chord.empty()) {
             notes.add(chord.pop());
         }
+        Collections.reverse(notes);
         Chord c = new Chord(notes); 
         if (chordT) {  //add to Tuplet
             tuplet.push(c);
@@ -255,7 +253,7 @@ public class MakeBody implements AbcListener {
             playable.push(c);
         }
         chordN = false;
-        duration = new RatNum(1,1);
+        //duration = new RatNum(1,1);
     }
 
     @Override
