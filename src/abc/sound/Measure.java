@@ -80,22 +80,6 @@ public class Measure {
 		if (q == 0) return p;
 		else return gcd(q, p%q);
 	}
-<<<<<<< HEAD
-=======
-	
-	public List<PlaybackNote> play(int startTick, int numTicks, RatNum defaultLength) {
-		List<Playable> toPlay = new ArrayList<Playable>(playables);
-		List<PlaybackNote> playbackNotes = new ArrayList<PlaybackNote>();
- 		if (toPlay.get(0).isRepeat()) {
- 			toPlay.remove(0);
- 		}
- 		// TODO handle changing startTicks
- 		// TODO handle accidentals
-		for (Playable playable : toPlay) {
-			playbackNotes.addAll(playable.play(startTick, numTicks, defaultLength));
-		}
-		return playbackNotes;
-	}
 	
 	@Override
 	public boolean equals(Object that){
@@ -116,6 +100,4 @@ public class Measure {
         }
         return mult;
 	}
->>>>>>> 07484bad6bf6ebb36554197f4b3cfc3c6f4eb40b
-
 }

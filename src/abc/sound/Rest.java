@@ -1,8 +1,5 @@
 package abc.sound;
 
-import java.util.ArrayList;
-import java.util.List;
-
 /**
  * Represents a rest in the music
  */

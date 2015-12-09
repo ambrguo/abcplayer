@@ -1,7 +1,5 @@
 package abc.sound;
 
-import java.util.List;
-
 /**
  * An immutable data type that represents a fundamental element of music that can appear in the body of a piece, 
  * as specified in the ABC subset for 6.005

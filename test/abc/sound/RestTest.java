@@ -56,15 +56,7 @@ public class RestTest {
 		Rest r = new Rest(new RatNum(1, 2));
 		assertFalse(r.isRepeat());
 	}
-	/**
-	 * play
-	 */
-	@Test
-	public void testPlay() {
-		Rest r = new Rest(new RatNum(1, 2));
-		List<PlaybackNote> playbackNotes = r.play(0, 4, new RatNum(1, 4));
-		assertTrue(playbackNotes.isEmpty());
-	}
+
 	/**
 	 * equals
 	 * 1) equals

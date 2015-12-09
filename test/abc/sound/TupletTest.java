@@ -62,16 +62,5 @@ public class TupletTest {
         Tuplet test = new Tuplet(playables);
         assertFalse(test.isRepeat());
     }
-    /**
-     * play
-     */
-    @Test
-    public void testPlay() {
-        List<Playable> playables = new ArrayList<>();
-        playables.add(new Note(new Pitch('C'), new RatNum(1, 4), Accidental.NONE));
-        playables.add(new Note(new Pitch('D'), new RatNum(1, 4), Accidental.NONE));
-        Tuplet test = new Tuplet(playables);
-        List<PlaybackNote> playbackNotes = test.play(0, 4, new RatNum(1, 4));
-        assertEquals(2, playbackNotes.size());
-    }
+
 }

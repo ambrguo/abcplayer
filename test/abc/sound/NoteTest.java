@@ -60,10 +60,4 @@ public class NoteTest {
 		assertFalse(n.isRepeat());
 	}
 	
-	@Test
-	public void testPlay() {
-		Note n = new Note(new Pitch('C'), new RatNum(1, 4), Accidental.NONE);
-		List<PlaybackNote> playbackNotes = n.play(0, 4, new RatNum(1, 4));
-		assertEquals(1, playbackNotes.size());
-	}
 }

@@ -1,8 +1,5 @@
 package abc.sound;
 
-import java.util.ArrayList;
-import java.util.List;
-
 /**
  * Represents a repeat in the music
  * 
@@ -57,14 +54,14 @@ public class Repeat implements Playable {
 	/**
 	 * @return true if Repeat is a first alternate ending
 	 */
-	public boolean isFirstAlternate() {
+	public boolean getIsFirstAlternate() {
 		return isFirstAlternate;
 	}
 	
 	/**
 	 * @return true if Repeat is a second alternate ending
 	 */
-	public boolean isSecondAlternate() {
+	public boolean getIsSecondAlternate() {
 		return isSecondAlternate;
 	}
 	
@@ -106,22 +103,16 @@ public class Repeat implements Playable {
 	public boolean isRepeat() {
 		return true;
 	}
-<<<<<<< HEAD
-=======
 
-	@Override
-	public List<PlaybackNote> play(int startTick, int numTicks, RatNum defaultLength) {
-		return new ArrayList<PlaybackNote>(); 
-	}
 	@Override
 	public boolean equals(Object that){
 	    if (!(that instanceof Repeat)) return false;
 	    Repeat compare = (Repeat) that;
-	    if (this.isBeginRepeat==compare.getIsBeginRepeat() && this.isEndRepeat==compare.getIsEndRepeat()&& this.hasAlternateEnding
-	                == compare.hasAlternateEnding && this.counter == compare.counter()) return true;
+	    if (this.isBeginRepeat==compare.getIsBeginRepeat() && this.isEndRepeat==compare.getIsEndRepeat() && this.isFirstAlternate
+	                == compare.isFirstAlternate && this.isSecondAlternate == compare.isSecondAlternate 
+	                && this.counter == compare.counter()) return true;
 	    return false;
 	}
->>>>>>> 07484bad6bf6ebb36554197f4b3cfc3c6f4eb40b
 	
     @Override
     public int hashCode(){
