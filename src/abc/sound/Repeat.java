@@ -1,5 +1,9 @@
 package abc.sound;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+
 /**
  * Represents a repeat in the music
  * 
@@ -102,6 +106,14 @@ public class Repeat implements Playable {
 	@Override
 	public boolean isRepeat() {
 		return true;
+	}
+	
+	@Override
+	public List<Playback> play() {
+		// does nothing
+		List<Playback> playRepeat = new ArrayList<>();
+		playRepeat.add(new Playback(Optional.empty(), Optional.empty(), new RatNum(0, 1)));
+		return playRepeat;
 	}
 
 	@Override

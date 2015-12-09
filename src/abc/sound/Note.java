@@ -2,6 +2,7 @@ package abc.sound;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * Represents a note in the music
@@ -69,6 +70,13 @@ public class Note implements Playable {
     @Override
     public boolean isRepeat() {
     	return false;
+    }
+    
+    @Override
+    public List<Playback> play() {
+    	List<Playback> playNote = new ArrayList<>();
+    	playNote.add(new Playback(Optional.of(pitch), Optional.of(accidental), duration));
+    	return playNote;
     }
     
     @Override
