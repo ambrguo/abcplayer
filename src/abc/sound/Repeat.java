@@ -113,7 +113,7 @@ public class Repeat implements Playable {
 		// does nothing
 		List<List<Playback>> playRepeat = new ArrayList<List<Playback>>();
 		List<Playback> repeatPlayback = new ArrayList<>();
-		repeatPlayback.add(new Playback(Optional.empty(), Optional.empty(), new RatNum(0, 1)));
+		repeatPlayback.add(new Playback(Optional.empty(), Accidental.NONE, new RatNum(0, 1)));
 		playRepeat.add(repeatPlayback);
 		return playRepeat;
 	}
