@@ -75,7 +75,7 @@ public class ChordTest {
         notes.add(b);
         notes.add(c);
         Chord chord = new Chord(notes);
-        assertEquals(c.getDuration(), chord.getDuration());
+        assertEquals(a.getDuration(), chord.getDuration());
     }
     
     /**
