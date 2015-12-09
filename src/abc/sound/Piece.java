@@ -43,10 +43,8 @@ public class Piece {
 	    Piece piece = (Piece)p;
 	    
 	    if (this.voices.equals(piece.getVoices())){
-	        System.out.println("works");
 	        return true;
 	    }
-	    System.out.println("no");
 	    return false;
 	}
 	/**
