@@ -117,7 +117,7 @@ public class BodyTest {
         assertTrue(checkPiece.equals(piece));  
     }
     @Test
-    public void test3() throws IOException { //tuplets    
+    public void test3() throws IOException { //tuplets, voices    
         Pitch a = new Pitch('A');
         Pitch b = new Pitch('B');
         RatNum x = new RatNum(1,1);
@@ -139,7 +139,6 @@ public class BodyTest {
         Measure m3 = new Measure(one3, false, false, false, false);
        
         List<Measure> measure1 = new ArrayList<Measure>();
-        List<Measure> measure2 = new ArrayList<Measure>();
         
         measure1.add(m3);
         
