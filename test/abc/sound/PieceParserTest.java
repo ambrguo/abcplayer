@@ -41,7 +41,7 @@ public class PieceParserTest {
         List<Playable> three = new ArrayList<Playable>();
         
         one.add(first); one.add(sTranspose); one.add(flat); one.add(natural);
-        two.add(sharp); two.add(sharp); two.add(doubleF); two.add(doubleF2);
+        two.add(none); two.add(none); two.add(doubleF); two.add(doubleF2);
         three.add(none7); three.add(doubleS); three.add(natural2); three.add(natural2);
         
         Measure m = new Measure(one, false, false, false, false);
@@ -62,6 +62,7 @@ public class PieceParserTest {
         Piece checkPiece = new Piece(voiceSet, header); 
         
         assertTrue(checkPiece.equals(piece));  
+
     }
     @Test
     public void test2() throws IOException { //octave, chord    
@@ -108,8 +109,7 @@ public class PieceParserTest {
         Set<Voice> voiceSet = new HashSet<Voice>();
         voiceSet.add(voice);
         
-        Header header = Header.parse("sample_abc/test_piece_1.abc");
-        Header headerCheck = new Header(1, "test1", Key.C_MAJOR);
+        Header header = Header.parse("sample_abc/test2.abc");
         Piece piece = Piece.parse("sample_abc/test2.abc");
         
         Piece checkPiece = new Piece(voiceSet, header); 

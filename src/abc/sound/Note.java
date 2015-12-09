@@ -73,9 +73,11 @@ public class Note implements Playable {
     }
     
     @Override
-    public List<Playback> play() {
-    	List<Playback> playNote = new ArrayList<>();
-    	playNote.add(new Playback(Optional.of(pitch), Optional.of(accidental), duration));
+    public List<List<Playback>> play() {
+    	List<List<Playback>> playNote = new ArrayList<List<Playback>>();
+    	List<Playback> notePlayback = new ArrayList<>();
+    	notePlayback.add(new Playback(Optional.of(pitch), accidental, duration));
+    	playNote.add(notePlayback);
     	return playNote;
     }
     
