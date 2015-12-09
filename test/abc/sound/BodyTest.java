@@ -1,17 +1,16 @@
 package abc.sound;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertTrue;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
 import org.junit.Test;
 
-public class PieceParserTest {
+public class BodyTest {
     /**
      * 1) accidental : DOUBLESHARP, SHARP, NATURAL, FLAT, DOUBLEFLAT, NONE
      * 2) duration : x, x/x, x/, /x, /, none
@@ -19,7 +18,7 @@ public class PieceParserTest {
      * 4) octave: lowercase, ''', ','
      * 5) tuplet: duplet, triplet, quadruplet
      * 6) voices: 1, 1+
-     * 7) measure: repeats
+     * 7) measure: repeats, no repeats
      */
     @Test
     public void test1() throws IOException { //accidental, duration, 1 voice     
@@ -164,8 +163,5 @@ public class PieceParserTest {
         assertTrue(checkPiece.equals(piece));  
 
     }
-    
-    
-
 
 }
