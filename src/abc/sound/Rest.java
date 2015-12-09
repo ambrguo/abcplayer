@@ -52,7 +52,7 @@ public class Rest implements Playable {
 	public List<List<Playback>> play() {
 		List<List<Playback>> playRest = new ArrayList<List<Playback>>();
 		List<Playback> restPlayback = new ArrayList<>();
-		restPlayback.add(new Playback(Optional.empty(), Optional.empty(), duration));
+		restPlayback.add(new Playback(Optional.empty(), Accidental.NONE, duration));
 		playRest.add(restPlayback);
 		return playRest;
 	}

@@ -76,7 +76,7 @@ public class Note implements Playable {
     public List<List<Playback>> play() {
     	List<List<Playback>> playNote = new ArrayList<List<Playback>>();
     	List<Playback> notePlayback = new ArrayList<>();
-    	notePlayback.add(new Playback(Optional.of(pitch), Optional.of(accidental), duration));
+    	notePlayback.add(new Playback(Optional.of(pitch), accidental, duration));
     	playNote.add(notePlayback);
     	return playNote;
     }
