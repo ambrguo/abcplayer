@@ -125,9 +125,10 @@ public class MakeBody implements AbcListener {
     @Override
     public void enterVoice(VoiceContext ctx) {
         String v = ctx.getText().trim();
-        key = v;
-        if (!voices.containsKey(v)) {
-            voices.put(v, new ArrayList<Measure>());
+        int colon = v.indexOf(":");
+        key = v.substring(colon+1);
+        if (!voices.containsKey(key)) {
+            voices.put(key, new ArrayList<Measure>());
         }
     }
 
