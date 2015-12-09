@@ -161,13 +161,14 @@ public class MakeBody implements AbcListener {
         } else if (tupletN) {
             Note note = new Note(p, duration, accidental);
             tuplet.push(note);
+            duration = new RatNum(1,1);
         } else {
             Note note = new Note(p, duration, accidental);
             playable.push(note);
             duration = new RatNum(1, 1);
         }
         octave = 0;
-        duration = new RatNum(1, 1);
+        //duration = new RatNum(1, 1);
     }
 
     @Override
