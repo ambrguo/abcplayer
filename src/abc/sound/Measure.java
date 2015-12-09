@@ -69,6 +69,10 @@ public class Measure {
 		return lcm;
 	}
 	
+	public List<List<Playback>> play() {
+	    //TODO
+	}
+	
 	private int lcm(int a, int b) {
 		if (a < 0 || b < 0) throw new IllegalArgumentException();
 		int gcd = gcd(a, b);

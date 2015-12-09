@@ -5,7 +5,7 @@ import java.util.Map;
 
 public class KeySwitch {
 
-	public Map<String, Accidental> keySwitch(Key k) {
+	public static Map<String, Accidental> keySwitch(Key k) {
 		Map<String, Accidental> transposeMap = new HashMap<>();
 		switch (k) {
 		case C_SHARP_MAJOR: transposeMap.put("F", Accidental.SHARP);

@@ -41,6 +41,49 @@ public class Voice {
 		return lcm;
 	}
 	
+	public List<List<Playback>> play() {
+	    Integer indexBeginRepeat = 0;
+	    Integer indexFirstAlternate = null;
+	    List<List<Playback>> playbacks = new ArrayList<List<Playback>>();
+	    int numMeasures = measures.size();
+	    for (int index = 0; index < numMeasures; index++){
+	        Measure measure = measures.get(index);
+	        List<List<Playback>> add = measure.play();
+            playbacks.addAll(add);
+	        if (measure.getBeginRepeat()){
+	            indexBeginRepeat = index;
+	            
+	        }
+	        if (measure.getEndRepeat()){
+	            
+	            
+	            if (indexFirstAlternate != null){
+	                for (int innerIndex = indexBeginRepeat; innerIndex < indexFirstAlternate; innerIndex++){
+	                    Measure innerMeasure = measures.get(innerIndex);
+	                    List<List<Playback>> innerAdd = innerMeasure.play();
+	                    playbacks.addAll(innerAdd);
+	                }
+	            } else {
+	                for (int innerIndex = indexBeginRepeat; innerIndex <= index; innerIndex++){
+                        Measure innerMeasure = measures.get(innerIndex);
+                        List<List<Playback>> innerAdd = innerMeasure.play();
+                        playbacks.addAll(innerAdd);
+                    }
+	            }
+	            indexBeginRepeat = index+1;
+	            indexFirstAlternate = null;
+	            
+	            
+	        }
+	        if (measure.getFirstAlternate()){
+	            indexFirstAlternate = index;
+	        }
+	        
+	        
+	    }
+	    return playbacks;
+	}
+	
 	private int lcm(int a, int b) {
 		if (a < 0 || b < 0) throw new IllegalArgumentException();
 		int gcd = gcd(a, b);
