@@ -39,7 +39,7 @@ public interface Playable {
 	/**
 	 * @return list of Playbacks to be scheduled
 	 */
-	public List<Playback> play();
+	public List<List<Playback>> play();
 
 	/**
 	 * @return whether or not a playable is equal to another playable

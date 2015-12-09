@@ -1,5 +1,6 @@
 package abc.sound;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -59,6 +60,17 @@ public class Tuplet implements Playable {
     @Override
     public boolean isRepeat() {
         return false;
+    }
+    
+    @Override
+    public List<List<Playback>> play() {
+    	List<List<Playback>> playTuplet = new ArrayList<List<Playback>>();
+    	for (Playable playable : playables) {
+    		for (List<Playback> playablePlayback : playable.play()) {
+    			playTuplet.add(playablePlayback);
+    		}
+    	}
+    	return playTuplet;
     }
 
     private void checkRep() {

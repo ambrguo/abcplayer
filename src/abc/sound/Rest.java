@@ -49,9 +49,11 @@ public class Rest implements Playable {
 	}
 	
 	@Override
-	public List<Playback> play() {
-		List<Playback> playRest = new ArrayList<>();
-		playRest.add(new Playback(Optional.empty(), Optional.empty(), duration));
+	public List<List<Playback>> play() {
+		List<List<Playback>> playRest = new ArrayList<List<Playback>>();
+		List<Playback> restPlayback = new ArrayList<>();
+		restPlayback.add(new Playback(Optional.empty(), Optional.empty(), duration));
+		playRest.add(restPlayback);
 		return playRest;
 	}
 	

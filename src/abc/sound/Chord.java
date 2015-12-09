@@ -63,6 +63,19 @@ public class Chord implements Playable {
 	}
 	
 	@Override
+	public List<List<Playback>> play() {
+		List<List<Playback>> playChord = new ArrayList<List<Playback>>();
+		List<Playback> chordPlayback = new ArrayList<>();
+		for (Note note : notes) {
+			for (List<Playback> notePlayback : note.play()) {
+				chordPlayback.add(notePlayback.get(0));
+			}
+		}
+		playChord.add(chordPlayback);
+		return playChord;
+	}
+	
+	@Override
 	public boolean equals(Object that) {
 		if (!(that instanceof Chord)) return false;
 		Chord thatChord = (Chord) that;

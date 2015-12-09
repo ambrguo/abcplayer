@@ -109,10 +109,12 @@ public class Repeat implements Playable {
 	}
 	
 	@Override
-	public List<Playback> play() {
+	public List<List<Playback>> play() {
 		// does nothing
-		List<Playback> playRepeat = new ArrayList<>();
-		playRepeat.add(new Playback(Optional.empty(), Optional.empty(), new RatNum(0, 1)));
+		List<List<Playback>> playRepeat = new ArrayList<List<Playback>>();
+		List<Playback> repeatPlayback = new ArrayList<>();
+		repeatPlayback.add(new Playback(Optional.empty(), Optional.empty(), new RatNum(0, 1)));
+		playRepeat.add(repeatPlayback);
 		return playRepeat;
 	}
 
