@@ -81,11 +81,14 @@ public class Tuplet implements Playable {
     					else if (playables.size() == 4) {
     						d = d.multiply(new RatNum(3, 4));
     					}
-    					nestedPlaybacks.add(new Playback(Optional.of(p.getPitch()), p.getAccidental(), d));
+    					List<Playback> nest = new ArrayList<Playback>();
+    					nest.add(new Playback(Optional.of(p.getPitch()), p.getAccidental(), d));
+    					playTuplet.add(nest);
+    					//nestedPlaybacks.add(new Playback(Optional.of(p.getPitch()), p.getAccidental(), d));
     				}
     			}
     		}
-    		playTuplet.add(nestedPlaybacks);
+    		//playTuplet.add(nestedPlaybacks);
     	}
     	return playTuplet;
     }
