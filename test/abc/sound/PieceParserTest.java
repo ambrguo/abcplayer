@@ -19,6 +19,7 @@ public class PieceParserTest {
      * 4) octave: lowercase, ''', ','
      * 5) tuplet: duplet, triplet, quadruplet
      * 6) voices: 1, 1+
+     * 7) measure: repeats
      */
     @Test
     public void test1() throws IOException { //accidental, duration, 1 voice     
@@ -115,6 +116,53 @@ public class PieceParserTest {
         Piece checkPiece = new Piece(voiceSet, header); 
         
         assertTrue(checkPiece.equals(piece));  
+    }
+    @Test
+    public void test3() throws IOException { //repeats     
+        Pitch a = new Pitch('A');
+        Pitch b = new Pitch('B');
+        Pitch c = new Pitch('C');
+        Pitch d = new Pitch('D');
+        Pitch e = new Pitch('E');
+        Pitch f = new Pitch('F');
+        Pitch g = new Pitch('G');
+        RatNum x = new RatNum(1,1);
+        Accidental y = Accidental.NONE;
+       
+        Note an = new Note(a, x, y);
+        Note bn = new Note(b, x, y);
+        Note cn = new Note(c, x, y);
+        Note dn = new Note(d, x, y);
+        Note en = new Note(e, x, y);
+        Note fn = new Note(f, x, y);
+        Note gn = new Note(g, x, y);
+        
+        List<Playable> one = new ArrayList<Playable>();
+        List<Playable> two = new ArrayList<Playable>();
+        List<Playable> three = new ArrayList<Playable>();
+        
+        one.add(cn); one.add(dn); one.add(en); one.add(fn);
+        two.add(gn); two.add(an); two.add(bn); two.add(cn);
+        three.add(fn); three.add(en); three.add(dn); three.add(cn);
+        
+        Measure m = new Measure(one, true, false, false, false);
+        Measure m2 = new Measure(two, false, true, true, false);
+        Measure m3 = new Measure(three, false, false, false, true);
+        
+        List<Measure> measures = new ArrayList<Measure>();
+        measures.add(m); measures.add(m2); measures.add(m3);
+        
+        Voice voice = new Voice(measures, "DEFAULT_VOICE");
+        Set<Voice> voiceSet = new HashSet<Voice>();
+        voiceSet.add(voice);
+        
+        Header header = Header.parse("sample_abc/test3.abc");
+        Piece piece = Piece.parse("sample_abc/test3.abc");
+        
+        Piece checkPiece = new Piece(voiceSet, header); 
+        
+        assertTrue(checkPiece.equals(piece));  
+
     }
     
     

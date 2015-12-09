@@ -97,6 +97,10 @@ public class Measure {
 	    for (int counter = 0; counter < this.playables.size(); counter++ ){
 	        if (!thatObject.playables.get(counter).equals(this.playables.get(counter))) return false;
         }
+	    if (!(this.beginRepeat==thatObject.getBeginRepeat()&&this.endRepeat==thatObject.getEndRepeat()
+	            &&this.firstAlternate==thatObject.getFirstAlternate()&&this.secondAlternate==thatObject.getSecondAlternate())){
+	        return false;
+	    }
         return true;
 	}
 	
